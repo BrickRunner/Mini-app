@@ -67,7 +67,19 @@ body {
     margin-top: 5px; /* добавили отступ вниз */
 }
 
-.dark-theme .menu-item span {
+.dark-theme .menu-item-clothes span {
+  color: #f0f0f0;
+}
+
+.dark-theme .menu-item-shoes span {
+  color: #f0f0f0;
+}
+
+.dark-theme .menu-item-accessories span {
+  color: #f0f0f0;
+}
+
+.dark-theme .menu-item-allProducts span {
   color: #f0f0f0;
 }
 
@@ -97,6 +109,18 @@ body {
     width: 30px;
   }
 
+  .menu-icon-clothes {
+    height: 30px;
+    width: 30px;
+    margin-right: 20px;
+  }
+
+  .menu-icon-shoes {
+    height: 30px;
+    width: 30px;
+    margin-top: 10px;
+  }
+
   .menu-icon-allProducts {
     height: 30px;
     width: 30px;
@@ -107,42 +131,40 @@ body {
     margin-top: -15px;
   }
 
-  .menu-item {
+  /* .menu-item {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    gap: 12px; /* Добавляем промежуток между иконкой и текстом */
-    padding-left: 5px; /* Немного правее */
-  }
+    gap: 12px; /* Добавляем промежуток между иконкой и текстом 
+    padding-left: 5px;  Немного правее 
+  } */
   
   .menu-item-clothes span {
-    margin-top: 10px;
-    margin-left: 5px;
-  }
-  
-  .menu-item-shoes span {
-    margin-top: 12px;
-    margin-left: 7px;
-  }
-  
-  .menu-item-accessories span {
-    margin-top: 8px;
-    margin-left: 6px;
-  }
-  
-  .menu-item-allProducts span {
-    margin-top: 14px;
-    margin-left: 8px;
-  }
-  
-  
+    font-size: 16px;
+    position: relative;
+    top: -1px; /* Добавляем отступ сверху */
+    left: 5px; /* Немного правее */
+}
 
-  .menu-icon-shoes {
-    height: 30px;
-    width: 30px;
-  }
+.menu-item-shoes span {
+    font-size: 16px;
+    position: relative;
+    top: 10px; /* Добавляем отступ сверху */
+    left: 7px; /* Немного правее */
+}
 
-  .menu-icon-clothes {
-    height: 30px;
-    width: 30px;
-  }
+.menu-item-accessories span {
+    font-size: 16px;
+    position: relative;
+    top: 8px; /* Добавляем отступ сверху */
+    left: 6px; /* Немного правее */
+}
+
+.menu-item-allProducts span {
+    font-size: 16px;
+    position: relative;
+    top: 30px; /* Добавляем отступ сверху */
+    left: 8px; /* Немного правее */
+}
+
+
