@@ -3,10 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const shoppingBagIcon = document.querySelector('.shopping-bag-icon');
     const accountIcon = document.querySelector('.account-icon');
-    const tshirtIcon = document.querySelector('.menu-icon-clothes');
-    const shoesIcon = document.querySelector('.menu-icon-shoes');
-    const accessoriesIcon = document.querySelector('.menu-icon-accessories');
-    const allProductsIcon = document.querySelector('.menu-icon-allProducts');
     const body = document.body;
 
     // Функция для обновления всех иконок
@@ -15,18 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.src = 'images/dark_theme.svg'; // Солнце
             shoppingBagIcon.src = 'images/bag_1.svg'; // Темная корзина
             accountIcon.src = 'images/account_1.svg'; // Темный профиль
-            tshirtIcon.src = 'images/shirt_1.svg';
-            shoesIcon.src = 'images/shoe_1.svg';
-            accessoriesIcon.src = 'images/acsessories_1.svg';
-            allProductsIcon.src = 'images/all_products_1.svg';
         } else {
             themeToggle.src = 'images/light_theme.svg'; // Луна
             shoppingBagIcon.src = 'images/bag.svg'; // Светлая корзина
             accountIcon.src = 'images/account.svg'; // Светлый профиль
-            tshirtIcon.src = 'images/shirt.svg';
-            shoesIcon.src = 'images/shoe.svg';
-            accessoriesIcon.src = 'images/acessories.svg';
-            allProductsIcon.src = 'images/all_products.svg';
         }
     }
 
