@@ -1,0 +1,21 @@
+config.py
+# Python
+__pycache__/
+*.py[cod]
+*.db
+
+# Environment
+.venv/
+venv/
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# System
+.DS_Store
+Thumbs.db
