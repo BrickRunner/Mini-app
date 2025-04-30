@@ -13,33 +13,34 @@
           <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
             <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            <a href="{{ url_for('account') }}">
             <img src="images/account.svg" class="account-icon" alt="Профиль">
+            </a>
           </div>
         </header>  
         <div class="text">
           <img src="images/shirt.svg" alt="Одежда" class="menu-text">
-          <p>Одежда</p>
+          <p>Одежда:</p>
         </div>
         <div class="products">
           {% for product in products %}
-            <div class="product-card">
-              <h2 class="product-name">{{ product.title }}</h2>
-              <div class="product-image">
-                <img src="{{ product.image_urll }}" alt="{{ product.title }}">
-              </div>
-              <div class="product-description">
-                <p class="product-price">{{ product.price }} ₽</p>
-              </div>
-              <div class="product-actions">
-                <img src="/images/heart.png" alt="Like" class="heart-icon">
-                <div class="add-to-cart-btn">
-                  <span>Добавить в корзину</span>
-                  <img src="/images/market_1.svg" alt="Bag" class="bag-icon">
+            {% if product.tupe == 'clothes' %} 
+              <div class="product-card">
+                <h2 class="product-name">{{ product.title }}</h2>
+                <div class="product-image">
+                  <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">
+                </div>
+                <div class="product-actions">
+                  <img src="/images/heart.png" alt="Like" class="heart-icon">
+                  <div class="add-to-cart-btn">
+                    <span>Добавить в корзину</span>
+                    <img src="/images/market_1.svg" alt="Bag" class="bag-icon">
+                  </div>
                 </div>
               </div>
-            </div>
+            {% endif %}
           {% endfor %}
-        </div>        
+        </div>             
       </div>      
 <script src="scripts/clothes.js"></script>
 </body>

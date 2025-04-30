@@ -12,9 +12,15 @@ db.init_app(app)
 
 # Стандартные роуты и маршруты для статики...
 
+@app.route("/account")
+def account():
+    return render_template("account.html")
+
+
 @app.route('/')
 def index():
     products = Product.query.all()
+    print(products)
     return render_template('clothes.html', products=products)
 
 @app.route('/styles/<path:filename>')
@@ -32,20 +38,33 @@ def images(filename):
 
 with app.app_context():
     db.create_all()
-
     if not Product.query.first():
-        sample_product = Product(
-            title="Пример товара",
-            description="Описание товара",
-            price=1999.99,
-            size="S",
-            special="carbon",
-            for_what="marathon",
-            stock=100,
-            image_url="/images/shirt.svg"  # путь до картинки
-        )
-        db.session.add(sample_product)
-        db.session.commit()
+        db.session.add_all([
+            Product(
+                title="Футболка",
+                description="Хлопковая футболка",
+                price=1000,
+                size="M",
+                special="casual",
+                for_what="daily",
+                stock=10,
+                tupe="clothes",
+                image_url="images/shirt.svg"
+                ),
+                Product(
+                    title="Кроссовки",
+                    description="Для бега",
+                    price=3000,
+                    size="42",
+                    special="carbon",
+                    for_what="marathon",
+                    stock=5,
+                    tupe="shoes",
+                    image_url="images/shoe.svg"
+                )
+            ])
+    db.session.commit()
+
 
 
 

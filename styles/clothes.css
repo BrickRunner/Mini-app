@@ -89,6 +89,10 @@ body {
     background-color: #2a2a2a;
 }
 
+.dark-theme .text p {
+  color: #fff;
+}
+
 
 .text {
     position: absolute;
@@ -117,81 +121,75 @@ body {
   
 
   .products {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-start;
-    padding: 20px;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  .product-card {
-    background: #E6E5E5;
-    width: 190px;
-    height: 196px;
-    border-radius: 10px;
-    position: relative;
-    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 карточки в ряд */
+    gap: 8px; /* меньшее расстояние между карточками */
+    padding: 8px;
+    margin-top: 50px;
     box-sizing: border-box;
   }
   
+  .product-card {
+    background-color: #E6E5E5;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
   .product-image img {
-    width: 140px;
-    height: 190px;
-    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
     display: block;
     margin: 0 auto;
   }
   
   .product-name {
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 600;
     text-align: center;
-    margin: 10px 0 5px;
+    margin: 8px 0 4px;
     color: #000;
-  }
-  
-  .product-description p {
-    font-size: 14px;
-    text-align: center;
-    margin: 2px 0;
-    color: #000;
-  }
-  
-  .product-price {
-    font-weight: bold;
   }
   
   .product-actions {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    margin-top: auto;
   }
   
   .heart-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
   }
   
   .add-to-cart-btn {
     background: #000;
     border-radius: 45px;
     color: #fff;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     display: flex;
     align-items: center;
-    padding: 3px 10px;
-    gap: 5px;
+    cursor: pointer;
+    padding: 3px 8px;
+    gap: 4px;
+    flex-grow: 1;
+    justify-content: center;
+    margin-left: 6px;
   }
   
   .add-to-cart-btn .bag-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
   }
   
-
+  
