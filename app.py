@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, render_template, send_from_directory
 from config import Config
 from models import db, Product
 
@@ -16,6 +16,28 @@ db.init_app(app)
 def account():
     return render_template("account.html")
 
+
+@app.route('/admin/add-product', methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'POST':
+        # Получаем данные из формы
+        new_product = Product(
+            title=request.form['title'],
+            description=request.form['description'],
+            price_1=float(request.form['price_1']),
+            price_2=float(request.form['price_2']),
+            size=request.form['size'],
+            tupe=request.form['tupe'],
+            for_what=request.form['for_what'],
+            special=request.form['special'],
+            stock=int(request.form['stock']),
+            image_url=request.form['image_url']
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        return redirect(url_for('add_product'))  # перенаправляем после добавления
+
+    return render_template('admin_panel-addProduct.html')
 
 @app.route('/')
 def index():
@@ -43,7 +65,8 @@ with app.app_context():
             Product(
                 title="Футболка",
                 description="Хлопковая футболка",
-                price=1000,
+                price_1=1000,
+                price_2=900,
                 size="M",
                 special="casual",
                 for_what="daily",
@@ -54,7 +77,8 @@ with app.app_context():
                 Product(
                     title="Кроссовки",
                     description="Для бега",
-                    price=3000,
+                    price_1=3000,
+                    price_2=2000,
                     size="42",
                     special="carbon",
                     for_what="marathon",
