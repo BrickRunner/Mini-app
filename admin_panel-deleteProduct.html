@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrickRunner-Shop</title>
+    <link rel="stylesheet" href="styles/admin_panel-deleteProduct.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+          <img src="images/log.png" alt="Логотип" class="header-logo">
+          <div class="header-icons">
+            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+            <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            <a href="{{ url_for('account') }}">
+            <img src="images/account.svg" class="account-icon" alt="Профиль">
+            </a>
+          </div>
+        </header>  
+    {% for product in products %}
+        <div class="product">
+            <img src="{{ product.image_url }}" alt="{{ product.title }}">
+            <h3>{{ product.title }}</h3>
+            <p>Категория: {{ product.tupe }}</p>
+            <p>Размер: {{ product.size }}</p>
+            <p>Описание: {{ product.description }}</p>
+            <p>Цена со скидкой: {{ product.price_2 }} ₽</p>
+
+            <form action="{{ url_for('delete_product', product_id=product.id) }}" method="post">
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    {% endfor %}
+    </div>
+</body>
+</html>

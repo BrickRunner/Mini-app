@@ -74,6 +74,13 @@ def scripts(filename):
 def images(filename):
     return send_from_directory('images', filename)
 
+@app.route('/delete/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+    return redirect(url_for('index'))
+
 
 with app.app_context():
     db.create_all()

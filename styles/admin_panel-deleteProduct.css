@@ -1,37 +1,3 @@
-.inputs {
-    width: 360px;
-    margin-top: 10px;
-    margin-left: -18px; /* сдвигаем форму левее */
-    background-color: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    color: #333;
-    font-weight: 500;
-    margin-left: 10px;
-}
-
-textarea[name="description"] { 
-    height: 120px; 
-}
-
-input[type="text"],
-input[type="number"],
-textarea {
-    width: 100%;
-    height: 30px; /* единая высота */
-    padding: 8px 12px;
-    margin-bottom: 16px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    resize: none; /* запретить изменение размеров */
-}
-
 button {
     width: 150px;
     height: 50px;
@@ -141,18 +107,3 @@ button {
     color: #fff;
 }
 
-.text {
-    position: absolute;
-    top: 80px;
-    left: 14px;
-    font-weight: bold;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .menu-text {
-    width: 30px;
-    height: 30px;
-  }
