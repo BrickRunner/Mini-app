@@ -13,13 +13,17 @@
           <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
             <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-            <img src="images/account.svg" class="account-icon" alt="Профиль">
+            <a href="{{ url_for('account') }}">
+              <img src="images/account.svg" class="account-icon" alt="Профиль">
+              </a>
           </div>
         </header>
         <main class="menu">
           <div class="menu-item-clothes">
-            <img src="images/shirt.svg" alt="Одежда" class="menu-icon-clothes">
-            <span>Одежда</span>
+            <a href="{{ url_for('clothes') }}">
+              <img src="images/shirt.svg" alt="Одежда" class="menu-icon-clothes">
+              <span>Одежда</span>
+            </a>
           </div>
           <div class="menu-item-shoes">
             <img src="images/shoe.svg" alt="Обувь" class="menu-icon-shoes">

@@ -16,6 +16,22 @@ db.init_app(app)
 def account():
     return render_template("account.html")
 
+@app.route('/admin')
+def admin_panel():
+    return render_template('admin_panel.html')
+
+@app.route('/clothes')
+def clothes():
+    # Проверим, какие товары есть в базе данных
+    products = Product.query.filter_by(tupe='clothes').all()
+    print(f"Found {len(products)} clothes products")
+    return render_template('clothes.html', products=products)
+
+
+@app.route('/admin_panel_addProduct')
+def admin_panel_addProduct():
+    return render_template('admin_panel-addProduct.html')
+
 
 @app.route('/admin/add-product', methods=['GET', 'POST'])
 def add_product():
@@ -35,7 +51,8 @@ def add_product():
         )
         db.session.add(new_product)
         db.session.commit()
-        return redirect(url_for('add_product'))  # перенаправляем после добавления
+        print('Товар добавлен')
+        return redirect(url_for('admin_panel'))  # перенаправляем после добавления
 
     return render_template('admin_panel-addProduct.html')
 
@@ -43,7 +60,7 @@ def add_product():
 def index():
     products = Product.query.all()
     print(products)
-    return render_template('clothes.html', products=products)
+    return render_template('admin_panel.html', products=products)
 
 @app.route('/styles/<path:filename>')
 def styles(filename):

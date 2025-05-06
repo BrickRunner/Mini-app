@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrickRunner-Shop</title>
-    <link rel="stylesheet" href="styles/account.css">
+    <link rel="stylesheet" href="styles/admin_panel-addproduct.css">
 </head>
 <body>
     <div class="container">
@@ -13,45 +13,47 @@
           <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
             <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            <a href="{{ url_for('account') }}">
             <img src="images/account.svg" class="account-icon" alt="Профиль">
+            </a>
           </div>
         </header>
         <div class="inputs">
-            <form method="POST">
-                <label>Введите категорию товара:</label><br>
-                <input type="text" name="tupe" required><br><br>
-            
-                <label>Введите название товара:</label><br>
-                <textarea name="title" required></textarea><br><br>
-            
-                <label>Введите количество товара:</label><br>
-                <input type="number" step="0.01" name="stock" required><br><br>
-            
-                <label>Введите стоимость товара (без скидки):</label><br>
-                <input type="number" name="price_1"><br><br>
-            
-                <label>Введите стоимость товара (со скидкой):</label><br>
-                <input type="number" name="price_2" required><br><br>
-            
-                <label>Введите ссылку на изображение</label><br>
-                <input type="text" name="image_url"><br><br>
-            
-                <label>Введите описание товара:</label><br>
-                <input type="text" name="description"><br><br>
-            
-                <label>Введите размер товара:</label><br>
-                <input type="text" name="size" required><br><br>
-            
-                <label>Введите особенности товара:</label><br>
-                <input type="text" name="special" required><br><br>
-            
-                <label>Введите область применения товара:</label><br>
-                <input type="text" name="for_what" required><br><br>
-                
-                <button type="submit">Добавить товар</button>
+            <form method="POST" action="/admin/add-product">
+                <label class="input-label">Введите категорию товара:</label>
+                <input class="input-text" type="text" name="tupe" required>
+        
+                <label class="input-label">Введите название товара:</label>
+                <textarea class="input-textarea" name="title" required></textarea>
+        
+                <label class="input-label">Введите количество товара:</label>
+                <input class="input-text" type="number" step="0.01" name="stock" required>
+        
+                <label class="input-label">Введите стоимость товара (без скидки):</label>
+                <input class="input-text" type="number" name="price_1">
+        
+                <label class="input-label">Введите стоимость товара (со скидкой):</label>
+                <input class="input-text" type="number" name="price_2" required>
+        
+                <label class="input-label">Введите ссылку на изображение:</label>
+                <input class="input-text" type="text" name="image_url">
+        
+                <label class="input-label">Введите размер товара:</label>
+                <input class="input-text" type="text" name="size" required>
+        
+                <label class="input-label">Введите особенности товара:</label>
+                <input class="input-text" type="text" name="special" required>
+        
+                <label class="input-label">Введите область применения товара:</label>
+                <input class="input-text" type="text" name="for_what" required>
+        
+                <label class="input-label">Введите описание товара:</label>
+                <textarea name="description" required></textarea><br><br>
+
+                <button id="add-button" type="submit">Добавить товар</button>
             </form>
-        </div>
+        </div>           
     </div>
-<script src="scripts/account.js"></script>
+<script src="scripts/apmin_panel-addProduct.js"></script>
 </body>
 </html>

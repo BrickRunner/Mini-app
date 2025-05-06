@@ -13,7 +13,9 @@
           <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
             <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-            <img src="images/account.svg" class="account-icon" alt="Профиль">
+            <a href="{{ url_for('account') }}">
+              <img src="images/account.svg" class="account-icon" alt="Профиль">
+              </a>
           </div>
         </header>
         <div class="buttons">
