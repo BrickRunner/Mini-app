@@ -1,9 +1,9 @@
 config.py
+requirements.txt
 # Python
 __pycache__/
 *.py[cod]
 *.db
-.txt
 
 # Environment
 .venv/
