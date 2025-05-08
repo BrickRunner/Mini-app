@@ -10,7 +10,6 @@ app.config.from_object(Config)
 # Подключаем базу данных
 db.init_app(app)
 
-# Стандартные роуты и маршруты для статики...
 
 @app.route("/account")
 def account():
@@ -18,14 +17,38 @@ def account():
 
 @app.route('/admin')
 def admin_panel():
-    return render_template('admin_panel.html')
+    products = Product.query.all()
+    return render_template('admin_panel.html', products=products)
+
 
 @app.route('/clothes')
 def clothes():
     # Проверим, какие товары есть в базе данных
     products = Product.query.filter_by(tupe='clothes').all()
-    print(f"Found {len(products)} clothes products")
     return render_template('clothes.html', products=products)
+
+@app.route('/shoes')
+def shoes():
+    # Проверим, какие товары есть в базе данных
+    products = Product.query.filter_by(tupe='shoes').all()
+    return render_template('shoes.html', products=products)
+
+@app.route('/admin_panel-deleteProduct')
+def admin_panel_deleteProduct():
+    products = Product.query.all()
+    return render_template('admin_panel-deleteProduct.html', products=products)
+
+@app.route('/admin_panel-stock')
+def admin_panel_stock():
+    products = Product.query.all()
+    return render_template('admin_panel-stock.html', products=products)
+
+@app.route('/delete/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+    return redirect(url_for('admin_panel'))  # Перенаправление на панель администратора
 
 
 @app.route('/admin_panel_addProduct')
@@ -60,7 +83,7 @@ def add_product():
 def index():
     products = Product.query.all()
     print(products)
-    return render_template('admin_panel.html', products=products)
+    return render_template('main.html', products=products)
 
 @app.route('/styles/<path:filename>')
 def styles(filename):
@@ -73,13 +96,6 @@ def scripts(filename):
 @app.route('/images/<path:filename>')
 def images(filename):
     return send_from_directory('images', filename)
-
-@app.route('/delete/<int:product_id>', methods=['POST'])
-def delete_product(product_id):
-    product = Product.query.get_or_404(product_id)
-    db.session.delete(product)
-    db.session.commit()
-    return redirect(url_for('index'))
 
 
 with app.app_context():

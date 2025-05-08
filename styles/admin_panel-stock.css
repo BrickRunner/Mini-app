@@ -124,21 +124,7 @@ body {
     color: #666;
     font-size: 14px;
 }
-.delete-btn {
-    background-color: #000; /* Красный цвет */
-    color: white;
-    border: none;
-    padding: 10px 20px; /* Увеличим паддинг, чтобы кнопка стала больше */
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    margin-left: 10px;
-    transition: background-color 0.3s;
-    display: inline-block; /* Убедимся, что кнопка отображается как инлайн-элемент */
-    width: auto; 
-    text-align: center;
-}
+
 
 .card {
     display: flex;
@@ -146,7 +132,8 @@ body {
     align-items: center;
 }
 
-
-
-
-
+.stock {
+    font-size: 16px;
+    margin-right: 10px;
+    margin-top: 4px;
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrickRunner-Shop</title>
-    <link rel="stylesheet" href="styles/admin_panel-deleteProduct.css">
+    <link rel="stylesheet" href="styles/admin_panel-stock.css">
 </head>
 <body>
     <div class="container">
@@ -24,9 +24,7 @@
             <div class="product-info">
                 <div class="top-row">
                     <span class="title">{{ product.title }}</span>
-                    <form method="POST" action="{{ url_for('delete_product', product_id=product.id) }}">
-                        <button class="delete-btn" type="submit">Удалить</button>
-                    </form>
+                    <span class="stock">{{product.stock}}</span>
                 </div>
                 <div class="price">{{ product.price_2 }} ₽</div>
             </div>
@@ -34,6 +32,6 @@
         {% endfor %}
         
     </div>
-<script src="scripts/admin_panel-deleteProduct.js"></script>
+<script src="scripts/admin_panel-stock.js"></script>
 </body>
 </html>

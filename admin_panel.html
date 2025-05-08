@@ -21,9 +21,13 @@
         <div class="buttons">
           <a href="{{ url_for('admin_panel_addProduct') }}">
             <button id="add_product">Добавить товар</button>
-          </a>          
-            <button id="delete_product">Удалить товар</button>
+          </a>  
+          <a href="{{ url_for('admin_panel_deleteProduct') }}">
+            <button id="delete_product" type="button">Удалить товар</button>
+          </a>
+          <a href="{{ url_for('admin_panel_stock') }}">
             <button id="view_stock">Посмотреть остатки</button>
+          </a>
         </div>
       </div>      
 <script src="scripts/admin_panel.js"></script>

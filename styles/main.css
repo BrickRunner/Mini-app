@@ -161,4 +161,7 @@ body {
     left: 1px; 
 }
 
-
+a {
+  text-decoration: none;
+  color: #000
+}
