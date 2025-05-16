@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrickRunner-Shop</title>
+  <link rel="stylesheet" href="styles/favorites.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+          <a href="{{ url_for('main') }}">
+            <img src="images/log.png" alt="Логотип" class="header-logo">
+          </a>
+          <div class="header-icons">
+            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+            <div class="cart-icon-wrapper" style="position: relative;">
+              <a href="{{ url_for('view_cart') }}">
+                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+                {% if cart_item_count > 0 %}
+                  <span class="cart-count">{{ cart_item_count }}</span>
+                {% endif %}
+              </a>
+            </div>  
+            <a href="{{ url_for('account') }}">
+            <img src="images/account.svg" class="account-icon" alt="Профиль">
+            </a>
+          </div>
+        </header>  
+          <img src="images/heart.png" alt="Аксессуары" class="menu-text">
+          <p class="text">Моё избранное:</p>
+          <div class="favorites" >
+            {% if products %}
+              <div class="products">
+                {% for product in products %}
+                  <div class="favorite-card">
+                    <div class="favorite-info">
+                      <img src="{{ product.image_url }}" alt="{{ product.title }}" class="favorite-image">
+                      <div class="favorite-text">
+                        <h2 class="favorite-title">{{ product.title }}</h2>
+                        <p class="favorite-price">{{ product.price_2 }} ₽</p>
+                      </div>
+                    </div>
+                    <form method="POST" class="bin" action="{{ url_for('delete_from_favorites', product_id=product.id) }}">
+                      <button type="submit" class="delete-favorite-btn">
+                        <img src="/images/bin.png" alt="Удалить" class="trash-icon">
+                      </button>
+                    </form>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p>У вас нет избранных товаров.</p>
+            {% endif %}
+          </div>                   
+      </div>      
+<script src="scripts/favorites.js"></script>
+</body>
+</html>

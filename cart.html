@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrickRunner-Shop</title>
+    <link rel="stylesheet" href="styles/cart.css">
+</head>
+<body>
+    <div class="container">
+      <header class="header">
+        <a href="{{ url_for('main') }}">
+          <img src="images/log.png" alt="Логотип" class="header-logo">
+        </a>
+        <div class="header-icons">
+          <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+      
+          <div class="cart-icon-wrapper" style="position: relative;">
+            <a href="{{ url_for('view_cart') }}">
+              <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+              {% if cart_item_count > 0 %}
+                <span class="cart-count">{{ cart_item_count }}</span>
+              {% endif %}
+            </a>
+          </div>  
+      
+          <a href="{{ url_for('account') }}">
+            <img src="images/account.svg" class="account-icon" alt="Профиль">
+          </a>
+        </div>
+      </header>
+      
+        <div class="cart-container">
+          <h1 class="text">Ваша корзина:</h1>
+          {% if cart_items %}
+            <ul class="cart-list">
+              {% for item in cart_items %}
+                <li class="cart-item">
+                  <img src="{{ item.product.image_url }}" alt="{{ item.product.title }}" class="cart-img">
+                  <div>
+                    <h3>{{ item.product.title }}</h3>
+                    <p>Цена: {{ item.product.price_2 }} ₽</p>
+                    <p>Количество: {{ item.quantity }}</p>
+                    <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
+                      <button name="action" value="decrease">-</button>
+                  </form>
+                  <span>{{ item.quantity }}</span>
+                  <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
+                      <button name="action" value="increase">+</button>
+                  </form>        
+                  <form action="{{ url_for('toggle_favorite', product_id=item.product.id) }}" method="POST">
+                    <button type="submit" class="favorite-btn">
+                      {% if item.product.id in favorite_ids %}
+                        <img src="/images/heart-filled.svg" alt="Удалить из избранного">
+                      {% else %}
+                        <img src="/images/heart.svg" alt="Добавить в избранное">
+                      {% endif %}
+                    </button>
+                  </form>                  
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="cart-total">
+              <h2>Итого: {{ total }} ₽</h2>
+              <button class="checkout-btn">Оформить заказ</button>
+            </div>
+          {% else %}
+            <p>Корзина пуста.</p>
+          {% endif %}
+    </div>
+<script src="scripts/account.js"></script>
+</body>
+</html>

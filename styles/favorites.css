@@ -6,7 +6,7 @@ body {
 
 .container {
     width: 393px;
-    height: 852px;
+    height: 30000px;
     margin: 0 auto;
     border-radius: 40px;
     overflow: hidden;
@@ -79,11 +79,6 @@ body {
     color: #f0f0f0;
 }
 
-.account-icon {
-    margin-top: 5px;
-
-}
-
 .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 37px;
@@ -94,79 +89,116 @@ body {
     background-color: #2a2a2a;
 }
 
-.buttons {
-    position: absolute;
-    width: 365px;
-    height: 228px;
-    left: 14px;
-    top: 141px;
+.dark-theme .text p {
+  color: #fff;
 }
 
-#my_orders, #my_favorites {
-    box-sizing: border-box;
+.dark-theme .text  {
+    color: #fff;
+  }
+
+.text {
     position: absolute;
-    width: 365px;
-    height: 107px;
-    background: #D9D9D9;
-    border: 1px solid #000000;
-    border-radius: 30px;
+    top: 120px;
+    left: 14px;
+  
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .menu-text {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px ;
+  }
+  
+  .text  {
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29px;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 24px;
     color: #000000;
-}
-
-body.dark-theme #my_orders, 
-body.dark-theme #my_favorites {
-    background: #000000; 
-    border: 1px solid #ffffff; 
-    color: #ffffff; 
-}
-
-
-#my_orders {
-    left: 0;
-    top: 0;
-}
-
-#my_orders::after {
-    content: "Мои заказы";
-    width: 197px;
-    height: 43px;
-    left: 128px;
-    top: 40px;
-}
-
-#my_favorites {
-    left: 0;
-    top: 121px; 
-}
-
-#my_favorites::after {
-    content: "Моё избранное";
-    text-align: center;
-    width: 182px;
-    height: 29px;
-    left: 105px;
-    top: 39px;
-}
-
-.cart-icon-wrapper {
-    position: relative;
-    display: inline-block;
+    margin: 0;
+    margin-left: 40px;
+    margin-top: -12px;
   }
-  .cart-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
-    color: white;
-    font-size: 12px;
+  
+  .favorite-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .favorite-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .favorite-image {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-left: 5px;
+  }
+  
+  .favorite-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .favorite-title {
+    font-size: 16px;
+    margin: 0;
     font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 50%;
-    z-index: 9999;
-    display: block !important;
   }
+  
+  .favorite-price {
+    font-size: 14px;
+    margin: 2px 0 0;
+    color: #666;
+  }
+  
+  .delete-favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .trash-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+
+.favorites {
+    margin-top: 10px;
+}
+
+.dark-theme .favorite-title {
+    color: #fff;
+}
+
+.dark-theme .favorite-price {
+    color: #fff;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  z-index: 9999;
+  display: block !important;
+}

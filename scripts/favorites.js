@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const shoppingBagIcon = document.querySelector('.shopping-bag-icon');
     const accountIcon = document.querySelector('.account-icon');
-    const tshirt = document.querySelector('.menu-text');
+    const heart = document.querySelector('.menu-text');
+    const bins = document.querySelectorAll('.trash-icon');
     const body = document.body;
 
     // Функция для обновления всех иконок
@@ -12,12 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.src = 'images/dark_theme.svg'; // Солнце
             shoppingBagIcon.src = 'images/bag_1.svg'; // Темная корзина
             accountIcon.src = 'images/account_1.svg'; // Темный профиль
-            tshirt.src = 'images/shirt_1.svg'
+            heart.src = 'images/heart_1.svg';
+            bins.forEach(bin => bin.src = 'images/bin_1.svg');
         } else {
             themeToggle.src = 'images/light_theme.svg'; // Луна
             shoppingBagIcon.src = 'images/bag.svg'; // Светлая корзина
             accountIcon.src = 'images/account.svg'; // Светлый профиль
-            tshirt.src = 'images/shirt.svg'
+            heart.src = 'images/heart.png';
+            bins.forEach(bin => bin.src = 'images/bin.png');
         }
     }
 
@@ -48,24 +51,3 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 });
-
-function toggleFavorite(icon) {
-  const productId = icon.getAttribute('data-product-id');
-  const isFavorite = icon.classList.contains('active');
-
-  fetch(`/toggle-favorite/${productId}`, {
-    method: 'POST'
-  }).then(response => {
-    if (response.ok) {
-      if (isFavorite) {
-        icon.src = '/images/heart.png';
-        icon.classList.remove('active');
-      } else {
-        icon.src = '/images/heart-filled.png';
-        icon.classList.add('active');
-      }
-    } else {
-      console.error('Ошибка при обновлении избранного');
-    }
-  });
-}

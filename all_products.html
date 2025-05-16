@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BrickRunner-Shop</title>
-  <link rel="stylesheet" href="styles/shoes.css">
+  <link rel="stylesheet" href="styles/all_products.css">
 </head>
 <body>
     <div class="container">
@@ -28,12 +28,11 @@
           </div>
         </header>  
         <div class="text">
-          <img src="images/shoe.svg" alt="Одежда" class="menu-text">
-          <p>Обувь:</p>
+          <img src="images/all_products.svg" alt="Аксессуары" class="menu-text">
+          <p>Все товары:</p>
         </div>
         <div class="products">
           {% for product in products %}
-            {% if product.tupe == 'shoes' %} 
               <div class="product-card">
                 <form action="{{ url_for('add_to_favorites', product_id=product.id) }}" method="POST" class="favorite-form" data-product-id="{{ product.id }}">
                   <button type="submit" class="heart-btn">
@@ -61,10 +60,9 @@
                     </form>           
                 </div>
               </div>
-            {% endif %}
           {% endfor %}
         </div>             
       </div>      
-<script src="scripts/shoes.js"></script>
+<script src="scripts/all_products.js"></script>
 </body>
 </html>

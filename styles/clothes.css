@@ -177,25 +177,42 @@ body {
     margin-top: 10px;
   }
   
-  .heart-icon {
+  .heart-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
-
-  .bag-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-top: -33px;
-    margin-right: -10px;
   }
   
+  .heart-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+
+  .add-to-cart-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  
+  .bag-icon {
+    width: 30px; /* или нужный тебе размер */
+    height: 30px;
+    margin-left: 30px;
+    margin-top: -20px; /* поднимает кнопку выше */
+  }
+  
+  
   .price_2 {
-    margin-left: -150px;
+    margin-left: -140px;
     margin-top: -9px;
     font-size: 15px;
     color: rgb(229, 12, 12);
@@ -205,5 +222,32 @@ body {
     margin-top: -7px;
     font-size: 13px;
     text-decoration: line-through;
+  }
+  
+  .add-to-cart-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .cart-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    z-index: 9999;
+    display: block !important;
   }
   

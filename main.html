@@ -9,10 +9,19 @@
 <body>
     <div class="container">
         <header class="header">
-          <img src="images/log.png" alt="Логотип" class="header-logo">
+          <a href="{{ url_for('main') }}">
+            <img src="images/log.png" alt="Логотип" class="header-logo">
+          </a>
           <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            <div class="cart-icon-wrapper" style="position: relative;">
+              <a href="{{ url_for('view_cart') }}">
+                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+                {% if cart_item_count > 0 %}
+                  <span class="cart-count">{{ cart_item_count }}</span>
+                {% endif %}
+              </a>
+            </div>  
             <a href="{{ url_for('account') }}">
               <img src="images/account.svg" class="account-icon" alt="Профиль">
               </a>
@@ -32,12 +41,16 @@
             </a>
           </div>
           <div class="menu-item-accessories">
-            <img src="images/acessories.svg" alt="Аксессуары" class="menu-icon-accessories">
-            <span>Аксессуары</span>
+            <a href="{{ url_for('acessories') }}">
+              <img src="images/acessories.svg" alt="Аксессуары" class="menu-icon-accessories">
+              <span>Аксессуары</span>
+            </a>
           </div>
           <div class="menu-item-allProducts">
-            <img src="images/all_products.svg" alt="Все товары" class="menu-icon-allProducts">
-            <span>Все товары</span>
+            <a href="{{ url_for('all_products') }}">
+              <img src="images/all_products.svg" alt="Все товары" class="menu-icon-allProducts">
+              <span>Все товары</span>
+            </a>
           </div>
         </main>        
       </div>      

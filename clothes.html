@@ -9,12 +9,21 @@
 <body>
     <div class="container">
         <header class="header">
-          <img src="images/log.png" alt="Логотип" class="header-logo">
+          <a href="{{ url_for('main') }}">
+            <img src="images/log.png" alt="Логотип" class="header-logo">
+          </a>
           <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <img src="images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            <div class="cart-icon-wrapper" style="position: relative;">
+              <a href="{{ url_for('view_cart') }}">
+                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+                {% if cart_item_count > 0 %}
+                  <span class="cart-count">{{ cart_item_count }}</span>
+                {% endif %}
+              </a>
+            </div>              
             <a href="{{ url_for('account') }}">
-            <img src="images/account.svg" class="account-icon" alt="Профиль">
+              <img src="images/account.svg" class="account-icon" alt="Профиль">
             </a>
           </div>
         </header>  
@@ -26,7 +35,15 @@
           {% for product in products %}
             {% if product.tupe == 'clothes' %} 
               <div class="product-card">
-                <img src="/images/heart.png" alt="Like" class="heart-icon">
+                <form action="{{ url_for('add_to_favorites', product_id=product.id) }}" method="POST" class="favorite-form" data-product-id="{{ product.id }}">
+                  <button type="submit" class="heart-btn">
+                    <img src="/images/heart.png"
+                      alt="Добавить в избранное"
+                      class="heart-icon"
+                      data-product-id="{{ product.id }}"
+                      onclick="toggleFavorite(this)">
+                  </button>
+                </form>
                 <h2 class="product-name">{{ product.title }}</h2>
                 <div class="product-image">
                   <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">
@@ -34,7 +51,13 @@
                   <div class="product-icons">
                     <h3 class="price_2">{{product.price_2}} ₽</h3>
                     <h4 class="price_1">{{product.price_1}} ₽</h4>   
-                    <img src="/images/bag.svg" alt="Bag" class="bag-icon">           
+                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="display:inline;">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="add-to-cart-btn">
+                        <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
+                      </button>
+                    </form>
+                              
                 </div>
               </div>
             {% endif %}

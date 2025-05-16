@@ -48,3 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 });
+
+function toggleFavorite(icon) {
+  const productId = icon.getAttribute('data-product-id');
+  const isFavorite = icon.classList.contains('active');
+
+  fetch(`/toggle-favorite/${productId}`, {
+    method: 'POST'
+  }).then(response => {
+    if (response.ok) {
+      if (isFavorite) {
+        icon.src = '/images/heart.png';
+        icon.classList.remove('active');
+      } else {
+        icon.src = '/images/heart-filled.png';
+        icon.classList.add('active');
+      }
+    } else {
+      console.error('Ошибка при обновлении избранного');
+    }
+  });
+}

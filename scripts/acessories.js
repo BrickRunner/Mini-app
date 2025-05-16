@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const shoppingBagIcon = document.querySelector('.shopping-bag-icon');
     const accountIcon = document.querySelector('.account-icon');
-    const tshirt = document.querySelector('.menu-text');
+    const acessories = document.querySelector('.menu-text');
     const body = document.body;
 
     // Функция для обновления всех иконок
@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.src = 'images/dark_theme.svg'; // Солнце
             shoppingBagIcon.src = 'images/bag_1.svg'; // Темная корзина
             accountIcon.src = 'images/account_1.svg'; // Темный профиль
-            tshirt.src = 'images/shirt_1.svg'
+            acessories.src = 'images/acsessories_1.svg'
         } else {
             themeToggle.src = 'images/light_theme.svg'; // Луна
             shoppingBagIcon.src = 'images/bag.svg'; // Светлая корзина
             accountIcon.src = 'images/account.svg'; // Светлый профиль
-            tshirt.src = 'images/shirt.svg'
+            acessories.src = 'images/acessories.svg'
         }
     }
 
