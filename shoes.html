@@ -35,17 +35,12 @@
           {% for product in products %}
             {% if product.tupe == 'shoes' %} 
               <div class="product-card">
-                <form action="{{ url_for('add_to_favorites', product_id=product.id) }}" method="POST" class="favorite-form" data-product-id="{{ product.id }}">
-                  <button type="submit" class="heart-btn">
-                    <img src="/images/heart.png"
-     alt="Добавить в избранное"
-     class="heart-icon"
-     data-product-id="{{ product.id }}"
-     onclick="toggleFavorite(this)">
-
-                  </button>
-                </form>
-                
+                <button type="button" class="heart-btn" onclick="toggleFavorite(this)" data-product-id="{{ product.id }}">
+                  <img src="/images/{% if product.id in favorite_ids %}heart-filled.png{% else %}heart.png{% endif %}"
+                       alt="Избранное"
+                       class="heart-icon"
+                       data-favorite="{% if product.id in favorite_ids %}true{% else %}false{% endif %}">
+                </button>                 
                 <h2 class="product-name">{{ product.title }}</h2>
                 <div class="product-image">
                   <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">

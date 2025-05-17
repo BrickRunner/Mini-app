@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление заказа</title>
+</head>
+<body>
+    <h1>Оформление заказа</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Фамилия: <input type="text" name="surname" required></label><br>
+        <label>Имя: <input type="text" name="name" required></label><br>
+        <label>Отчество: <input type="text" name="name_1" required></label><br>
+        <label>Номер телефона: <input type="text" name="phone" required></label><br>
+        <label>Email: <input type="email" name="email" required></label><br>
+        <label>Адрес (СДЭК): <textarea name="address" required></textarea></label><br>
+
+        <label>Способ оплаты:
+            <select name="payment" required>
+                <option value="card">Картой</option>
+                <option value="cash">Наличными</option>
+            </select>
+        </label><br>
+
+        <label>Способ доставки:
+            <select name="delivery" required>
+                <option value="cdek_pvz">СДЭК ПВЗ</option>
+                <option value="courier">Курьер</option>
+            </select>
+        </label><br>
+
+        <button type="submit">Оформить заказ</button>
+    </form>
+</body>
+</html>

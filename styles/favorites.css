@@ -188,7 +188,12 @@ body {
 .dark-theme .favorite-price {
     color: #fff;
 }
-
+.dark-theme p {
+  color: #fff;
+}
+p {
+  margin-left: 10px;
+}
 .cart-count {
   position: absolute;
   top: -5px;

@@ -210,3 +210,17 @@ body {
     background-color: #333;
   }
   
+
+  .favorite-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .favorite-btn img {
+    width: 24px; /* или любой нужный размер */
+    height: 24px;
+    display: block;
+  }
+  

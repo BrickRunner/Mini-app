@@ -49,23 +49,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function toggleFavorite(icon) {
-  const productId = icon.getAttribute('data-product-id');
-  const isFavorite = icon.classList.contains('active');
-
-  fetch(`/toggle-favorite/${productId}`, {
-    method: 'POST'
-  }).then(response => {
-    if (response.ok) {
-      if (isFavorite) {
-        icon.src = '/images/heart.png';
-        icon.classList.remove('active');
+async function toggleFavorite(button) {
+    const productId = button.getAttribute('data-product-id');
+    const img = button.querySelector('.heart-icon');
+    const isFavorite = img.getAttribute('data-favorite') === 'true';
+  
+    try {
+      const response = await fetch(`/toggle-favorite/${productId}`, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        const status = result.status;
+  
+        if (status === 'added') {
+          img.src = '/images/heart-filled.png';
+          img.setAttribute('data-favorite', 'true');
+        } else if (status === 'removed') {
+          img.src = '/images/heart.png';
+          img.setAttribute('data-favorite', 'false');
+        }
       } else {
-        icon.src = '/images/heart-filled.png';
-        icon.classList.add('active');
+        console.error('Ошибка при изменении избранного');
       }
-    } else {
-      console.error('Ошибка при обновлении избранного');
+    } catch (error) {
+      console.error('Сервер не ответил:', error);
     }
-  });
-}
+  }
+  

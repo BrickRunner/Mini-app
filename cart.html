@@ -51,19 +51,23 @@
                   <form action="{{ url_for('toggle_favorite', product_id=item.product.id) }}" method="POST">
                     <button type="submit" class="favorite-btn">
                       {% if item.product.id in favorite_ids %}
-                        <img src="/images/heart-filled.svg" alt="Удалить из избранного">
+                        <img src="/images/heart-filled.png" alt="Удалить из избранного" class="btn">
                       {% else %}
-                        <img src="/images/heart.svg" alt="Добавить в избранное">
+                        <img src="/images/heart.png" alt="Добавить в избранное" class="btn">
                       {% endif %}
                     </button>
-                  </form>                  
+                  </form>                                 
                   </div>
                 </li>
               {% endfor %}
             </ul>
             <div class="cart-total">
               <h2>Итого: {{ total }} ₽</h2>
-              <button class="checkout-btn">Оформить заказ</button>
+              {% if cart_items %}
+                <form action="{{ url_for('checkout') }}" method="get">
+                  <button type="submit" class="checkout-btn">Оформить заказ</button>
+                </form>
+              {% endif %}
             </div>
           {% else %}
             <p>Корзина пуста.</p>

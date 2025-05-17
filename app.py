@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, render_template, send_from_directory, session
+from flask import Flask, flash, render_template, request, redirect, url_for, render_template, send_from_directory, session, jsonify
 from config import Config
+from datetime import datetime
 import uuid
-from models import db, Product, Cart, User, Favorite, BasketItem
+from models import db, Order, OrderItem, Product, Cart, User, Favorite, BasketItem
 
 app = Flask(__name__,
             static_folder=None,
@@ -95,66 +96,105 @@ def add_product():
 
     return render_template('admin_panel-addProduct.html')
 
-@app.route('/add_to_favorites/<int:product_id>', methods=['POST'])
-def add_to_favorites(product_id):
-    favorite = Favorite.query.filter_by(product_id=product_id).first()
-    if not favorite:
-        favorite = Favorite(product_id=product_id, user_id=1)  # замените 1 на нужного user_id
-        db.session.add(favorite)
-        db.session.commit()
-    return '', 204  # чтобы не перезагружать страницу
+@app.context_processor
+def inject_user_favorites():
+    user_id = session.get('user_id')
+    if not user_id:
+        return dict(user_fav_ids=set())
+    user_fav_ids = {fav.product_id for fav in Favorite.query.filter_by(user_id=user_id).all()}
+    return dict(user_fav_ids=user_fav_ids)
 
 
+@app.route('/toggle_favorite', methods=['POST'])
+def toggle_favorite():
+    user_id = session.get('user_id')  # или получить из токена
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
 
-@app.route('/favorites/delete/<int:product_id>', methods=['POST'])
-def delete_from_favorites(product_id):
-    favorite = Favorite.query.filter_by(product_id=product_id).first()
-    if favorite:
-        db.session.delete(favorite)
-        db.session.commit()
-    return redirect(url_for('favorites'))
+    data = request.get_json()
+    product_id = data.get('product_id')
 
-
-@app.route('/toggle_favorite/<int:product_id>', methods=['POST'])
-def toggle_favorite(product_id):
-    session_id = session.get('session_id')
-    if not session_id:
-        session['session_id'] = str(uuid.uuid4())
-        session_id = session['session_id']
-
-    favorite = Favorite.query.filter_by(session_id=session_id, product_id=product_id).first()
+    favorite = Favorite.query.filter_by(user_id=user_id, product_id=product_id).first()
 
     if favorite:
         db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({'status': 'removed'})
     else:
-        new_fav = Favorite(session_id=session_id, product_id=product_id)
+        new_fav = Favorite(user_id=user_id, product_id=product_id)
         db.session.add(new_fav)
+        db.session.commit()
+        return jsonify({'status': 'added'})
 
-    db.session.commit()
-    return redirect(request.referrer or url_for('view_cart'))
 
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    if request.method == 'POST':
+        try:
+            order = Order(
+                session_id=request.cookies.get('session_id'),
+                surname=request.form['surname'],
+                name=request.form['name'],
+                name_1=request.form['name_1'],
+                payment=request.form['payment'],
+                delivery=request.form['delivery'],
+                phone=request.form['phone'],
+                email=request.form['email'],
+                address=request.form['address'],
+                created_at=datetime.utcnow()
+            )
 
-@app.before_request
-def ensure_cart_session():
-    if 'session_id' not in session:
-        session['session_id'] = str(uuid.uuid4())
+            # Здесь должен быть список товаров из корзины
+            # Пример временного списка:
+            cart_items = [
+                {'product_id': 1, 'quantity': 2},
+                {'product_id': 3, 'quantity': 1},
+            ]
+
+            for item in cart_items:
+                product = Product.query.get(item['product_id'])
+                if product:
+                    order_item = OrderItem(
+                        product_id=product.id,
+                        quantity=item['quantity'],
+                        product=product
+                    )
+                    order.items.append(order_item)
+
+            db.session.add(order)
+            db.session.commit()
+            flash('Заказ успешно оформлен!')
+            return redirect('/checkout')
+
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Ошибка при оформлении заказа: {e}')
+            return redirect('/checkout')
+
+    return render_template('checkout.html')
+
 
 @app.route('/add_to_cart/<int:product_id>', methods=['POST'])
 def add_to_cart(product_id):
     quantity = int(request.form.get('quantity', 1))
-    
-    if 'cart' not in session:
-        session['cart'] = {}
+    session_id = session.get('session_id')
 
-    cart = session['cart']
+    if not session_id:
+        session_id = str(uuid.uuid4())
+        session['session_id'] = session_id
 
-    if str(product_id) in cart:
-        cart[str(product_id)]['quantity'] += quantity
+    cart_item = Cart.query.filter_by(session_id=session_id, product_id=product_id).first()
+
+    if cart_item:
+        cart_item.quantity += quantity
     else:
-        cart[str(product_id)] = {'quantity': quantity}
+        cart_item = Cart(session_id=session_id, product_id=product_id, quantity=quantity)
+        db.session.add(cart_item)
 
-    session.modified = True  # Обязательно!
+    db.session.commit()
+
     return redirect(request.referrer or url_for('catalog'))
+
 
 
 @app.route('/update_quantity/<int:cart_id>', methods=['POST'])
@@ -177,9 +217,13 @@ def update_quantity(cart_id):
 
 @app.context_processor
 def inject_cart_item_count():
-    cart = session.get('cart', {})
-    total_quantity = sum(item['quantity'] for item in cart.values())
+    session_id = session.get('session_id')
+    if not session_id:
+        return dict(cart_item_count=0)
+
+    total_quantity = db.session.query(db.func.sum(Cart.quantity)).filter_by(session_id=session_id).scalar() or 0
     return dict(cart_item_count=total_quantity)
+
 
 
 
@@ -201,7 +245,9 @@ def view_cart():
 
     cart_items = Cart.query.filter_by(session_id=session_id).all()
     favorites = Favorite.query.filter_by(session_id=session_id).all()
-    favorite_ids = [fav.product_id for fav in favorites]
+
+    # Получаем список товаров
+    favorite_products = [fav.product for fav in favorites]
 
     total = sum(item.product.price_2 * item.quantity for item in cart_items)
 
@@ -209,8 +255,9 @@ def view_cart():
         'cart.html',
         cart_items=cart_items,
         total=total,
-        favorite_ids=favorite_ids
+        favorite_products=favorite_products
     )
+
 
 @app.route('/favorites')
 def favorites():
@@ -276,3 +323,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # создаем таблицы если их нет
     app.run(debug=True)
+
+
