@@ -13,6 +13,28 @@ app.config.from_object(Config)
 db.init_app(app)
 
 
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    data = request.get_json()
+    telegram_id = data.get('telegram_id')
+    username = data.get('username')
+
+    if telegram_id:
+        session['telegram_id'] = telegram_id
+
+        # По желанию — создать пользователя, если нет
+        user = User.query.filter_by(telegram_id=telegram_id).first()
+        if not user:
+            user = User(telegram_id=telegram_id, username=username)
+            db.session.add(user)
+            db.session.commit()
+
+        return jsonify({'status': 'ok'})
+    return jsonify({'status': 'error'}), 400
+
+
+
 @app.route("/account")
 def account():
     return render_template("account.html")
@@ -20,6 +42,10 @@ def account():
 @app.route("/main")
 def main():
     return render_template("main.html")
+
+@app.route("/offer")
+def offer():
+    return render_template("offer.html")
 
 @app.route('/admin')
 def admin_panel():
@@ -126,6 +152,14 @@ def toggle_favorite():
         db.session.commit()
         return jsonify({'status': 'added'})
 
+@app.route('/my-orders')
+def my_orders():
+    telegram_id = session.get('telegram_id')
+    if not telegram_id:
+        return redirect('/')
+
+    orders = Order.query.filter_by(telegram_id=telegram_id).all()
+    return render_template('my_orders.html', orders=orders)
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():

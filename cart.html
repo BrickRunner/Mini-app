@@ -37,17 +37,22 @@
               {% for item in cart_items %}
                 <li class="cart-item">
                   <img src="{{ item.product.image_url }}" alt="{{ item.product.title }}" class="cart-img">
-                  <div>
+                  <di class="info">
                     <h3>{{ item.product.title }}</h3>
                     <p>Цена: {{ item.product.price_2 }} ₽</p>
                     <p>Количество: {{ item.quantity }}</p>
-                    <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
-                      <button name="action" value="decrease">-</button>
-                  </form>
-                  <span>{{ item.quantity }}</span>
-                  <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
-                      <button name="action" value="increase">+</button>
-                  </form>        
+                    <div class="quantity-controls">
+                      <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
+                        <button class="quantity-btn minus" name="action" value="decrease">−</button>
+                      </form>
+                    
+                      <span class="quantity-number">{{ item.quantity }}</span>
+                    
+                      <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
+                        <button class="quantity-btn plus" name="action" value="increase">+</button>
+                      </form>
+                    </div>
+                          
                   <form action="{{ url_for('toggle_favorite', product_id=item.product.id) }}" method="POST">
                     <button type="submit" class="favorite-btn">
                       {% if item.product.id in favorite_ids %}
@@ -64,15 +69,17 @@
             <div class="cart-total">
               <h2>Итого: {{ total }} ₽</h2>
               {% if cart_items %}
+              <div class="bbtn">
                 <form action="{{ url_for('checkout') }}" method="get">
                   <button type="submit" class="checkout-btn">Оформить заказ</button>
                 </form>
+              </div>
               {% endif %}
             </div>
           {% else %}
             <p>Корзина пуста.</p>
           {% endif %}
     </div>
-<script src="scripts/account.js"></script>
+<script src="scripts/cart.js"></script>
 </body>
 </html>

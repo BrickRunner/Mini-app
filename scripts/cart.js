@@ -3,10 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const shoppingBagIcon = document.querySelector('.shopping-bag-icon');
     const accountIcon = document.querySelector('.account-icon');
-    const tshirtIcon = document.querySelector('.menu-icon-clothes');
-    const shoesIcon = document.querySelector('.menu-icon-shoes');
-    const accessoriesIcon = document.querySelector('.menu-icon-accessories');
-    const allProductsIcon = document.querySelector('.menu-icon-allProducts');
+    const favoriteIcons = document.querySelectorAll('.favorite-btn img'); // Найти все изображения внутри кнопок избранного
     const body = document.body;
 
     // Функция для обновления всех иконок
@@ -15,20 +12,31 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.src = 'images/dark_theme.svg'; // Солнце
             shoppingBagIcon.src = 'images/bag_1.svg'; // Темная корзина
             accountIcon.src = 'images/account_1.svg'; // Темный профиль
-            tshirtIcon.src = 'images/shirt_1.svg';
-            shoesIcon.src = 'images/shoe_1.svg';
-            accessoriesIcon.src = 'images/acsessories_1.svg';
-            allProductsIcon.src = 'images/all_products_1.svg';
+
+            favoriteIcons.forEach(icon => {
+                if (icon.src.includes('heart-filled')) {
+                    icon.src = 'images/heart-filled.png';
+                } else {
+                    icon.src = 'images/heart_1.svg';
+                }
+            });
+
         } else {
             themeToggle.src = 'images/light_theme.svg'; // Луна
             shoppingBagIcon.src = 'images/bag.svg'; // Светлая корзина
             accountIcon.src = 'images/account.svg'; // Светлый профиль
-            tshirtIcon.src = 'images/shirt.svg';
-            shoesIcon.src = 'images/shoe.svg';
-            accessoriesIcon.src = 'images/acessories.svg';
-            allProductsIcon.src = 'images/all_products.svg';
+
+            favoriteIcons.forEach(icon => {
+                if (icon.src.includes('heart-filled')) {
+                    icon.src = 'images/heart-filled.png';
+                } else {
+                    icon.src = 'images/heart.png';
+                }
+            });
         }
     }
+
+
 
     // Проверка сохранённой темы при загрузке
     const savedTheme = localStorage.getItem('theme');
@@ -57,35 +65,3 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 });
-
-
-window.addEventListener('DOMContentLoaded', () => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      const tg = window.Telegram.WebApp;
-      const user = tg.initDataUnsafe.user;
-
-      if (user) {
-        const telegramId = user.id;
-        const username = user.username;
-
-        // Отправка на сервер
-        fetch('/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ telegram_id: telegramId, username: username })
-        }).then(response => {
-          if (response.ok) {
-            console.log('Telegram ID сохранен');
-          } else {
-            console.error('Ошибка при отправке telegram_id');
-          }
-        });
-      } else {
-        console.warn('Пользователь не авторизован');
-      }
-    } else {
-      console.error('Telegram WebApp API не загружен');
-    }
-  });

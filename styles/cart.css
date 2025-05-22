@@ -93,7 +93,44 @@ body {
   color: #fff;
   }
   
+  .dark-theme .text {
+    color: #f0f0f0;
+  }
+
+  .dark-theme .info {
+    color: #f0f0f0;
+  }
+
+  .dark-theme .info p {
+    color: #f0f0f0;
+  }
+
+  .dark-theme .cart-total{
+    color: #f0f0f0;
+  }
+
+  .checkout-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
   
+  /* Стиль по умолчанию (светлая тема) */
+  body:not(.dark-theme) .checkout-btn {
+    background-color: black;
+    color: white;
+  }
+  
+  /* При тёмной теме — белая кнопка с чёрным текстом */
+  body.dark-theme .checkout-btn {
+    background-color: white;
+    color: black;
+  }
+  
+
   .text {
     margin-left: 10px;
   }
@@ -216,6 +253,7 @@ body {
     border: none;
     padding: 0;
     cursor: pointer;
+    margin-top: 5px;
   }
   
   .favorite-btn img {
@@ -223,4 +261,39 @@ body {
     height: 24px;
     display: block;
   }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+  }
+  
+  .quantity-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Светлая тема (по умолчанию) */
+  body:not(.dark-theme) .quantity-btn {
+    background-color: black;
+    color: white;
+  }
+  
+  /* Тёмная тема */
+  body.dark-theme .quantity-btn {
+    background-color: white;
+    color: black;
+  }
+  
+  .quantity-number {
+    font-size: 18px;
+    min-width: 24px;
+    text-align: center;
+  }
+  
   

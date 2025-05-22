@@ -58,6 +58,7 @@ class BasketItem(db.Model):
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column(db.String(100))
+    telegram_id = db.Column(db.BigInteger)
     surname = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     name_1 = db.Column(db.String(100), nullable=False)

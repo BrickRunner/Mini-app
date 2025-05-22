@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Оформление заказа</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrickRunner-Shop</title>
+    <link rel="stylesheet" href="styles/checkout.css">
 </head>
 <body>
-    <h1>Оформление заказа</h1>
-
+  <div class="container">
+    <header class="header">
+      <a href="{{ url_for('main') }}">
+        <img src="images/log.png" alt="Логотип" class="header-logo">
+      </a>
+      <div class="header-icons">
+        <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+        <div class="cart-icon-wrapper" style="position: relative;">
+          <a href="{{ url_for('view_cart') }}">
+            <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            {% if cart_item_count > 0 %}
+              <span class="cart-count">{{ cart_item_count }}</span>
+            {% endif %}
+          </a>
+        </div>  
+        <a href="{{ url_for('account') }}">
+          <img src="images/account.svg" class="account-icon" alt="Профиль">
+          </a>
+      </div>
+    </header>
+    <div class="name">
+      <h1>Оформление заказа</h1>
+    </div>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
@@ -17,29 +40,43 @@
       {% endif %}
     {% endwith %}
 
-    <form method="POST">
-        <label>Фамилия: <input type="text" name="surname" required></label><br>
-        <label>Имя: <input type="text" name="name" required></label><br>
-        <label>Отчество: <input type="text" name="name_1" required></label><br>
-        <label>Номер телефона: <input type="text" name="phone" required></label><br>
-        <label>Email: <input type="email" name="email" required></label><br>
-        <label>Адрес (СДЭК): <textarea name="address" required></textarea></label><br>
-
-        <label>Способ оплаты:
-            <select name="payment" required>
-                <option value="card">Картой</option>
-                <option value="cash">Наличными</option>
-            </select>
-        </label><br>
-
-        <label>Способ доставки:
-            <select name="delivery" required>
-                <option value="cdek_pvz">СДЭК ПВЗ</option>
-                <option value="courier">Курьер</option>
-            </select>
-        </label><br>
-
-        <button type="submit">Оформить заказ</button>
+    <form id="order-form" method="POST" onsubmit="handleOrderSubmit(event)">
+      <label><input type="text" name="surname" placeholder="Фамилия" required></label><br>
+      <label><input type="text" name="name" placeholder="Имя" required></label><br>
+      <label><input type="text" name="name_1" placeholder="Отчество"></label><br>
+      <label><input pattern="^\+7\d{10}$" placeholder="+7XXXXXXXXXX" type="tel" name="phone" required></label><br>
+      <label><input type="email" name="email" placeholder="Email" required></label><br>
+      <label><textarea name="address" placeholder="Адрес (СДЭК)" required></textarea></label><br>
+    
+      <label>
+        <select name="payment" required>
+          <option value="">Выберите способ оплаты</option>
+          <option value="card">Картой (на сайте)</option>
+          <option value="cash">Наличными (при получении)</option>
+        </select>
+      </label><br>
+    
+      <label>
+        <select name="delivery" required>
+          <option value="">Выберите способ доставки</option>
+          <option value="cdek_pvz">СДЭК ПВЗ</option>
+          <option value="courier">Самовывоз</option>
+        </select>
+      </label><br>
+    
+      <label class="check"><input type="checkbox" required> Оформляя заказ, Вы соглашаетесь с офертой</label><br><br>
+    
+      <button class="btn" type="submit">Оформить заказ</button>
     </form>
+    
+    <!-- Сообщение об успешном заказе -->
+    <div id="success-message" class="message">
+      <p>Ваш заказ оформлен!</p>
+    </div>
+    
+    
+    
+  </div>
+  <script src="scripts/checkout.js"></script>
 </body>
 </html>
