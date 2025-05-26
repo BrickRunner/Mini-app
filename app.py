@@ -1,43 +1,94 @@
-from flask import Flask, flash, render_template, request, redirect, url_for, render_template, send_from_directory, session, jsonify
-from config import Config
+from flask import Flask, flash, render_template, request, redirect, url_for, render_template, send_from_directory, session, jsonify, render_template_string
 from datetime import datetime
+from flask_cors import CORS
+from functools import wraps
 import uuid
+import random
 from models import db, Order, OrderItem, Product, Cart, User, Favorite, BasketItem
 
-app = Flask(__name__,
-            static_folder=None,
-            template_folder='.')
-app.config.from_object(Config)
+
+app = Flask(__name__, template_folder='.')
+CORS(app, supports_credentials=True)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# ✅ ВЫНЕСЕНА ВНЕ ПАРАМЕТРОВ Flask
+app.config.from_pyfile('config.py')
+app.secret_key = 'секретный_ключ_сюда'  # используй os.urandom(24) или UUID
 
 # Подключаем базу данных
 db.init_app(app)
+with app.app_context():
+    db.create_all()
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Пожалуйста, войдите в систему')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        phone = request.form.get('phone')
+        password = request.form.get('password')
+        password_confirm = request.form.get('password_confirm')
 
-@app.route('/auth', methods=['POST'])
-def auth():
-    data = request.get_json()
-    telegram_id = data.get('telegram_id')
-    username = data.get('username')
+        if not phone or not password or not password_confirm:
+            flash('Пожалуйста, заполните все поля')
+            return redirect(url_for('register'))
 
-    if telegram_id:
-        session['telegram_id'] = telegram_id
+        if password != password_confirm:
+            flash('Пароли не совпадают')
+            return redirect(url_for('register'))
 
-        # По желанию — создать пользователя, если нет
-        user = User.query.filter_by(telegram_id=telegram_id).first()
-        if not user:
-            user = User(telegram_id=telegram_id, username=username)
-            db.session.add(user)
-            db.session.commit()
+        if User.query.filter_by(phone_number=phone).first():
+            flash('Пользователь с таким номером уже зарегистрирован')
+            return redirect(url_for('register'))
 
-        return jsonify({'status': 'ok'})
-    return jsonify({'status': 'error'}), 400
+        user = User(phone_number=phone)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
 
+        session['user_id'] = user.id
+        flash('Регистрация прошла успешно')
+        return redirect(url_for('account'))
 
+    return render_template('register.html')
 
-@app.route("/account")
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        phone = request.form.get('phone')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(phone_number=phone).first()
+        if user and user.check_password(password):
+            session['user_id'] = user.id
+            flash('Вы успешно вошли в систему')
+            return redirect(url_for('account'))
+        else:
+            flash('Неверный номер телефона или пароль')
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+@app.route('/account')
+@login_required
 def account():
-    return render_template("account.html")
+    user = User.query.get(session['user_id'])
+    return render_template('account.html', user=user)
+
+@app.route('/logout')
+@login_required
+def logout():
+    session.clear()
+    flash('Вы вышли из системы')
+    return redirect(url_for('login'))
 
 @app.route("/main")
 def main():
@@ -56,34 +107,52 @@ def admin_panel():
 def all_products():
     # Проверим, какие товары есть в базе данных
     products = Product.query.all()
+    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('all_products.html', products=products)
 
 @app.route('/clothes')
 def clothes():
     # Проверим, какие товары есть в базе данных
     products = Product.query.filter_by(tupe='clothes').all()
+    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('clothes.html', products=products)
 
 @app.route('/acessories')
 def acessories():
     # Проверим, какие товары есть в базе данных
     products = Product.query.filter_by(tupe='acessories').all()
+    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('acessories.html', products=products)
 
 @app.route('/shoes')
 def shoes():
     # Проверим, какие товары есть в базе данных
     products = Product.query.filter_by(tupe='shoes').all()
+    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('shoes.html', products=products)
 
 @app.route('/admin_panel-deleteProduct')
 def admin_panel_deleteProduct():
     products = Product.query.all()
+    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('admin_panel-deleteProduct.html', products=products)
 
 @app.route('/admin_panel-stock')
 def admin_panel_stock():
     products = Product.query.all()
+    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('admin_panel-stock.html', products=products)
 
 @app.route('/delete/<int:product_id>', methods=['POST'])
@@ -295,16 +364,23 @@ def view_cart():
 
 @app.route('/favorites')
 def favorites():
-    favorites = Favorite.query.filter_by(user_id=1).all()
-    products = [f.product for f in favorites]
-    return render_template('favorites.html', products=products)
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect('/login')  # или страница авторизации
+
+    favorites = Favorite.query.filter_by(user_id=user_id).all()
+    return render_template('favorites.html', favorites=favorites)
 
 
 @app.route('/')
 def index():
     products = Product.query.all()
-    print(products)
-    return render_template('admin_panel.html', products=products)
+    
+    # Путь к шаблону
+    with open('admin_panel.html', 'r', encoding='utf-8') as f:
+        template_content = f.read()
+    
+    return render_template_string(template_content, products=products)
 
 @app.route('/styles/<path:filename>')
 def styles(filename):
