@@ -22,7 +22,7 @@
             {% endif %}
           </a>
         </div>  
-        <a href="{{ url_for('login') }}">
+        <a href="{{ url_for('account') }}">
           <img src="images/account.svg" class="account-icon" alt="Профиль">
           </a>
       </div>
@@ -40,7 +40,7 @@
       {% endif %}
     {% endwith %}
 
-    <form id="order-form" method="POST" onsubmit="handleOrderSubmit(event)">
+    <form id="order-form" method="POST" action="{{ url_for('checkout') }}">
       <label><input type="text" name="surname" placeholder="Фамилия" required></label><br>
       <label><input type="text" name="name" placeholder="Имя" required></label><br>
       <label><input type="text" name="name_1" placeholder="Отчество"></label><br>

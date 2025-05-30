@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход / Регистрация</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .form-container { max-width: 400px; margin: auto; }
+        input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Вход или регистрация</h2>
+    <form method="POST">
+        <label for="phone">Номер телефона:</label>
+        <input type="text" id="phone" name="phone" placeholder="+79991234567" required>
+        <button type="submit">Продолжить</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for msg in messages %}
+            <li>{{ msg }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</div>
+</body>
+</html>

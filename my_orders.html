@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Мои заказы</title>
-  <!-- <link rel="stylesheet" href="/static/styles/main.css"> -->
-</head>
-<body>
-  <div class="container">
-    <h1>Мои заказы</h1>
-{% if orders %}
-  <ul>
-    {% for order in orders %}
-      <li>Заказ №{{ order.id }} — {{ order.total_price }}₽ — {{ order.created_at.strftime('%d.%m.%Y') }}</li>
-    {% endfor %}
-  </ul>
+<h2>Мои заказы</h2>
+{% for order in orders %}
+    <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+        <p>Заказ №{{ order.id }} от {{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+        <p>Статус: оформлен</p>
+        <ul>
+            {% for item in order.items %}
+                <li>{{ item.product.title }} — {{ item.quantity }} шт.</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% else %}
-  <p>У вас пока нет заказов.</p>
-{% endif %}
-
-  </div>
-</body>
-</html>
+    <p>У вас пока нет заказов.</p>
+{% endfor %}
