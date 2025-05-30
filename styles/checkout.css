@@ -279,3 +279,12 @@ body.dark-theme #my_favorites {
   .dark-theme .message p {
     color: #fff;
   }
+
+  .unstyled-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .unstyled-link:hover {
+    text-decoration: underline;
+  }

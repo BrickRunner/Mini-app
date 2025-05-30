@@ -30,51 +30,46 @@
     <div class="name">
       <h1>Оформление заказа</h1>
     </div>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    {% if order_success %}
+  <div id="success-message" class="message">
+    <p>Ваш заказ оформлен!</p>
+  </div>
+{% else %}
+  <form id="order-form" method="POST" action="{{ url_for('checkout') }}">
+    <label><input type="text" name="surname" placeholder="Фамилия" required></label><br>
+    <label><input type="text" name="name" placeholder="Имя" required></label><br>
+    <label><input type="text" name="name_1" placeholder="Отчество"></label><br>
+    <label><input pattern="^\+7\d{10}$" placeholder="+7XXXXXXXXXX" type="tel" name="phone" required></label><br>
+    <label><input type="email" name="email" placeholder="Email" required></label><br>
+    <label><textarea name="address" placeholder="Адрес (СДЭК)" required></textarea></label><br>
+  
+    <label>
+      <select name="payment" required>
+        <option value="">Выберите способ оплаты</option>
+        <option value="card">Картой (на сайте)</option>
+        <option value="cash">Наличными (при получении)</option>
+      </select>
+    </label><br>
+  
+    <label>
+      <select name="delivery" required>
+        <option value="">Выберите способ доставки</option>
+        <option value="cdek_pvz">СДЭК ПВЗ</option>
+        <option value="courier">Самовывоз</option>
+      </select>
+    </label><br>
+  
+    <label class="check">
+  <input type="checkbox" required>
+  Оформляя заказ, Вы соглашаетесь с 
+  <a href="{{ url_for('offer') }}" target="_blank" class="unstyled-link">офертой</a>
+</label><br><br>
 
-    <form id="order-form" method="POST" action="{{ url_for('checkout') }}">
-      <label><input type="text" name="surname" placeholder="Фамилия" required></label><br>
-      <label><input type="text" name="name" placeholder="Имя" required></label><br>
-      <label><input type="text" name="name_1" placeholder="Отчество"></label><br>
-      <label><input pattern="^\+7\d{10}$" placeholder="+7XXXXXXXXXX" type="tel" name="phone" required></label><br>
-      <label><input type="email" name="email" placeholder="Email" required></label><br>
-      <label><textarea name="address" placeholder="Адрес (СДЭК)" required></textarea></label><br>
-    
-      <label>
-        <select name="payment" required>
-          <option value="">Выберите способ оплаты</option>
-          <option value="card">Картой (на сайте)</option>
-          <option value="cash">Наличными (при получении)</option>
-        </select>
-      </label><br>
-    
-      <label>
-        <select name="delivery" required>
-          <option value="">Выберите способ доставки</option>
-          <option value="cdek_pvz">СДЭК ПВЗ</option>
-          <option value="courier">Самовывоз</option>
-        </select>
-      </label><br>
-    
-      <label class="check"><input type="checkbox" required> Оформляя заказ, Вы соглашаетесь с офертой</label><br><br>
-    
-      <button class="btn" type="submit">Оформить заказ</button>
-    </form>
-    
-    <!-- Сообщение об успешном заказе -->
-    <div id="success-message" class="message">
-      <p>Ваш заказ оформлен!</p>
-    </div>
-    
-    
+  
+    <button class="btn" type="submit">Оформить заказ</button>
+  </form>
+{% endif %}
+
     
   </div>
   <script src="scripts/checkout.js"></script>

@@ -21,16 +21,6 @@
         <input type="text" id="phone" name="phone" placeholder="+79991234567" required>
         <button type="submit">Продолжить</button>
     </form>
-
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for msg in messages %}
-            <li>{{ msg }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
 </div>
 </body>
 </html>

@@ -22,6 +22,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     token = db.Column(db.String(36), unique=True, default=lambda: str(uuid.uuid4()))
+    is_admin = db.Column(db.Boolean, default=False)
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -102,42 +103,57 @@ def inject_common_data():
     }
 
 
-@app.route('/auth', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def auth():
     if request.method == 'POST':
         phone = request.form['phone'].strip()
+
+        # Проверка формата номера
         if not phone.startswith('+') or not phone[1:].isdigit():
             flash('Введите корректный номер в формате +71234567890')
             return redirect(url_for('auth'))
 
+        # Секретный номер администратора
+        ADMIN_SECRET_CODE = '+15122011007'
+        is_admin = phone == ADMIN_SECRET_CODE
+
+        # Поиск пользователя
         user = User.query.filter_by(username=phone).first()
+
         if user is None:
             # Регистрация
-            user = User(username=phone)
+            user = User(username=phone, is_admin=is_admin)
             db.session.add(user)
             db.session.commit()
             flash('Вы зарегистрированы')
+        else:
+            # Обновим флаг админа, если код совпал
+            if is_admin and not user.is_admin:
+                user.is_admin = True
+                db.session.commit()
 
         # Авторизация
         login_user(user)
         flash('Вы вошли как ' + user.username)
+
+        # Перенаправление в админку, если админ
+        if user.is_admin:
+            return redirect(url_for('admin_panel'))
+
         return redirect(url_for('main'))
 
     return render_template('auth.html')
 
-
-
 # ========== СТРАНИЦЫ ==========
-@app.route('/')
-def start():
-    products = Product.query.all()
-    return render_template('admin_panel.html', products=products)
-
 @app.route('/main')
 def main():
     products = Product.query.all()
     user_token = current_user.token if current_user.is_authenticated else None
     return render_template('main.html', products=products, user_token=user_token)
+
+@app.route("/offer")
+def offer():
+    return render_template("offer.html")
 
 
 @app.route('/admin_panel')
@@ -318,12 +334,12 @@ def checkout():
             db.session.commit()
 
             flash('Заказ оформлен!')
-
+            return render_template('account.html', order_success=True)
         except Exception as e:
             db.session.rollback()
             print(f"❌ Ошибка при сохранении заказа: {e}")
             flash(f'Ошибка: {e}')
-
+    
     return render_template('checkout.html')
 
 
