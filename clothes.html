@@ -22,9 +22,16 @@
                 {% endif %}
               </a>
             </div>              
-            <a href="{{ url_for('account') }}">
+            <div class="account-wrapper">
               <img src="images/account.svg" class="account-icon" alt="Профиль">
-            </a>
+              <div class="account-panel">
+                {% if current_user.is_authenticated %}
+                  <a href="{{ url_for('logout') }}">Выйти</a>
+                {% else %}
+                  <a href="{{ url_for('auth') }}">Войти</a>
+                {% endif %}
+              </div>
+            </div>
           </div>
         </header>  
         <div class="text">

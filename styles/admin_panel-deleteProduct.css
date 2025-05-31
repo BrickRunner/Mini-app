@@ -161,4 +161,43 @@ body {
     display: block !important;
   }
 
+  .account-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.account-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.account-panel {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.account-wrapper:hover .account-panel {
+  display: block;
+}
+
+.account-panel a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.account-panel a:hover {
+  text-decoration: underline;
+}
+
 
