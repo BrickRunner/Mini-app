@@ -1,7 +1,15 @@
-<h2>Мои заказы</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Мои заказы</h2>
 {% for order in orders %}
     <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
-        <p>Заказ №{{ order.id }} от {{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+        <p>Заказ №{{ order.id }} от <span class="order-date" data-datetime="{{ order.created_at.isoformat() }}">{{ order.created_at.date() }}</span></p>
         <p>Статус: оформлен</p>
         <ul>
             {% for item in order.items %}
@@ -12,3 +20,6 @@
 {% else %}
     <p>У вас пока нет заказов.</p>
 {% endfor %}
+<script src="scripts/my_orders.js"></script>
+</body>
+</html>

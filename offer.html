@@ -6,6 +6,35 @@
   <link rel="stylesheet" href="styles/offer.css">
 </head>
 <body>
+<div class="container">
+  <header class="header">
+    <a href="{{ url_for('main') }}">
+      <img src="images/log.png" alt="Логотип" class="header-logo">
+    </a>
+    <div class="header-icons">
+      <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+      
+      <div class="cart-icon-wrapper">
+        <a href="{{ url_for('view_cart') }}">
+          <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+          {% if cart_item_count > 0 %}
+            <span class="cart-count">{{ cart_item_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+
+      <div class="account-wrapper">
+        <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+        <div class="account-panel">
+          {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}">Выйти</a>
+          {% else %}
+            <a href="{{ url_for('auth') }}">Войти</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
 
   <div class="offer-text">
     <h2>Публичная оферта</h2>
@@ -21,7 +50,9 @@
     <p>5. Покупатель имеет право отказаться от товара в соответствии с действующим законодательством Российской Федерации при условии сохранения его товарного вида и потребительских свойств.</p>
 
     <p>6. Настоящая оферта может быть изменена Продавцом в любое время без предварительного уведомления, изменения вступают в силу с момента публикации на сайте.</p>
+  
   </div>
-
+</div>
+<script src="scripts/offer.js"></script>
 </body>
 </html>

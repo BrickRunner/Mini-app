@@ -95,8 +95,14 @@ def logout():
 
 @app.context_processor
 def inject_common_data():
-    cart_count = Cart.query.filter_by(user_id=current_user.id).count() if current_user.is_authenticated else 0
-    token = current_user.token if current_user.is_authenticated else None
+    if current_user.is_authenticated:
+        cart_items = Cart.query.filter_by(user_id=current_user.id).all()
+        cart_count = sum(item.quantity for item in cart_items)
+        token = current_user.token
+    else:
+        cart_count = 0
+        token = None
+
     return {
         'cart_item_count': cart_count,
         'user_token': token
@@ -249,22 +255,45 @@ def view_cart():
 @login_required
 def add_to_cart(product_id):
     quantity = int(request.form.get('quantity', 1))
-    item = Cart.query.filter_by(user_id=current_user.id, product_id=product_id).first()
-    if item:
-        item.quantity += quantity
+    product = Product.query.get_or_404(product_id)
+
+    existing_item = Cart.query.filter_by(user_id=current_user.id, product_id=product_id).first()
+    
+    new_quantity = quantity
+    if existing_item:
+        new_quantity += existing_item.quantity
+
+    if new_quantity > product.stock:
+        flash(f'Нельзя добавить больше {product.stock} штук товара "{product.title}" в корзину.')
+        return redirect(request.referrer or url_for('main'))
+
+    if existing_item:
+        existing_item.quantity = new_quantity
     else:
         item = Cart(user_id=current_user.id, product_id=product_id, quantity=quantity)
         db.session.add(item)
+
     db.session.commit()
+    flash('Товар добавлен в корзину.')
     return redirect(request.referrer or url_for('main'))
 
 @app.route('/update_quantity/<int:cart_id>', methods=['POST'])
+@login_required
 def update_quantity(cart_id):
     action = request.form.get('action')
     cart_item = Cart.query.get_or_404(cart_id)
 
+    # Проверяем, принадлежит ли товар текущему пользователю
+    if cart_item.user_id != current_user.id:
+        abort(403)
+
+    product = Product.query.get_or_404(cart_item.product_id)
+
     if action == 'increase':
-        cart_item.quantity += 1
+        if cart_item.quantity < product.stock:
+            cart_item.quantity += 1
+        else:
+            flash(f'Нельзя добавить больше {product.stock} шт. товара "{product.title}"')
     elif action == 'decrease':
         cart_item.quantity -= 1
         if cart_item.quantity <= 0:
@@ -274,6 +303,7 @@ def update_quantity(cart_id):
 
     db.session.commit()
     return redirect(url_for('view_cart'))
+
 
 @app.route('/toggle_favorite', methods=['POST'])
 @login_required
