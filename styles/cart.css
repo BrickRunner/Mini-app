@@ -4,16 +4,17 @@ body {
     background: #c7c6c6;
   }
   
-  .container {
-    width: 393px;
-    height: 852px;
-    margin: 0 auto;
-    border-radius: 40px;
-    overflow: hidden;
-    background-color: #fff; 
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    position: relative;
-  }
+.container {
+  width: 393px;
+  /* height: 852px; УБРАТЬ ЭТО */
+  margin: 0 auto;
+  border-radius: 40px;
+  overflow: hidden;
+  background-color: #fff; 
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
   
   .header {
     width: 100%;
@@ -222,11 +223,14 @@ body {
     color: #555;
   }
   
-  .cart-total {
-    text-align: right;
-    margin-top: 20px;
-    margin-right: 10px;
-  }
+.cart-total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  gap: 10px;
+}
+
   
   .cart-total h2 {
     font-size: 20px;

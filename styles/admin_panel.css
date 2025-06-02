@@ -96,7 +96,7 @@ body {
     top: 141px;
 }
 
-#add_product, #delete_product, #view_stock {
+#add_product, #delete_product, #view_stock, #status {
     box-sizing: border-box;
     position: absolute;
     width: 365px;
@@ -124,6 +124,10 @@ body {
 
 #view_stock {
     top: 242px; 
+}
+
+#status {
+    top: 363px; 
 }
 
 

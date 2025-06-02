@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BrickRunner-Shop</title>
-  <link rel="stylesheet" href="styles/admin_panel.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrickRunner-Shop</title>
+    <link rel="stylesheet" href="styles/admin_panel-changeStatus.css">
 </head>
 <body>
     <div class="container">
-        <header class="header">
+    <header class="header">
           <a href="{{ url_for('main') }}">
             <img src="images/log.png" alt="Логотип" class="header-logo">
           </a>
-          <div class="header-icons">
+            <div class="header-icons">
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
             <div class="cart-icon-wrapper" style="position: relative;">
               <a href="{{ url_for('view_cart') }}">
@@ -35,22 +35,36 @@
               </div>
             </div>
           </div>
-        </header>  
-        <div class="buttons">
-          <a href="{{ url_for('admin_panel_addProduct') }}">
-            <button id="add_product">Добавить товар</button>
-          </a>  
-          <a href="{{ url_for('admin_panel_deleteProduct') }}">
-            <button id="delete_product" type="button">Удалить товар</button>
-          </a>
-          <a href="{{ url_for('admin_panel_stock') }}">
-            <button id="view_stock">Посмотреть остатки</button>
-          </a>
-          <a href="{{ url_for('admin_orders') }}">
-            <button id="status">Изменить статус заказа</button>
-          </a>
-        </div>
-      </div>      
-<script src="scripts/admin_panel.js"></script>
+        </header>
+        <div class="table-container">
+    <table>
+  <tr>
+    <th>ID</th>
+    <th>Сумма</th>
+    <th>Статус</th>
+    <th>Изменить</th>
+  </tr>
+  {% for order in orders %}
+  <tr>
+    <td>{{ order.id }}</td>
+    <td>{{ order.total_price }} ₽</td>
+    <td>{{ order.status }}</td>
+    <td>
+      <form method="POST" action="{{ url_for('update_order_status', order_id=order.id) }}">
+        <select name="status">
+          <option value="Ожидает подтверждения">Ожидает подтверждения</option>
+          <option value="Обработан">Обработан</option>
+          <option value="В пути">В пути</option>
+          <option value="Доставлен">Доставлен</option>
+        </select>
+        <button type="submit">Сохранить</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+</div>ы
+<script src="scripts/admin_panel-changeStatus.js"></script>
 </body>
 </html>

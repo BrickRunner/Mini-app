@@ -6,6 +6,7 @@ body {
 
 .container {
     width: 393px;
+    height: 852px;
     margin: 0 auto;
     border-radius: 40px;
     overflow: hidden;
@@ -138,18 +139,8 @@ body.dark-theme #my_favorites {
     top: 40px;
 }
 
-#my_favorites {
-    left: 0;
-    top: 121px; 
-}
-
-#my_favorites::after {
-    content: "Моё избранное";
-    text-align: center;
-    width: 182px;
-    height: 29px;
-    left: 105px;
-    top: 39px;
+.name {
+    margin-left: 8px;
 }
 
 .cart-icon-wrapper {
@@ -209,54 +200,6 @@ body.dark-theme #my_favorites {
   text-decoration: underline;
 }
 
-
-  .offer-text {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 30px;
-  }
-
-  .dark-theme .offer-text {
-    color: #f0f0f0;
-    background-color: #2a2a2a;;
+.status {
+    font-weight: bold;
 }
-
-  .offer-text h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-  }
-
-  .offer-text p {
-    margin-bottom: 16px;
-  }
-
-  .account-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
-}
-
-.account-wrapper:hover .account-panel {
-  display: block;
-}
-

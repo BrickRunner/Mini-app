@@ -64,6 +64,8 @@ class Order(db.Model):
     email = db.Column(db.String(100))
     address = db.Column(db.String(200))
     created_at = db.Column(db.DateTime)
+    total_price = db.Column(db.Float)
+    status = db.Column(db.String(50), default='Ожидает подтверждения') 
     items = db.relationship('OrderItem', backref='order', lazy=True)
 
 class OrderItem(db.Model):
@@ -229,6 +231,21 @@ def admin_panel_stock():
     products = Product.query.all()
     return render_template('admin_panel-stock.html', products=products)
 
+@app.route('/admin_panel-changeStatus')
+@login_required  # Только для админов
+def admin_orders():
+    orders = Order.query.order_by(Order.created_at.desc()).all()
+    return render_template('admin_panel-changeStatus.html', orders=orders)
+
+@app.route('/admin/update_status/<int:order_id>', methods=['POST'])
+@login_required
+def update_order_status(order_id):
+    new_status = request.form.get('status')
+    order = Order.query.get_or_404(order_id)
+    order.status = new_status
+    db.session.commit()
+    return redirect(url_for('admin_orders'))
+
 @app.route('/my_orders')
 @login_required
 def my_orders():
@@ -325,10 +342,9 @@ def toggle_favorite():
 @app.route('/checkout', methods=['GET', 'POST'])
 @login_required
 def checkout():
-    print("📥 Заход в /checkout")
+    total = 0
 
     if request.method == 'POST':
-        print("📨 POST-запрос на оформление заказа")
 
         try:
             order = Order(
@@ -347,30 +363,43 @@ def checkout():
 
             cart_items = Cart.query.filter_by(user_id=current_user.id).all()
             if not cart_items:
-                print("⚠️ Корзина пуста, заказ не может быть оформлен")
                 flash("Корзина пуста")
                 return redirect(url_for('checkout'))
 
             for item in cart_items:
+                product = Product.query.get(item.product_id)
+                if not product:
+                    flash(f"❌ Товар с ID {item.product_id} не найден.")
+                    return redirect(url_for('checkout'))
+
+                if product.stock < item.quantity:
+                    flash(f"⚠️ Недостаточно товара: {product.title}")
+                    return redirect(url_for('checkout'))
+
+                # Вычитаем из stock
+                product.stock -= item.quantity
+
                 order_item = OrderItem(product_id=item.product_id, quantity=item.quantity)
                 order.items.append(order_item)
-                print(f"➕ Добавлен товар: {order_item.product_id} x{order_item.quantity}")
-
+                total += product.price_1 * item.quantity 
+            order.total_price = total 
             db.session.add(order)
             db.session.commit()
-            print(f"🎉 Заказ сохранен в базе данных: {order.id}")
+            print(f"🎉 Заказ сохранён: ID {order.id}")
 
-            db.session.query(Cart).filter_by(user_id=current_user.id).delete()
+            Cart.query.filter_by(user_id=current_user.id).delete()
             db.session.commit()
 
-            flash('Заказ оформлен!')
+            flash('✅ Заказ оформлен!')
             return render_template('account.html', order_success=True)
+
         except Exception as e:
             db.session.rollback()
             print(f"❌ Ошибка при сохранении заказа: {e}")
             flash(f'Ошибка: {e}')
-    
+
     return render_template('checkout.html')
+
 
 
 # ========== ФАЙЛЫ ==========
