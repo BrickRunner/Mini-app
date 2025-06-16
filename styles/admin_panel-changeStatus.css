@@ -1,9 +1,12 @@
+/* Сброс отступов у body, установка шрифта и фонового цвета страницы */
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
     background: #c7c6c6;
 }
 
+/* Основной контейнер сайта с фиксированной шириной и высотой, центрированием и скругленными углами.
+   Добавлена белая заливка и тень для визуального отделения */
 .container {
     width: 393px;
     height: 1704px;
@@ -15,13 +18,15 @@ body {
     position: relative;
 }
 
+/* Шапка сайта: занимает всю ширину контейнера, фиксированная высота, позиционирование для вложенных элементов */
 .header {
     width: 100%;
     height: 100px;
     position: relative;
 }
 
-
+/* Логотип в шапке: абсолютное позиционирование с настройкой размеров и формы круга (clip-path),
+   с отступами и белым фоном, скругленными углами и обрезкой содержимого (object-fit) */
 .header-logo {
     position: absolute;
     top: 41px;
@@ -37,6 +42,8 @@ body {
     padding: 0px; 
 }
 
+/* Контейнер для иконок в шапке (например, поиск, корзина, аккаунт).
+   Абсолютное позиционирование в правом верхнем углу, выравнивание иконок по горизонтали с промежутком */
 .header-icons {
     position: absolute;
     top: 40px;
@@ -47,6 +54,7 @@ body {
     height: 40px;
 }
 
+/* Стили для изображений иконок: убирает фон, отступы и тень, заставляет показываться блочно */
 .header-icons img {
     width: auto;
     background: none;
@@ -55,7 +63,8 @@ body {
     display: block;
 }
 
-
+/* Стили для иконки темной темы в темном режиме:
+   добавляет тень, размеры и отступ сверху */
 .dark-theme .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 50px;
@@ -63,23 +72,26 @@ body {
     margin-top: 5px; 
 }
 
+/* Отступ сверху для иконки аккаунта */
 .account-icon {
     margin-top: 5px;
-
 }
 
+/* Иконка темного режима в обычном состоянии:
+   добавлена тень и размеры */
 .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 37px;
     height: 37px;
 }
 
+/* При применении темной темы меняется фон контейнера на темно-серый */
 .dark-theme .container {
     background-color: #2a2a2a;
 }
 
-
-
+/* Карточка товара: горизонтальный флекс-контейнер с отступами, белым фоном,
+   скругленными углами и легкой тенью. Задает максимальную ширину и нижний отступ */
 .product-card {
     display: flex;
     align-items: flex-start;
@@ -94,6 +106,9 @@ body {
     width: 100%;
 }
 
+/* Изображение в карточке товара:
+   фиксированный размер, обрезка содержимого по размеру, скругление углов,
+   не уменьшается при сжатии контейнера */
 .product-card img {
     width: 48px;
     height: 48px;
@@ -102,16 +117,21 @@ body {
     flex-shrink: 0;
 }
 
+/* Контейнер с информацией о товаре, занимает оставшееся пространство */
 .product-info {
     flex: 1;
 }
 
+/* Верхняя строка карточки товара:
+   флекс, который выравнивает содержимое по краям (заголовок слева, кнопка справа) */
 .top-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Заголовок товара: жирный шрифт, размер 16px, цвет темно-серый,
+   занимает все доступное пространство */
 .title {
     font-weight: bold;
     font-size: 16px;
@@ -119,34 +139,43 @@ body {
     flex: 1;
 }
 
+/* Цена товара: небольшой отступ сверху, серый цвет и размер шрифта 14px */
 .price {
     margin-top: 4px;
     color: #666;
     font-size: 14px;
 }
+
+/* Кнопка удаления товара:
+   черный фон, белый текст, без рамок, увеличенный padding,
+   скругленные углы, курсор при наведении, плавный переход цвета,
+   блок с авто шириной и выравниванием текста по центру */
 .delete-btn {
-    background-color: #000; /* Красный цвет */
+    background-color: #000; /* Черный фон (в комментарии красный, исправьте при необходимости) */
     color: white;
     border: none;
-    padding: 10px 20px; /* Увеличим паддинг, чтобы кнопка стала больше */
+    padding: 10px 20px; /* Увеличенный padding для удобства клика */
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
     margin-left: 10px;
     transition: background-color 0.3s;
-    display: inline-block; /* Убедимся, что кнопка отображается как инлайн-элемент */
+    display: inline-block;
     width: auto; 
     text-align: center;
 }
 
+/* Контейнер для элементов карточки, выравнивание по центру и пространство между */
 .card {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-
+/* Индикатор количества в корзине:
+   красный круг с белым текстом, абсолютное позиционирование в верхнем правом углу,
+   закругленные края, высокий z-index, всегда отображается */
 .cart-count {
     position: absolute;
     top: -5px;
@@ -159,89 +188,114 @@ body {
     border-radius: 50%;
     z-index: 9999;
     display: block !important;
-  }
-
-  .account-wrapper {
-  position: relative;
-  display: inline-block;
 }
 
+/* Обертка для иконки аккаунта:
+   относительно позиционируется для всплывающей панели, дисплей inline-block */
+.account-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Иконка аккаунта: фиксированные размеры и курсор указателя */
 .account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
+/* Панель аккаунта (выпадающее меню):
+   изначально скрыта, абсолютное позиционирование под иконкой,
+   белый фон, рамка, паддинги, тень и скругления */
 .account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    border-radius: 8px;
+    white-space: nowrap;
 }
 
+/* При наведении на .account-wrapper показываем панель аккаунта */
 .account-wrapper:hover .account-panel {
-  display: block;
+    display: block;
 }
 
+/* Стили для ссылок в панели аккаунта: черный цвет, жирный шрифт, без подчеркивания */
 .account-panel a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
+/* При наведении на ссылки панели аккаунта появляется подчеркивание */
 .account-panel a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
-
+/* Контейнер с таблицей: позволяет горизонтальную прокрутку,
+   чтобы таблица не выходила за пределы экрана */
 .table-container {
-      overflow-x: auto;
-      max-width: 100%;
-    }
+    overflow-x: auto;
+    max-width: 100%;
+}
 
-    table {
-      width: 390px; /* фиксированная ширина, можно увеличить/уменьшить */
-      border-collapse: collapse;
-      margin: 0 auto;
-    }
+/* Таблица: фиксированная ширина 390px, убираем двойные линии,
+   и отступы по центру */
+table {
+    width: 390px;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
 
-    table, th, td {
-      border: 1px solid black;
-    }
+/* Границы таблицы, ячеек и заголовков: 1px черная рамка */
+table, th, td {
+    border: 1px solid black;
+}
 
-    th, td {
-      padding: 6px;
-      text-align: center;
-      font-size: 14px;
-      white-space: nowrap;
-    }
+/* Отступы и выравнивание текста в ячейках */
+th, td {
+    padding: 6px;
+    text-align: center;
+    font-size: 14px;
+    white-space: nowrap; /* предотвращаем перенос текста */
+}
 
-    th {
-      background-color: #f2f2f2;
-    }
+/* Фон заголовков таблицы светло-серый */
+th {
+    background-color: #f2f2f2;
+}
 
-    form {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 4px;
-    }
+/* Форма: флекс-контейнер, выравнивание по краям, небольшой промежуток между элементами */
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+}
 
-    select, button {
-        background-color: #000;
-        color: #fff;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 13px;
-        transition: background-color 0.3s, transform 0.2s;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
+/* Стили для элементов select и кнопок:
+   черный фон, белый текст, без рамок, паддинг и скругления,
+   курсор указателя и плавные переходы, тень для визуального эффекта */
+select, button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* В темной теме заголовки и ячейки таблицы окрашиваются в белый цвет */
+.dark-theme th, 
+.dark-theme td {
+    background-color: #fff;
+}

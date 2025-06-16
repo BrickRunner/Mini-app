@@ -1,99 +1,95 @@
+/* Сброс отступов и базовый шрифт для всей страницы */
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: #c7c6c6;
+    background: #c7c6c6; /* светло-серый фон страницы */
 }
 
+/* Основной контейнер сайта */
 .container {
-    width: 393px;
-    height: 852px;
-    margin: 0 auto;
-    border-radius: 40px;
-    overflow: hidden;
-    background-color: #fff; 
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    position: relative;
+    width: 393px; /* фиксированная ширина под мобильный экран */
+    margin: 0 auto; /* центрирование по горизонтали */
+    border-radius: 40px; /* скругленные углы */
+    overflow: hidden; /* скрыть выступающие элементы */
+    background-color: #fff; /* белый фон */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* лёгкая тень */
+    position: relative; /* для абсолютных вложенных элементов */
 }
 
+/* Хедер сайта */
 .header {
-    width: 100%;
-    height: 100px;
-    position: relative;
+    width: 100%; /* занимает всю ширину контейнера */
+    height: 100px; /* фиксированная высота */
+    position: relative; /* позиционирование для вложенных элементов */
 }
 
-
+/* Логотип в шапке */
 .header-logo {
-    position: absolute;
+    position: absolute; /* абсолютное позиционирование */
     top: 41px;
     left: -21px;
     width: 70px;
     height: 70px;
-    clip-path: circle(50% at 50% 50%);
-    object-fit: contain;
+    clip-path: circle(50% at 50% 50%); /* обрезка изображения в круг */
+    object-fit: contain; /* масштабирование изображения без искажений */
     margin-left: 35px;
     margin-top: -25px;
-    background-color: #ffffff; 
-    border-radius: 50%;         
-    padding: 0px; 
+    background-color: #ffffff; /* белый фон для логотипа */
+    border-radius: 50%; /* скругление до круга */
+    padding: 0px;
 }
 
+/* Контейнер для иконок в хедере (корзина, аккаунт, темная тема и др.) */
 .header-icons {
     position: absolute;
     top: 40px;
     right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    height: 40px;
+    display: flex; /* расположение иконок в строку */
+    align-items: center; /* вертикальное выравнивание */
+    gap: 15px; /* расстояние между иконками */
+    height: 40px; /* высота контейнера */
 }
 
+/* Общие стили для изображений иконок */
 .header-icons img {
-    width: auto;
-    background: none;
-    padding: 0;
-    box-shadow: none;
-    display: block;
+    width: auto; /* ширина по содержимому */
+    background: none; /* без фона */
+    padding: 0; /* без отступов */
+    box-shadow: none; /* без тени */
+    display: block; /* блочный элемент */
 }
 
-
+/* Стили для иконки темной темы в темной теме */
 .dark-theme .dark-mode-icon {
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); /* тень для объёма */
     width: 50px;
     height: 50px;
     margin-top: 5px; 
 }
 
-.dark-theme .menu-item-clothes span {
-    color: #f0f0f0;
+/* Стили текста пунктов меню в темной теме */
+.dark-theme .menu-item-clothes span,
+.dark-theme .menu-item-shoes span,
+.dark-theme .menu-item-accessories span,
+.dark-theme .menu-item-allProducts span,
+.dark-theme .name,
+.dark-theme .text {
+    color: #f0f0f0; /* светло-серый текст */
 }
 
-.dark-theme .menu-item-shoes span {
-    color: #f0f0f0;
-}
-
-.dark-theme .menu-item-accessories span {
-    color: #f0f0f0;
-}
-
-.dark-theme .menu-item-allProducts span {
-    color: #f0f0f0;
-}
-
-.account-icon {
-    margin-top: 5px;
-
-}
-
+/* Иконка переключения тем */
 .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 37px;
     height: 37px;
 }
 
+/* Фон контейнера в темной теме */
 .dark-theme .container {
-    background-color: #2a2a2a;
+    background-color: #2a2a2a; /* темно-серый фон */
 }
 
+/* Размещение кнопок "Мои заказы" и "Мои избранные" */
 .buttons {
     position: absolute;
     width: 365px;
@@ -102,35 +98,38 @@ body {
     top: 141px;
 }
 
+/* Стили для кнопок "Мои заказы" и "Мои избранные" */
 #my_orders, #my_favorites {
     box-sizing: border-box;
     position: absolute;
     width: 365px;
     height: 107px;
-    background: #D9D9D9;
-    border: 1px solid #000000;
-    border-radius: 30px;
+    background: #D9D9D9; /* светло-серый фон */
+    border: 1px solid #000000; /* черная рамка */
+    border-radius: 30px; /* скругленные углы */
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
     line-height: 29px;
-    color: #000000;
+    color: #000000; /* черный текст */
 }
 
+/* Темная тема для кнопок */
 body.dark-theme #my_orders, 
 body.dark-theme #my_favorites {
-    background: #000000; 
-    border: 1px solid #ffffff; 
-    color: #ffffff; 
+    background: #000000; /* черный фон */
+    border: 1px solid #ffffff; /* белая рамка */
+    color: #ffffff; /* белый текст */
 }
 
-
+/* Позиционирование кнопки "Мои заказы" */
 #my_orders {
     left: 0;
     top: 0;
 }
 
+/* Псевдоэлемент для текста на кнопке "Мои заказы" */
 #my_orders::after {
     content: "Мои заказы";
     width: 197px;
@@ -139,67 +138,79 @@ body.dark-theme #my_favorites {
     top: 40px;
 }
 
+/* Отступ слева для имени */
 .name {
     margin-left: 8px;
 }
 
+/* Обёртка для иконки корзины с счетчиком */
 .cart-icon-wrapper {
     position: relative;
     display: inline-block;
-  }
-  .cart-count {
+}
+
+/* Счетчик количества товаров в корзине */
+.cart-count {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: red;
-    color: white;
+    background-color: red; /* красный фон */
+    color: white; /* белый текст */
     font-size: 12px;
     font-weight: bold;
     padding: 2px 6px;
-    border-radius: 50%;
-    z-index: 9999;
+    border-radius: 50%; /* круглая форма */
+    z-index: 9999; /* поверх всего */
     display: block !important;
-  }
-
-  .account-wrapper {
-  position: relative;
-  display: inline-block;
 }
 
+/* Обёртка для иконки аккаунта */
+.account-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Иконка аккаунта */
 .account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    cursor: pointer; /* курсор руки */
+    margin-top: 5px;
 }
 
+/* Всплывающая панель аккаунта */
 .account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
+    display: none; /* изначально скрыта */
+    position: absolute;
+    top: 40px; /* отступ сверху */
+    right: 0; /* выравнивание по правому краю */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* легкая тень */
+    z-index: 10;
+    border-radius: 8px;
+    white-space: nowrap; /* не переносить текст */
 }
 
+/* Отображение панели при наведении на блок аккаунта */
 .account-wrapper:hover .account-panel {
-  display: block;
+    display: block;
 }
 
+/* Ссылки в панели аккаунта */
 .account-panel a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
+/* Эффект при наведении на ссылки в панели */
 .account-panel a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
+/* Класс для жирного текста статуса */
 .status {
     font-weight: bold;
 }

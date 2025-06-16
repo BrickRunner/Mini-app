@@ -1,0 +1,304 @@
+/* Основные стили для body */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #c7c6c6; /* Светлый фон страницы */
+}
+
+/* Главный контейнер приложения */
+.container {
+    width: 393px; /* Оптимальная ширина под мобильное устройство */
+    height: 852px;
+    margin: 0 auto;
+    border-radius: 40px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* Тень для объема */
+    position: relative;
+}
+
+/* Шапка */
+.header {
+    width: 100%;
+    height: 100px;
+    position: relative;
+}
+
+/* Логотип в шапке */
+.header-logo {
+    position: absolute;
+    top: 41px;
+    left: -21px;
+    width: 70px;
+    height: 70px;
+    clip-path: circle(50% at 50% 50%); /* Делает логотип круглым */
+    object-fit: contain;
+    margin-left: 35px;
+    margin-top: -25px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 0px;
+}
+
+/* Иконки в правом верхнем углу шапки */
+.header-icons {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 40px;
+}
+
+/* Стили для иконок */
+.header-icons img {
+    width: auto;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    display: block;
+}
+
+/* Иконка тёмной темы в тёмной теме */
+.dark-theme .dark-mode-icon {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+}
+
+/* Цвет текста меню в тёмной теме */
+.dark-theme .menu-item-clothes span,
+.dark-theme .menu-item-shoes span,
+.dark-theme .menu-item-accessories span,
+.dark-theme .menu-item-allProducts span {
+    color: #f0f0f0;
+}
+
+/* Отступ для иконки профиля */
+.account-icon {
+    margin-top: 5px;
+}
+
+/* Иконка переключения темы (общая) */
+.dark-mode-icon {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    width: 37px;
+    height: 37px;
+}
+
+/* Контейнер в темной теме */
+.dark-theme .container {
+    background-color: #2a2a2a;
+}
+
+/* Блок с кнопками "Мои заказы" и "Моё избранное" */
+.buttons {
+    position: absolute;
+    width: 365px;
+    height: 228px;
+    left: 14px;
+    top: 141px;
+}
+
+/* Общие стили для кнопок */
+#my_orders, #my_favorites {
+    box-sizing: border-box;
+    position: absolute;
+    width: 365px;
+    height: 107px;
+    background: #D9D9D9;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+}
+
+/* Стили для кнопок в тёмной теме */
+body.dark-theme #my_orders,
+body.dark-theme #my_favorites {
+    background: #000000;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+
+/* Позиционирование кнопки "Мои заказы" */
+#my_orders {
+    left: 0;
+    top: 0;
+}
+
+/* Текст внутри кнопки "Мои заказы" через псевдоэлемент */
+#my_orders::after {
+    content: "Мои заказы";
+    width: 197px;
+    height: 43px;
+    left: 128px;
+    top: 40px;
+}
+
+/* Позиционирование кнопки "Моё избранное" */
+#my_favorites {
+    left: 0;
+    top: 121px;
+}
+
+/* Текст внутри кнопки "Моё избранное" через псевдоэлемент */
+#my_favorites::after {
+    content: "Моё избранное";
+    text-align: center;
+    width: 182px;
+    height: 29px;
+    left: 105px;
+    top: 39px;
+}
+
+/* Контейнер с иконкой корзины */
+.cart-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Счетчик товаров в корзине */
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    z-index: 9999;
+    display: block !important;
+}
+
+/* Обёртка иконки аккаунта */
+.account-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Стили для иконки аккаунта */
+.account-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* Панель аккаунта (выпадающее меню) */
+.account-panel {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Показываем панель при наведении */
+.account-wrapper:hover .account-panel {
+    display: block;
+}
+
+/* Ссылки внутри панели */
+.account-panel a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Эффект наведения на ссылки */
+.account-panel a:hover {
+    text-decoration: underline;
+}
+
+/* Контейнер формы (например, авторизации) */
+.form-container {
+    background-color: #fff;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+/* Заголовок формы */
+.form-container h2 {
+    margin-bottom: 25px;
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Метка для поля номера телефона */
+label.phone {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #555;
+}
+
+/* Метка в тёмной теме */
+.dark-theme label.phone {
+    color: #fff;
+}
+
+/* Поле ввода номера телефона */
+input[type="tel"] {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Эффект фокуса на текстовом поле */
+input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* Кнопка отправки формы */
+button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Стили кнопки в тёмной теме */
+.dark-theme button {
+    background-color: #fff;
+    color: #000000;
+}
+
+/* Форма в тёмной теме */
+.dark-theme .form-container {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+/* Заголовок формы в тёмной теме */
+.dark-theme .form-container h2 {
+    color: #fff;
+}

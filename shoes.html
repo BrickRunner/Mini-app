@@ -1,74 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ===== МЕТАДАННЫЕ И СТИЛИ ===== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BrickRunner-Shop</title>
   <link rel="stylesheet" href="styles/shoes.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-          <a href="{{ url_for('main') }}">
-            <img src="images/log.png" alt="Логотип" class="header-logo">
-          </a>
-          <div class="header-icons">
-            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-                {% if cart_item_count > 0 %}
-                  <span class="cart-count">{{ cart_item_count }}</span>
-                {% endif %}
-              </a>
-            </div>  
-            <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
-                <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
-              </a>
-              <div class="account-panel">
-                {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('logout') }}">Выйти</a>
-                {% else %}
-                  <a href="{{ url_for('auth') }}">Войти</a>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </header>  
-        <div class="text">
-          <img src="images/shoe.svg" alt="Одежда" class="menu-text">
-          <p>Обувь:</p>
-        </div>
-        <div class="products">
-          {% for product in products %}
-            {% if product.tupe == 'shoes' %} 
-              <div class="product-card">
-                <button type="button" class="heart-btn" onclick="toggleFavorite(this)" data-product-id="{{ product.id }}">
-                  <img src="/images/{% if product.id in favorite_ids %}heart-filled.png{% else %}heart.png{% endif %}"
-                       alt="Избранное"
-                       class="heart-icon"
-                       data-favorite="{% if product.id in favorite_ids %}true{% else %}false{% endif %}">
-                </button>                 
-                <h2 class="product-name">{{ product.title }}</h2>
-                <div class="product-image">
-                  <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">
-                </div>
-                  <div class="product-icons">
-                    <h3 class="price_2">{{product.price_2}} ₽</h3>
-                    <h4 class="price_1">{{product.price_1}} ₽</h4>   
-                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="display:inline;">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="add-to-cart-btn">
-                        <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
-                      </button>
-                    </form>           
-                </div>
-              </div>
+  <div class="container">
+
+    <!-- ===== ШАПКА САЙТА ===== -->
+    <header class="header">
+      <!-- Логотип -->
+      <a href="{{ url_for('main') }}">
+        <img src="images/log.png" alt="Логотип" class="header-logo">
+      </a>
+
+      <!-- Иконки справа в шапке -->
+      <div class="header-icons">
+        <!-- Переключатель темной темы -->
+        <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+        <!-- Иконка корзины с отображением количества товаров -->
+        <div class="cart-icon-wrapper" style="position: relative;">
+          <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+            {% if cart_item_count > 0 %}
+              <span class="cart-count">{{ cart_item_count }}</span>
             {% endif %}
-          {% endfor %}
-        </div>             
-      </div>      
-<script src="scripts/shoes.js"></script>
+          </a>
+        </div>
+
+        <!-- Иконка профиля с выпадающим меню -->
+        <div class="account-wrapper">
+          <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+          </a>
+          <div class="account-panel">
+            {% if current_user.is_authenticated %}
+              <a href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+              <a href="{{ url_for('auth') }}">Войти</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== ЗАГОЛОВОК КАТЕГОРИИ ОБУВЬ ===== -->
+    <div class="text">
+      <img src="images/shoe.svg" alt="Одежда" class="menu-text">
+      <p>Обувь:</p>
+    </div>
+
+    <!-- ===== СПИСОК ТОВАРОВ ===== -->
+    <div class="products">
+      {% for product in products %}
+        {% if product.tupe == 'shoes' %}
+        
+        <!-- ==== КАРТОЧКА ТОВАРА ==== -->
+        <div class="product-card">
+
+          <!-- Форма для избранного (AJAX) -->
+          <form class="favorite-form" data-product-id="{{ product.id }}" action="{{ url_for('toggle_favorite_ajax')}}">
+            <button type="button" class="favorite-btn">
+              <img
+                src="{{ '/images/heart-filled.png' if product.id in favorite_ids else '/images/heart.png' }}"
+                alt="Избранное"
+                class="heart-icon"
+                data-favorite="{{ 'true' if product.id in favorite_ids else 'false' }}"
+              >
+            </button>
+          </form>
+
+          <!-- Ссылка на детальную страницу товара -->
+          <a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-link">
+            <h2 class="product-name">{{ product.title }}</h2>
+            <div class="product-image">
+              <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">
+            </div>
+          </a>
+
+          <!-- Блок цены и добавления в корзину -->
+          <div class="product-icons">
+
+            <!-- Отображение цены -->
+            <div class="product-price">
+              {% if product.price_1 != product.price_2 %}
+                <span class="old-price">{{ product.price_1 }} ₽</span>
+                <span class="new-price">{{ product.price_2 }} ₽</span>
+              {% else %}
+                <span class="regular-price">{{ product.price_2 }} ₽</span>
+              {% endif %}
+            </div>
+
+            <!-- Кнопка "Добавить в корзину" (разное поведение для авторизованных и нет) -->
+            {% if current_user.is_authenticated %}
+              <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <button type="submit" class="add-to-cart-btn">
+                  <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
+                </button>
+              </form>
+            {% else %}
+              <a href="{{ url_for('auth') }}" class="add-to-cart-btn">
+                <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
+              </a>
+            {% endif %}
+          </div>
+
+        </div>
+        <!-- ==== КОНЕЦ КАРТОЧКИ ТОВАРА ==== -->
+
+        {% endif %}
+      {% endfor %}
+    </div>
+    <!-- ===== КОНЕЦ СПИСКА ТОВАРОВ ===== -->
+
+  </div> <!-- конец .container -->
+
+  <!-- ===== JS СКРИПТЫ ===== -->
+  <script src="scripts/shoes.js"></script>
+  <script src="{{ url_for('static', filename='scripts/favorite.js') }}"></script>
 </body>
 </html>

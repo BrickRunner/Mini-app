@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Метаданные страницы -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrickRunner-Shop</title>
+    <!-- Подключение CSS для стилизации корзины -->
     <link rel="stylesheet" href="styles/cart.css">
 </head>
 <body>
     <div class="container">
+      <!-- Шапка сайта -->
       <header class="header">
+        <!-- Логотип с ссылкой на главную страницу -->
         <a href="{{ url_for('main') }}">
           <img src="images/log.png" alt="Логотип" class="header-logo">
         </a>
+
+        <!-- Иконки переключения темы, корзины и аккаунта -->
         <div class="header-icons">
+          <!-- Кнопка переключения темной/светлой темы -->
           <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-      
+
+          <!-- Иконка корзины с отображением количества товаров -->
           <div class="cart-icon-wrapper" style="position: relative;">
-            <a href="{{ url_for('view_cart') }}">
-              <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+            <!-- Ссылка ведёт либо на корзину (если авторизован), либо на страницу авторизации -->
+            <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+              <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+              <!-- Если в корзине есть товары, отображается их количество -->
               {% if cart_item_count > 0 %}
-                <span class="cart-count">{{ cart_item_count }}</span>
+                  <span class="cart-count">{{ cart_item_count }}</span>
               {% endif %}
             </a>
           </div>  
+
+          <!-- Иконка профиля с меню -->
           <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
+              <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
                 <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
               </a>
               <div class="account-panel">
+                <!-- Кнопка "Выйти" или "Войти" в зависимости от авторизации -->
                 {% if current_user.is_authenticated %}
                   <a href="{{ url_for('logout') }}">Выйти</a>
                 {% else %}
@@ -37,60 +50,84 @@
             </div>
         </div>
       </header>
-      
-        <div class="cart-container">
+
+      <!-- Основной контейнер корзины -->
+      <div class="cart-container">
           <h1 class="text">Ваша корзина:</h1>
+
+          <!-- Проверка, есть ли товары в корзине -->
           {% if cart_items %}
+            <!-- Список товаров в корзине -->
             <ul class="cart-list">
               {% for item in cart_items %}
+                <!-- Каждая позиция — отдельный товар -->
+                <a href="{{ url_for('product_detail', product_id=item.id) }}" class="product-link">
                 <li class="cart-item">
+                  <!-- Изображение товара -->
                   <img src="{{ item.product.image_url }}" alt="{{ item.product.title }}" class="cart-img">
-                  <di class="info">
-                    <h3>{{ item.product.title }}</h3>
+                  <div class="info">
+                    <!-- Название товара с ссылкой на страницу товара -->
+                    <a href="{{ url_for('product_detail', product_id=item.id) }}" class="product-link">
+                      <h3>{{ item.product.title }}</h3>
+                    </a>
+                    <!-- Цена товара -->
                     <p>Цена: {{ item.product.price_2 }} ₽</p>
+                    <!-- Количество товара -->
                     <p>Количество: {{ item.quantity }}</p>
+                    <!-- Размер товара (если есть) -->
+                    <p>Размер: {{item.product.size}}</p>
+
+                    <!-- Управление количеством товара в корзине -->
                     <div class="quantity-controls">
+                      <!-- Кнопка уменьшения количества (отправляет POST с action=decrease) -->
                       <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
                         <button class="quantity-btn minus" name="action" value="decrease">−</button>
-                      </form>
-                    
-                      <span class="quantity-number">{{ item.quantity }}</span>
-                    
+                      </form>                   
+                      <!-- Текущее количество -->
+                      <span class="quantity-number">{{ item.quantity }}</span>                
+                      <!-- Кнопка увеличения количества (отправляет POST с action=increase) -->
                       <form action="{{ url_for('update_quantity', cart_id=item.id) }}" method="POST" style="display:inline;">
                         <button class="quantity-btn plus" name="action" value="increase">+</button>
                       </form>
                     </div>
-                          
-                  <form action="{{ url_for('toggle_favorite', product_id=item.product.id) }}" method="POST">
-                    <button type="submit" class="favorite-btn">
-                      {% if item.product.id in favorite_ids %}
-                        <img src="/images/heart-filled.png" alt="Удалить из избранного" class="btn">
-                      {% else %}
-                        <img src="/images/heart.png" alt="Добавить в избранное" class="btn">
-                      {% endif %}
-                    </button>
-                  </form>                                 
                   </div>
+
+                  <!-- Форма для добавления или удаления товара из избранного (через AJAX) -->
+                  <form class="favorite-form" data-product-id="{{ item.product.id }}" action="{{ url_for('toggle_favorite_ajax')}}">
+                    <button type="button" class="favorite-btn">
+                      <img
+                        src="{{ '/images/heart-filled.png' if item.product.id in favorite_ids else '/images/heart.png' }}"
+                        alt="Избранное"
+                        class="heart-icon"
+                        data-favorite="{{ 'true' if item.product.id in favorite_ids else 'false' }}"
+                      >
+                    </button>
+                  </form>
                 </li>
+                </a>
               {% endfor %}
             </ul>
+
+            <!-- Блок с итоговой суммой и кнопкой оформления заказа -->
             <div class="cart-summary">
-      <div class="cart-total">
-        <h2>Итого: {{ total }} ₽</h2>
-      {% if cart_items %}
-        <div class="bbtn">
-          <form action="{{ url_for('checkout') }}" method="get">
-            <button type="submit" class="checkout-btn">Оформить заказ</button>
-          </form>
-        </div>
-      {% endif %}
-    </div>
+              <div class="cart-total">
+                <h2>Итого: {{ total }} ₽</h2>
+                {% if cart_items %}
+                  <div class="bbtn">
+                    <form action="{{ url_for('checkout') }}" method="get">
+                      <button type="submit" class="checkout-btn">Оформить заказ</button>
+                    </form>
+                  </div>
+                {% endif %}
+              </div>
             </div>
-  {% else %}
-    <p>Корзина пуста.</p>
-  {% endif %}
+          {% else %}
+            <!-- Сообщение, если корзина пуста -->
+            <p>Корзина пуста.</p>
+          {% endif %}
+      </div>
     </div>
-  </div>
+<!-- Подключение JS для логики корзины -->
 <script src="scripts/cart.js"></script>
 </body>
 </html>

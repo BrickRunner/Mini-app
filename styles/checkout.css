@@ -1,42 +1,45 @@
+/* Основные стили для страницы */
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: #c7c6c6;
+    background: #c7c6c6; /* Фоновый цвет страницы */
 }
 
+/* Контейнер приложения (фиксированная ширина под мобильные устройства) */
 .container {
     width: 393px;
-    height: 852px;
     margin: 0 auto;
-    border-radius: 40px;
+    border-radius: 40px; /* Скругление углов */
     overflow: hidden;
-    background-color: #fff; 
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* Тень */
     position: relative;
 }
 
+/* Шапка */
 .header {
     width: 100%;
     height: 100px;
     position: relative;
 }
 
-
+/* Логотип в шапке */
 .header-logo {
     position: absolute;
     top: 41px;
     left: -21px;
     width: 70px;
     height: 70px;
-    clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%); /* Обтекание по кругу */
     object-fit: contain;
     margin-left: 35px;
     margin-top: -25px;
-    background-color: #ffffff; 
-    border-radius: 50%;         
-    padding: 0px; 
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 0px;
 }
 
+/* Иконки в шапке */
 .header-icons {
     position: absolute;
     top: 40px;
@@ -47,6 +50,7 @@ body {
     height: 40px;
 }
 
+/* Стили для иконок */
 .header-icons img {
     width: auto;
     background: none;
@@ -55,54 +59,46 @@ body {
     display: block;
 }
 
-
+/* Иконка темы в тёмной теме */
 .dark-theme .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 50px;
     height: 50px;
-    margin-top: 5px; 
+    margin-top: 5px;
 }
 
+/* Название в личном кабинете */
 .name {
     margin-left: 10px;
 }
 
-.dark-theme .menu-item-clothes span {
-    color: #f0f0f0;
-}
-
+/* Стили для меню в тёмной теме */
+.dark-theme .menu-item-clothes span,
+.dark-theme .menu-item-shoes span,
+.dark-theme .menu-item-accessories span,
+.dark-theme .menu-item-allProducts span,
 .dark-theme .name {
     color: #f0f0f0;
 }
 
-
-.dark-theme .menu-item-shoes span {
-    color: #f0f0f0;
-}
-
-.dark-theme .menu-item-accessories span {
-    color: #f0f0f0;
-}
-
-.dark-theme .menu-item-allProducts span {
-    color: #f0f0f0;
-}
-
+/* Отступ для иконки аккаунта */
 .account-icon {
     margin-top: 5px;
-
 }
 
+/* Иконка темы */
 .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 37px;
     height: 37px;
 }
 
+/* Фон контейнера в тёмной теме */
 .dark-theme .container {
     background-color: #2a2a2a;
 }
 
+/* Кнопки "Мои заказы" и "Моё избранное" */
 .buttons {
     position: absolute;
     width: 365px;
@@ -111,6 +107,7 @@ body {
     top: 141px;
 }
 
+/* Общие стили для кнопок */
 #my_orders, #my_favorites {
     box-sizing: border-box;
     position: absolute;
@@ -120,53 +117,41 @@ body {
     border: 1px solid #000000;
     border-radius: 30px;
     font-family: 'Inter', sans-serif;
-    font-style: normal;
     font-weight: 400;
     font-size: 24px;
     line-height: 29px;
     color: #000000;
 }
 
-body.dark-theme #my_orders, 
+/* Переключение стиля кнопок в тёмной теме */
+body.dark-theme #my_orders,
 body.dark-theme #my_favorites {
-    background: #000000; 
-    border: 1px solid #ffffff; 
-    color: #ffffff; 
+    background: #000000;
+    border: 1px solid #ffffff;
+    color: #ffffff;
 }
 
-
+/* Позиционирование кнопок */
 #my_orders {
-    left: 0;
     top: 0;
 }
-
 #my_orders::after {
     content: "Мои заказы";
-    width: 197px;
-    height: 43px;
-    left: 128px;
-    top: 40px;
 }
 
 #my_favorites {
-    left: 0;
-    top: 121px; 
+    top: 121px;
 }
-
 #my_favorites::after {
     content: "Моё избранное";
-    text-align: center;
-    width: 182px;
-    height: 29px;
-    left: 105px;
-    top: 39px;
 }
 
+/* Счётчик товаров в корзине */
 .cart-icon-wrapper {
     position: relative;
     display: inline-block;
-  }
-  .cart-count {
+}
+.cart-count {
     position: absolute;
     top: -5px;
     right: -5px;
@@ -178,37 +163,42 @@ body.dark-theme #my_favorites {
     border-radius: 50%;
     z-index: 9999;
     display: block !important;
-  }
+}
 
-  #theme-toggle {
+/* Курсор для переключателя темы */
+#theme-toggle {
     cursor: pointer;
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="password"],
-  textarea,
-  select {
+}
+
+/* Стили для полей ввода */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+textarea,
+select {
     width: 380px;
     padding: 10px;
     border: 1px solid #000;
     border-radius: 4px;
     font-size: 16px;
     margin-bottom: 12px;
-    box-sizing: border-box;
     margin-left: 5px;
-  }
-  
-  textarea {
+    box-sizing: border-box;
+}
+
+/* Поле textarea можно растягивать по вертикали */
+textarea {
     resize: vertical;
-  }
-  
-  ::placeholder {
+}
+
+/* Стили для placeholder */
+::placeholder {
     color: #666;
-  }
-  
-  button[type="submit"] {
+}
+
+/* Кнопка отправки формы */
+button[type="submit"] {
     margin-top: 0px;
     padding: 12px 20px;
     font-size: 16px;
@@ -220,16 +210,16 @@ body.dark-theme #my_favorites {
     width: 180px;
     transition: background-color 0.3s;
     margin-left: 5px;
-  }
+}
 
-  .dark-theme .btn {
+/* Белая кнопка в тёмной теме */
+.dark-theme .btn {
     background-color: white;
     color: black;
-  }
+}
 
-  
-
-  .checkbox-label {
+/* Стили для чекбоксов */
+.checkbox-label {
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -237,13 +227,15 @@ body.dark-theme #my_favorites {
     cursor: pointer;
     user-select: none;
     margin-left: 3px;
-  }
+}
 
-  .dark-theme .check {
+/* Цвет текста в чекбоксе в тёмной теме */
+.dark-theme .check {
     color: #fff;
-  }
-  
-  .checkbox-label input[type="checkbox"] {
+}
+
+/* Сам чекбокс */
+.checkbox-label input[type="checkbox"] {
     appearance: none;
     width: 18px;
     height: 18px;
@@ -251,79 +243,102 @@ body.dark-theme #my_favorites {
     border-radius: 3px;
     margin-right: 10px;
     position: relative;
-  }
-  
-  .checkbox-label input[type="checkbox"]:checked::before {
+}
+
+/* Галочка внутри чекбокса */
+.checkbox-label input[type="checkbox"]:checked::before {
     content: "✓";
     color: #000;
     position: absolute;
     top: -2px;
     left: 3px;
     font-size: 14px;
-  }
-  
-  .checkbox-label a {
+}
+
+/* Ссылки в чекбоксе */
+.checkbox-label a {
     color: #000;
     text-decoration: underline;
     margin-left: 4px;
-  }
-  
-  #success-message {
-    display:none;
-    margin-top: 20px; 
-    font-size: 20px; 
+}
+
+/* Сообщение об успехе */
+#success-message {
+    display: none;
+    margin-top: 20px;
+    font-size: 20px;
     color: rgb(0, 0, 0);
     margin-left: 10px;
-  }
+}
 
-  .dark-theme .message p {
+/* Цвет текста в сообщении в тёмной теме */
+.dark-theme .message p {
     color: #fff;
-  }
+}
 
-  .unstyled-link {
+/* Ссылки без подчёркивания */
+.unstyled-link {
     color: inherit;
     text-decoration: none;
-  }
-
-  .unstyled-link:hover {
+}
+.unstyled-link:hover {
     text-decoration: underline;
-  }
-
-  .account-wrapper {
-  position: relative;
-  display: inline-block;
 }
 
+/* Обёртка иконки аккаунта */
+.account-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Иконка аккаунта */
 .account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
+/* Выпадающая панель аккаунта */
 .account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    border-radius: 8px;
+    white-space: nowrap;
 }
 
+/* Отображение панели при наведении */
 .account-wrapper:hover .account-panel {
-  display: block;
+    display: block;
 }
 
+/* Ссылки в панели аккаунта */
 .account-panel a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+.account-panel a:hover {
+    text-decoration: underline;
 }
 
-.account-panel a:hover {
-  text-decoration: underline;
+/* Тултип (всплывающая подсказка) */
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 100;
+    width: 250px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    margin-top: 5px;
+    font-size: 14px;
 }

@@ -1,70 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Настройка кодировки и адаптивности -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Заголовок вкладки браузера -->
     <title>BrickRunner-Shop</title>
+    
+    <!-- Подключение CSS-стилей для страницы админ-панели изменения статуса -->
     <link rel="stylesheet" href="styles/admin_panel-changeStatus.css">
 </head>
 <body>
     <div class="container">
-    <header class="header">
-          <a href="{{ url_for('main') }}">
-            <img src="images/log.png" alt="Логотип" class="header-logo">
-          </a>
+
+        <!-- Шапка сайта -->
+        <header class="header">
+
+            <!-- Логотип с переходом на главную страницу -->
+            <a href="{{ url_for('main') }}">
+                <img src="images/log.png" alt="Логотип" class="header-logo">
+            </a>
+
+            <!-- Иконки в шапке: тема, корзина, профиль -->
             <div class="header-icons">
-            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-                {% if cart_item_count > 0 %}
-                  <span class="cart-count">{{ cart_item_count }}</span>
-                {% endif %}
-              </a>
-            </div>  
-            <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
-                <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
-              </a>
-              <div class="account-panel">
-                {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('logout') }}">Выйти</a>
-                {% else %}
-                  <a href="{{ url_for('auth') }}">Войти</a>
-                {% endif %}
-              </div>
-            </div>
-          </div>
+
+                <!-- Иконка переключения тёмной темы -->
+                <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+                <!-- Иконка корзины -->
+                <div class="cart-icon-wrapper" style="position: relative;">
+                    <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+
+                        <!-- Счётчик товаров в корзине -->
+                        {% if cart_item_count > 0 %}
+                            <span class="cart-count">{{ cart_item_count }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+
+                <!-- Иконка профиля -->
+                <div class="account-wrapper">
+                    <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+                    </a>
+
+                    <!-- Выпадающая панель: вход/выход -->
+                    <div class="account-panel">
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('logout') }}">Выйти</a>
+                        {% else %}
+                            <a href="{{ url_for('auth') }}">Войти</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div> <!-- Конец header-icons -->
         </header>
+
+        <!-- Контейнер таблицы заказов -->
         <div class="table-container">
-    <table>
-  <tr>
-    <th>ID</th>
-    <th>Сумма</th>
-    <th>Статус</th>
-    <th>Изменить</th>
-  </tr>
-  {% for order in orders %}
-  <tr>
-    <td>{{ order.id }}</td>
-    <td>{{ order.total_price }} ₽</td>
-    <td>{{ order.status }}</td>
-    <td>
-      <form method="POST" action="{{ url_for('update_order_status', order_id=order.id) }}">
-        <select name="status">
-          <option value="Ожидает подтверждения">Ожидает подтверждения</option>
-          <option value="Обработан">Обработан</option>
-          <option value="В пути">В пути</option>
-          <option value="Доставлен">Доставлен</option>
-        </select>
-        <button type="submit">Сохранить</button>
-      </form>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-</div>
-</div>ы
-<script src="scripts/admin_panel-changeStatus.js"></script>
+            <table>
+                <!-- Заголовок таблицы -->
+                <tr>
+                    <th>ID</th>
+                    <th>Сумма</th>
+                    <th>Товары</th>
+                    <th>Статус</th>
+                    <th>Изменить</th>
+                </tr>
+
+                <!-- Перебор всех заказов -->
+                {% for order in orders %}
+                <tr>
+                    <!-- ID заказа -->
+                    <td>{{ order.id }}</td>
+
+                    <!-- Общая сумма заказа -->
+                    <td>{{ order.total_price }} ₽</td>
+
+                    <!-- Список товаров в заказе -->
+                    <td>
+                        <ul>
+                            {% for item in order.items %}
+                                <li>{{ item.product.title }} — {{ item.quantity }} шт.</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+
+                    <!-- Текущий статус заказа -->
+                    <td>{{ order.status }}</td>
+
+                    <!-- Форма смены статуса -->
+                    <td>
+                        <form method="POST" action="{{ url_for('update_order_status', order_id=order.id) }}">
+                            <select name="status">
+                                <!-- Выбор статуса с проверкой выбранного значения -->
+                                <option value="Ожидает подтверждения" {% if order.status == 'Ожидает подтверждения' %}selected{% endif %}>Ожидает подтверждения</option>
+                                <option value="Обработан" {% if order.status == 'Обработан' %}selected{% endif %}>Обработан</option>
+                                <option value="В пути" {% if order.status == 'В пути' %}selected{% endif %}>В пути</option>
+                                <option value="Доставлен" {% if order.status == 'Доставлен' %}selected{% endif %}>Доставлен</option>
+                            </select>
+                            <button type="submit">Сохранить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div> <!-- Конец container -->
+
+    <!-- Подключение JS-скрипта для работы страницы -->
+    <script src="scripts/admin_panel-changeStatus.js"></script>
 </body>
 </html>

@@ -1,26 +1,73 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Установка кодировки документа -->
     <meta charset="UTF-8">
-    <title>Вход / Регистрация</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .form-container { max-width: 400px; margin: auto; }
-        input[type="text"], button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
-    </style>
+    <!-- Заголовок вкладки браузера -->
+    <title>BrickRunner-Shop</title>
+    <!-- Подключение внешнего CSS-файла для стилизации страницы -->
+    <link rel="stylesheet" href="styles/auth.css">
 </head>
 <body>
-<div class="form-container">
-    <h2>Вход или регистрация</h2>
-    <form method="POST">
-        <label for="phone">Номер телефона:</label>
-        <input type="text" id="phone" name="phone" placeholder="+71234567890" required>
-        <button type="submit">Продолжить</button>
-    </form>
-</div>
+    <div class="container">
+        <!-- Шапка сайта с логотипом и иконками -->
+        <header class="header">
+            <!-- Логотип сайта с ссылкой на главную страницу -->
+            <a href="{{ url_for('main') }}">
+                <img src="images/log.png" alt="Логотип" class="header-logo">
+            </a>
+
+            <!-- Блок иконок (темная тема, корзина, профиль) -->
+            <div class="header-icons">
+                <!-- Иконка переключения темы (светлая/темная) -->
+                <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+                <!-- Иконка корзины с счетчиком количества товаров -->
+                <div class="cart-icon-wrapper" style="position: relative;">
+                    <!-- Ссылка ведет на корзину, если пользователь авторизован, иначе на страницу авторизации -->
+                    <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+                        <!-- Если в корзине есть товары, показываем счетчик -->
+                        {% if cart_item_count > 0 %}
+                            <span class="cart-count">{{ cart_item_count }}</span>
+                        {% endif %}
+                    </a>
+                </div>  
+
+                <!-- Иконка профиля пользователя -->
+                <div class="account-wrapper">
+                    <!-- Ссылка ведет в личный кабинет, если авторизован, иначе на страницу авторизации -->
+                    <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+                    </a>
+                    <!-- Всплывающая панель с кнопкой "Выйти" или "Войти" в зависимости от статуса пользователя -->
+                    <div class="account-panel">
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('logout') }}">Выйти</a>
+                        {% else %}
+                            <a href="{{ url_for('auth') }}">Войти</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Основной контейнер с формой входа или регистрации -->
+        <div class="form-container">
+            <h2>Вход или регистрация</h2>
+            <!-- Форма с методом POST для отправки номера телефона -->
+            <form method="POST" action="{{ url_for('auth') }}">
+                <!-- Метка для поля ввода номера телефона -->
+                <label class="phone" for="phone">Номер телефона:</label>
+                <!-- Поле ввода телефона с плейсхолдером и обязательным заполнением -->
+                <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required>
+                <!-- Кнопка отправки формы -->
+                <button type="submit">Продолжить</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Подключение JS-скрипта для функционала страницы (например, валидация, маска для телефона) -->
+    <script src="scripts/auth.js"></script>
 </body>
 </html>

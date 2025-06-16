@@ -1,57 +1,60 @@
+// === БЛОК: Преобразование даты заказа из UTC в локальный формат ===
 document.querySelectorAll('.order-date').forEach(el => {
-    const utcDate = new Date(el.dataset.datetime);
-    const localDate = utcDate.toLocaleDateString('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    const utcDate = new Date(el.dataset.datetime); // Получаем дату из data-атрибута элемента
+    const localDate = utcDate.toLocaleDateString('ru-RU', { // Преобразуем дату в формат ДД.ММ.ГГГГ
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
     });
-    el.textContent = localDate;
-  });
+    el.textContent = localDate; // Заменяем текст в элементе на локализованную дату
+});
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const menuItems = document.querySelectorAll('.menu-item');
-    const themeToggle = document.getElementById('theme-toggle');
-    const shoppingBagIcon = document.querySelector('.shopping-bag-icon');
-    const accountIcon = document.querySelector('.account-icon');
+// === БЛОК: Инициализация после полной загрузки DOM ===
+document.addEventListener('DOMContentLoaded', () => {
+    // === БЛОК: Получение элементов интерфейса ===
+    const menuItems = document.querySelectorAll('.menu-item');              // Пункты бокового меню
+    const themeToggle = document.getElementById('theme-toggle');            // Иконка переключения темы
+    const shoppingBagIcon = document.querySelector('.shopping-bag-icon');  // Иконка корзины
+    const accountIcon = document.querySelector('.account-icon');           // Иконка аккаунта
     const body = document.body;
 
-    // Функция для обновления всех иконок
+    // === БЛОК: Обновление всех иконок в зависимости от темы ===
     function updateIcons(isDark) {
         if (isDark) {
-            themeToggle.src = 'images/dark_theme.svg'; // Солнце
-            shoppingBagIcon.src = 'images/bag_1.svg'; // Темная корзина
-            accountIcon.src = 'images/account_1.svg'; // Темный профиль
+            themeToggle.src = 'images/dark_theme.svg';     // Иконка темы: солнце
+            shoppingBagIcon.src = 'images/bag_1.svg';      // Тёмная корзина
+            accountIcon.src = 'images/account_1.svg';      // Тёмный аккаунт
         } else {
-            themeToggle.src = 'images/light_theme.svg'; // Луна
-            shoppingBagIcon.src = 'images/bag.svg'; // Светлая корзина
-            accountIcon.src = 'images/account.svg'; // Светлый профиль
+            themeToggle.src = 'images/light_theme.svg';    // Иконка темы: луна
+            shoppingBagIcon.src = 'images/bag.svg';        // Светлая корзина
+            accountIcon.src = 'images/account.svg';        // Светлый аккаунт
         }
     }
 
-    // Проверка сохранённой темы при загрузке
-    const savedTheme = localStorage.getItem('theme');
+    // === БЛОК: Применение сохранённой темы при загрузке ===
+    const savedTheme = localStorage.getItem('theme');      // Получаем тему из localStorage
     if (savedTheme === 'dark') {
-        body.classList.add('dark-theme');
-        updateIcons(true);
+        body.classList.add('dark-theme');                  // Применяем тёмную тему
+        updateIcons(true);                                 // Обновляем иконки для тёмной темы
     } else {
-        updateIcons(false);
+        updateIcons(false);                                // Обновляем иконки для светлой темы
     }
 
-    // Обработка кликов по меню
+    // === БЛОК: Обработка кликов по пунктам меню ===
     menuItems.forEach(item => {
         item.addEventListener('click', () => {
-            menuItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-            const category = item.querySelector('span').textContent;
-            console.log(`Выбрана категория: ${category}`);
+            menuItems.forEach(i => i.classList.remove('active')); // Снимаем активность со всех
+            item.classList.add('active');                         // Назначаем активным текущий
+            const category = item.querySelector('span').textContent; // Получаем название категории
+            console.log(`Выбрана категория: ${category}`);        // Логируем в консоль
         });
     });
 
-    // Переключение темы
+    // === БЛОК: Обработка переключения темы ===
     themeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-theme');
-        const isDark = body.classList.contains('dark-theme');
-        updateIcons(isDark);
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        body.classList.toggle('dark-theme');                  // Переключаем класс темы
+        const isDark = body.classList.contains('dark-theme');// Проверяем текущую тему
+        updateIcons(isDark);                                 // Обновляем иконки
+        localStorage.setItem('theme', isDark ? 'dark' : 'light'); // Сохраняем тему
     });
 });

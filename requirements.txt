@@ -1,2 +1,2 @@
-Flask==2.1.2
-mysql-connector-python==8.0.27
+Flask==2.1.2                   # Веб-фреймворк Flask версии 2.1.2 для создания веб-приложений на Python
+mysql-connector-python==8.0.27 # Официальный MySQL-коннектор для Python версии 8.0.27, нужен для подключения к базе данных MySQL

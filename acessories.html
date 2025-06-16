@@ -1,74 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Кодировка и адаптивность страницы для мобильных устройств -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Заголовок страницы -->
   <title>BrickRunner-Shop</title>
+
+  <!-- Подключение CSS для страницы аксессуаров -->
   <link rel="stylesheet" href="styles/acessories.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-          <a href="{{ url_for('main') }}">
-            <img src="images/log.png" alt="Логотип" class="header-logo">
+  <div class="container">
+    <!-- Верхняя панель с логотипом, темной темой, корзиной и аккаунтом -->
+    <header class="header">
+      <!-- Логотип с переходом на главную -->
+      <a href="{{ url_for('main') }}">
+        <img src="images/log.png" alt="Логотип" class="header-logo">
+      </a>
+
+      <!-- Иконки справа от логотипа -->
+      <div class="header-icons">
+        <!-- Переключатель темной темы -->
+        <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+        <!-- Иконка корзины -->
+        <div class="cart-icon-wrapper" style="position: relative;">
+          <!-- Ссылка на корзину или авторизацию -->
+          <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+            
+            <!-- Отображение количества товаров в корзине -->
+            {% if cart_item_count > 0 %}
+              <span class="cart-count">{{ cart_item_count }}</span>
+            {% endif %}
           </a>
-          <div class="header-icons">
-            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-                {% if cart_item_count > 0 %}
-                  <span class="cart-count">{{ cart_item_count }}</span>
-                {% endif %}
-              </a>
-            </div>  
-            <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
-                <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
-              </a>
-              <div class="account-panel">
-                {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('logout') }}">Выйти</a>
+        </div>
+
+        <!-- Иконка аккаунта с выпадающим меню -->
+        <div class="account-wrapper">
+          <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+          </a>
+          <div class="account-panel">
+            {% if current_user.is_authenticated %}
+              <a href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+              <a href="{{ url_for('auth') }}">Войти</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Заголовок категории -->
+    <div class="text">
+      <img src="images/acessories.svg" alt="Аксессуары" class="menu-text">
+      <p>Аксессуары:</p>
+    </div>
+
+    <!-- Секция с карточками товаров -->
+    <div class="products">
+      {% for product in products %}
+        {% if product.tupe == 'acessories' %} 
+          <div class="product-card">
+
+            <!-- Форма добавления/удаления из избранного (AJAX) -->
+            <form class="favorite-form" data-product-id="{{ product.id }}" action="{{ url_for('toggle_favorite_ajax')}}">
+              <button type="button" class="favorite-btn">
+                <img
+                  src="{{ '/images/heart-filled.png' if product.id in favorite_ids else '/images/heart.png' }}"
+                  alt="Избранное"
+                  class="heart-icon"
+                  data-favorite="{{ 'true' if product.id in favorite_ids else 'false' }}"
+                >
+              </button>
+            </form>
+
+            <!-- Ссылка на страницу товара -->
+            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-link">
+              <h2 class="product-name">{{ product.title }}</h2>
+              <div class="product-image">
+                <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">
+              </div>
+            </a>
+
+            <!-- Блок с ценами и кнопкой "Добавить в корзину" -->
+            <div class="product-icons">
+              <div class="product-price">
+                {% if product.price_1 != product.price_2 %}
+                  <!-- Если есть скидка -->
+                  <span class="old-price">{{ product.price_1 }} ₽</span>
+                  <span class="new-price">{{ product.price_2 }} ₽</span>
                 {% else %}
-                  <a href="{{ url_for('auth') }}">Войти</a>
+                  <!-- Если нет скидки -->
+                  <span class="regular-price">{{ product.price_2 }} ₽</span>
                 {% endif %}
               </div>
+
+              <!-- Кнопка "Добавить в корзину" (или переход на авторизацию) -->
+              {% if current_user.is_authenticated %}
+                <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+                  <input type="hidden" name="product_id" value="{{ product.id }}">
+                  <button type="submit" class="add-to-cart-btn">
+                    <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
+                  </button>
+                </form>
+              {% else %}
+                <a href="{{ url_for('auth') }}" class="add-to-cart-btn">
+                  <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
+                </a>
+              {% endif %}
             </div>
           </div>
-        </header>  
-        <div class="text">
-          <img src="images/acessories.svg" alt="Аксессуары" class="menu-text">
-          <p>Аксессуары:</p>
-        </div>
-        <div class="products">
-          {% for product in products %}
-            {% if product.tupe == 'acessories' %} 
-              <div class="product-card">
-                <button type="button" class="heart-btn" onclick="toggleFavorite(this)" data-product-id="{{ product.id }}">
-                  <img src="/images/{% if product.id in favorite_ids %}heart-filled.png{% else %}heart.png{% endif %}"
-                       alt="Избранное"
-                       class="heart-icon"
-                       data-favorite="{% if product.id in favorite_ids %}true{% else %}false{% endif %}">
-                </button>   
-                <h2 class="product-name">{{ product.title }}</h2>
-                <div class="product-image">
-                  <img class="image" src="{{ product.image_url }}" alt="{{ product.title }}">
-                </div>
-                  <div class="product-icons">
-                    <h3 class="price_2">{{product.price_2}} ₽</h3>
-                    <h4 class="price_1">{{product.price_1}} ₽</h4>   
-                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="display:inline;">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="add-to-cart-btn">
-                        <img src="/images/bag.svg" alt="Добавить в корзину" class="bag-icon">
-                      </button>
-                    </form>           
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>             
-      </div>      
-<script src="scripts/acessories.js"></script>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Скрипт логики страницы аксессуаров (например, переключение темы) -->
+  <script src="scripts/acessories.js"></script>
+
 </body>
 </html>

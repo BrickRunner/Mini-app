@@ -1,9 +1,12 @@
+/* Сбрасываем отступы у body, задаём шрифт Inter и светло-серый фон страницы */
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
     background: #c7c6c6;
 }
 
+/* Основной контейнер с фиксированной шириной и высотой, центрируем горизонтально,
+   скругляем углы, скрываем выступающий контент, белый фон и тень */
 .container {
     width: 393px;
     height: 1704px;
@@ -15,13 +18,15 @@ body {
     position: relative;
 }
 
+/* Хедер (шапка) — занимает всю ширину, фиксированная высота, позиционирование для абсолютных детей */
 .header {
     width: 100%;
     height: 100px;
     position: relative;
 }
 
-
+/* Логотип в хедере — абсолютное позиционирование, круглое обрезание через clip-path,
+   фиксированный размер, фон белый, скруглённые края, отступы для точного позиционирования */
 .header-logo {
     position: absolute;
     top: 41px;
@@ -37,6 +42,8 @@ body {
     padding: 0px; 
 }
 
+/* Блок иконок в хедере — абсолютное позиционирование справа сверху,
+   выравнивание элементов по центру, промежуток между иконками */
 .header-icons {
     position: absolute;
     top: 40px;
@@ -47,6 +54,7 @@ body {
     height: 40px;
 }
 
+/* Стили для изображений иконок в header-icons — убираем padding и тени */
 .header-icons img {
     width: auto;
     background: none;
@@ -55,7 +63,7 @@ body {
     display: block;
 }
 
-
+/* Иконка темного режима в темной теме — увеличенный размер и тень */
 .dark-theme .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 50px;
@@ -63,23 +71,24 @@ body {
     margin-top: 5px; 
 }
 
+/* Отступ сверху для иконки аккаунта */
 .account-icon {
     margin-top: 5px;
-
 }
 
+/* Иконка темного режима по умолчанию — тень, фиксированный размер */
 .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 37px;
     height: 37px;
 }
 
+/* В темной теме контейнер получает тёмный фон */
 .dark-theme .container {
     background-color: #2a2a2a;
 }
 
-
-
+/* Карточка товара — горизонтальный флекс-контейнер, отступы, фон, скругления, лёгкая тень */
 .product-card {
     display: flex;
     align-items: flex-start;
@@ -94,6 +103,7 @@ body {
     width: 100%;
 }
 
+/* Изображение товара с фиксированным размером, скруглением углов и обрезкой */
 .product-card img {
     width: 48px;
     height: 48px;
@@ -102,16 +112,19 @@ body {
     flex-shrink: 0;
 }
 
+/* Контейнер с информацией о товаре занимает всё оставшееся пространство */
 .product-info {
     flex: 1;
 }
 
+/* Верхняя строка карточки — элементы по краям, выравнивание по центру */
 .top-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Название товара — жирный шрифт, 16px, тёмно-серый цвет, занимает доступную ширину */
 .title {
     font-weight: bold;
     font-size: 16px;
@@ -119,25 +132,29 @@ body {
     flex: 1;
 }
 
+/* Цена товара — небольшой отступ сверху, серый цвет и размер 14px */
 .price {
     margin-top: 4px;
     color: #666;
     font-size: 14px;
 }
 
-
+/* Общий контейнер для элементов карточки — флекс с распределением по краям */
 .card {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Текст запаса товара — размер 16px, небольшой правый и верхний отступы для отступа от соседних элементов */
 .stock {
     font-size: 16px;
     margin-right: 10px;
     margin-top: 4px;
 }
 
+/* Красный круг-счётчик для корзины — абсолютное позиционирование,
+   небольшой размер текста, белый цвет, закругления и высокий z-index */
 .cart-count {
     position: absolute;
     top: -5px;
@@ -150,42 +167,50 @@ body {
     border-radius: 50%;
     z-index: 9999;
     display: block !important;
-  }
-  .account-wrapper {
-  position: relative;
-  display: inline-block;
 }
 
+/* Обёртка иконки аккаунта — относительное позиционирование для всплывающей панели */
+.account-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Иконка аккаунта — фиксированный размер и курсор указывающий на кликабельность */
 .account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
+/* Панель аккаунта — всплывающее меню, изначально скрытое, позиционирование под иконкой,
+   белый фон, рамка, отступы, тень, скруглённые углы, не переносит текст */
 .account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    border-radius: 8px;
+    white-space: nowrap;
 }
 
+/* Показываем панель аккаунта при наведении на обёртку иконки */
 .account-wrapper:hover .account-panel {
-  display: block;
+    display: block;
 }
 
+/* Ссылки в панели аккаунта — чёрный жирный текст без подчеркивания */
 .account-panel a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
+/* Подчеркивание при наведении на ссылки в панели аккаунта */
 .account-panel a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }

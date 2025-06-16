@@ -1,57 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Установка кодировки и масштабирования страницы -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Заголовок страницы -->
     <title>BrickRunner-Shop</title>
+    <!-- Подключение CSS-файла с оформлением панели удаления товаров -->
     <link rel="stylesheet" href="styles/admin_panel-deleteProduct.css">
 </head>
 <body>
     <div class="container">
+        <!-- Шапка сайта -->
         <header class="header">
+            <!-- Логотип, при нажатии переходит на главную страницу -->
             <a href="{{ url_for('main') }}">
                 <img src="images/log.png" alt="Логотип" class="header-logo">
-              </a>
-          <div class="header-icons">
-            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-                {% if cart_item_count > 0 %}
-                  <span class="cart-count">{{ cart_item_count }}</span>
-                {% endif %}
-              </a>
-            </div>  
-            <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
-                <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
-              </a>
-              <div class="account-panel">
-                {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('logout') }}">Выйти</a>
-                {% else %}
-                  <a href="{{ url_for('auth') }}">Войти</a>
-                {% endif %}
-              </div>
+            </a>
+
+            <!-- Контейнер с иконками в шапке -->
+            <div class="header-icons">
+                <!-- Иконка переключения темной темы -->
+                <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+                <!-- Иконка корзины -->
+                <div class="cart-icon-wrapper" style="position: relative;">
+                    <!-- Ссылка на корзину (или на авторизацию, если пользователь не вошёл) -->
+                    <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+                        <!-- Отображение количества товаров в корзине, если больше 0 -->
+                        {% if cart_item_count > 0 %}
+                            <span class="cart-count">{{ cart_item_count }}</span>
+                        {% endif %}
+                    </a>
+                </div>  
+
+                <!-- Иконка профиля -->
+                <div class="account-wrapper">
+                    <!-- Ссылка на личный кабинет или на авторизацию -->
+                    <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+                    </a>
+                    <!-- Выпадающая панель под иконкой профиля -->
+                    <div class="account-panel">
+                        {% if current_user.is_authenticated %}
+                            <!-- Ссылка на выход из аккаунта -->
+                            <a href="{{ url_for('logout') }}">Выйти</a>
+                        {% else %}
+                            <!-- Ссылка на вход -->
+                            <a href="{{ url_for('auth') }}">Войти</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-          </div>
         </header>  
+
+        <!-- Перебор всех товаров и вывод карточек -->
         {% for product in products %}
         <div class="product-card">
+            <!-- Изображение товара -->
             <img src="{{ product.image_url }}" alt="{{ product.title }}">
             <div class="product-info">
                 <div class="top-row">
+                    <!-- Название товара -->
                     <span class="title">{{ product.title }}</span>
+                    <!-- Форма удаления товара (POST-запрос на удаление по ID) -->
                     <form method="POST" action="{{ url_for('delete_product', product_id=product.id) }}">
                         <button class="delete-btn" type="submit">Удалить</button>
                     </form>
                 </div>
+                <!-- Цена товара -->
                 <div class="price">{{ product.price_2 }} ₽</div>
             </div>
         </div>
         {% endfor %}
         
     </div>
-<script src="scripts/admin_panel-deleteProduct.js"></script>
+
+    <!-- Подключение JavaScript-файла для панели администратора -->
+    <script src="scripts/admin_panel-deleteProduct.js"></script>
 </body>
 </html>

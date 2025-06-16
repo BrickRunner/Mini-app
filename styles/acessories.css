@@ -1,267 +1,190 @@
+/* Основные стили для body: убираем отступы, задаём шрифт и цвет фона */
 body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #c7c6c6;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #c7c6c6;
 }
 
+/* Контейнер с фиксированной шириной, центрированием, закруглениями и тенью */
 .container {
-  width: 393px;
-  height: 852px;
-  margin: 0 auto;
-  border-radius: 40px;
-  overflow: hidden;
-  background-color: #fff; 
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  position: relative;
+    width: 393px;
+    margin: 0 auto;
+    border-radius: 40px;
+    overflow: hidden;
+    background-color: #fff; 
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    position: relative;
 }
 
+/* Заголовок, который занимает всю ширину и имеет фиксированную высоту */
 .header {
-  width: 100%;
-  height: 100px;
-  position: relative;
+    width: 100%;
+    height: 100px;
+    position: relative;
 }
 
-
+/* Логотип в хедере, позиционируется абсолютно, с круговой маской и белым фоном */
 .header-logo {
-  position: absolute;
-  top: 41px;
-  left: -21px;
-  width: 70px;
-  height: 70px;
-  clip-path: circle(50% at 50% 50%);
-  object-fit: contain;
-  margin-left: 35px;
-  margin-top: -25px;
-  background-color: #ffffff; 
-  border-radius: 50%;         
-  padding: 0px; 
+    position: absolute;
+    top: 41px;
+    left: -21px;
+    width: 70px;
+    height: 70px;
+    clip-path: circle(50% at 50% 50%);
+    object-fit: contain;
+    margin-left: 35px;
+    margin-top: -25px;
+    background-color: #ffffff; 
+    border-radius: 50%;         
+    padding: 0px; 
 }
 
+/* Контейнер для иконок в хедере, располагается справа и в ряд с отступами */
 .header-icons {
-  position: absolute;
-  top: 40px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  height: 40px;
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 40px;
 }
 
+/* Стили для картинок иконок — убираем лишние отступы и тени, делаем блочным элементом */
 .header-icons img {
-  width: auto;
-  background: none;
-  padding: 0;
-  box-shadow: none;
-  display: block;
+    width: auto;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    display: block;
 }
 
-
+/* В тёмной теме иконка режима тёмного режима увеличена и с тенью */
 .dark-theme .dark-mode-icon {
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  width: 50px;
-  height: 50px;
-  margin-top: 5px; 
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    width: 50px;
+    height: 50px;
+    margin-top: 5px; 
 }
 
-.dark-theme .menu-item-clothes span {
-  color: #f0f0f0;
-}
-
-.dark-theme .menu-item-shoes span {
-  color: #f0f0f0;
-}
-
-.dark-theme .menu-item-accessories span {
-  color: #f0f0f0;
-}
-
+/* В тёмной теме цвет текста пунктов меню меняется на светлый */
+.dark-theme .menu-item-clothes span,
+.dark-theme .menu-item-shoes span,
+.dark-theme .menu-item-accessories span,
 .dark-theme .menu-item-allProducts span {
-  color: #f0f0f0;
+    color: #f0f0f0;
 }
 
+/* Иконка для тёмного режима по умолчанию — размер и тень */
 .dark-mode-icon {
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  width: 37px;
-  height: 37px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    width: 37px;
+    height: 37px;
 }
 
+/* В тёмной теме меняется фон контейнера на тёмный */
 .dark-theme .container {
-  background-color: #2a2a2a;
+    background-color: #2a2a2a;
 }
 
+/* В тёмной теме цвет текста внутри блока text становится белым */
 .dark-theme .text p {
-color: #fff;
+  color: #fff;
 }
 
-
+/* Блок с текстом меню: позиционируется абсолютно, выравнивается по центру по вертикали */
 .text {
-  position: absolute;
-  top: 120px;
-  left: 14px;
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    position: absolute;
+    top: 120px;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+/* Иконка меню с фиксированным размером */
 .menu-text {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
+/* Текст внутри блока .text — шрифт, размер, цвет по умолчанию и убираем отступы */
 .text p {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 24px;
-  color: #000000;
-  margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0;
 }
 
-
+/* Сетка для вывода товаров: 2 карточки в ряд, небольшой отступ между ними и padding */
 .products {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 карточки в ряд */
-  gap: 8px; /* меньшее расстояние между карточками */
-  padding: 8px;
-  margin-top: 50px;
-  box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 карточки в ряд */
+    gap: 8px; /* меньшее расстояние между карточками */
+    padding: 8px;
+    margin-top: 50px;
+    box-sizing: border-box;
 }
 
-.product-card {
-  background-color: #E6E5E5;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 171px;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.product-image img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-
-.product-name {
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-  padding-right: 30px;
-  margin: 8px 0 4px;
-  color: #000;
-}
-
-.product-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: auto;
-}
-
-.product-icons {
-  display: flex;
-  justify-content: flex-end; /* перемещает вправо */
-  align-items: center;
-  gap: 10px;
-  margin-right: -140px;
-  margin-top: 10px;
-}
-
-.heart-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.heart-icon {
-  width: 24px;
-  height: 24px;
-}
-
-
-.add-to-cart-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-
-.bag-icon {
-  width: 30px; /* или нужный тебе размер */
-  height: 30px;
-  margin-left: 30px;
-  margin-top: -20px; /* поднимает кнопку выше */
-}
-
-
-.price_2 {
-  margin-left: -140px;
-  margin-top: -9px;
-  font-size: 15px;
-  color: rgb(229, 12, 12);
-}
-
-.price_1 {
-  margin-top: -7px;
-  font-size: 13px;
+/* Старый (зачёркнутый) ценник: серый цвет и большой правый отступ */
+.old-price {
   text-decoration: line-through;
+  color: grey;
+  margin-right: 120px;
 }
 
-.add-to-cart-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-.cart-container {
-  position: relative;
-  display: inline-block;
-}
-
-.cart-count {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: red;
-  color: white;
-  font-size: 12px;
+/* Новая цена: красный цвет и жирный шрифт, небольшой правый отступ */
+.new-price {
+  color: red;
   font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 50%;
-  z-index: 9999;
-  display: block !important;
+  margin-right: 10px;
 }
 
+/* Регулярная цена (если есть): черный цвет, жирный шрифт и левый отступ */
+.regular-price {
+  color: black;
+  font-weight: bold;
+  margin-left: 50px;
+}
+
+/* Контейнер для корзины — позиционируется относительно, чтобы можно было разместить счётчик */
+.cart-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Счётчик товаров в корзине — маленький красный круг с цифрой, позиционирован поверх иконки */
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    z-index: 9999;
+    display: block !important;
+}
+
+/* Контейнер для иконки аккаунта с относительным позиционированием */
 .account-wrapper {
   position: relative;
   display: inline-block;
 }
 
+/* Иконка аккаунта с фиксированным размером и курсором указателя */
 .account-icon {
   width: 40px;
   height: 40px;
   cursor: pointer;
 }
 
+/* Панель аккаунта — всплывающее меню, по умолчанию скрыто, позиционируется относительно иконки */
 .account-panel {
   display: none;
   position: absolute;
@@ -276,16 +199,127 @@ color: #fff;
   white-space: nowrap;
 }
 
+/* Показываем панель аккаунта при наведении на контейнер */
 .account-wrapper:hover .account-panel {
   display: block;
 }
 
+/* Ссылки в панели аккаунта — черный цвет, без подчеркивания, жирный шрифт */
 .account-panel a {
   color: black;
   text-decoration: none;
   font-weight: bold;
 }
 
+/* При наведении на ссылки панели аккаунта появляется подчеркивание */
 .account-panel a:hover {
   text-decoration: underline;
+}
+
+/* Ссылки на карточках товаров — без подчеркивания, наследуют цвет */
+a.product-link {
+  text-decoration: none;  /* убирает подчеркивание */
+  color: inherit;         /* наследует цвет от родителя */
+}
+
+/* Карточка товара — светлый фон, отступы, скругления, тень и фиксированная высота */
+.product-card {
+  background-color: #E6E5E5;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 171px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* Скрывает всё, что выходит за пределы */
+}
+
+/* Изображение товара: фиксированный размер, центрирование, объект подгоняется по контейнеру */
+.product-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  margin-top: 0; /* убираем отрицательный margin */
+}
+
+/* Название товара — размер шрифта, жирность, центрирование и обрезка текста при переполнении */
+.product-name {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin: 8px 0 4px;
+  color: #000;
+  margin-top: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* не позволяет тексту вылезти */
+}
+
+/* Контейнер с кнопками действий товара — располагаются по горизонтали с отступами */
+.product-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Иконки в действиях товара — расположены в ряд с отступами */
+.product-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+/* Кнопка "сердечко" — без фона, без границ, курсор указателя, позиционируется относительно */
+.heart-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Иконка сердечка — фиксированный размер */
+.heart-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Кнопка "добавить в корзину" — без стилей, курсор указателя */
+.add-to-cart-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Иконка сумки корзины — фиксированный размер */
+.bag-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Кнопка "избранное" — без фона и границ, позиционируется сверху справа, чтобы быть поверх */
+.favorite-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
 }

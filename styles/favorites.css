@@ -1,12 +1,17 @@
+/* Сброс отступов и установка шрифта, а также фон для всего тела страницы */
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
     background: #c7c6c6;
 }
 
+/* Основной контейнер страницы:
+   фиксированная ширина 393px (например, под мобильный экран),
+   выравнивание по центру,
+   скруглённые края,
+   белый фон и тень */
 .container {
     width: 393px;
-    height: 30000px;
     margin: 0 auto;
     border-radius: 40px;
     overflow: hidden;
@@ -15,13 +20,19 @@ body {
     position: relative;
 }
 
+/* Шапка сайта с фиксированной высотой и относительным позиционированием,
+   чтобы дочерние элементы могли позиционироваться внутри неё */
 .header {
     width: 100%;
     height: 100px;
     position: relative;
 }
 
-
+/* Логотип в шапке:
+   абсолютное позиционирование для точного размещения,
+   круглое обрезание по форме круга,
+   фиксированные размеры,
+   белый фон и скругления */
 .header-logo {
     position: absolute;
     top: 41px;
@@ -37,6 +48,10 @@ body {
     padding: 0px; 
 }
 
+/* Блок с иконками в шапке:
+   абсолютное позиционирование справа,
+   горизонтальный флекс-контейнер с промежутком между иконками,
+   выравнивание по центру по вертикали */
 .header-icons {
     position: absolute;
     top: 40px;
@@ -47,6 +62,8 @@ body {
     height: 40px;
 }
 
+/* Стилизация изображений иконок:
+   убраны лишние отступы и тени */
 .header-icons img {
     width: auto;
     background: none;
@@ -55,7 +72,8 @@ body {
     display: block;
 }
 
-
+/* Стили для темной темы */
+/* Иконка переключения темной темы крупнее и с тенью */
 .dark-theme .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 50px;
@@ -63,57 +81,54 @@ body {
     margin-top: 5px; 
 }
 
-.dark-theme .menu-item-clothes span {
-    color: #f0f0f0;
-}
-
-.dark-theme .menu-item-shoes span {
-    color: #f0f0f0;
-}
-
-.dark-theme .menu-item-accessories span {
-    color: #f0f0f0;
-}
-
+/* Тексты меню в темной теме светлые */
+.dark-theme .menu-item-clothes span,
+.dark-theme .menu-item-shoes span,
+.dark-theme .menu-item-accessories span,
 .dark-theme .menu-item-allProducts span {
     color: #f0f0f0;
 }
 
+/* Иконка переключения темы в светлой теме меньше */
 .dark-mode-icon {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     width: 37px;
     height: 37px;
 }
 
+/* Темный фон контейнера в темной теме */
 .dark-theme .container {
     background-color: #2a2a2a;
 }
 
-.dark-theme .text p {
-  color: #fff;
+/* Цвет текста в темной теме */
+.dark-theme .text p,
+.dark-theme .text {
+    color: #fff;
 }
 
-.dark-theme .text  {
-    color: #fff;
-  }
-
+/* Блок с текстом меню - позиционирование и стили */
 .text {
     position: absolute;
     top: 120px;
     left: 14px;
-  
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  
-  .menu-text {
+}
+
+/* Иконка меню (например, маленькая картинка) с отступом */
+.menu-text {
     width: 30px;
     height: 30px;
     margin-left: 10px ;
-  }
-  
-  .text  {
+}
+
+/* Текст меню:
+   шрифт Inter, жирный, размер 23px,
+   цвет черный по умолчанию,
+   отступы для позиционирования */
+.text  {
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 600;
@@ -123,77 +138,97 @@ body {
     margin: 0;
     margin-left: 40px;
     margin-top: -12px;
-  }
-  
-  .favorite-card {
+}
+
+/* Карточка избранного товара:
+   горизонтальный флекс,
+   выравнивание по центру,
+   разделительная линия снизу,
+   вертикальные отступы */
+.favorite-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
-  }
-  
-  .favorite-info {
+}
+
+/* Блок с информацией об избранном:
+   горизонтальный флекс и выравнивание по центру */
+.favorite-info {
     display: flex;
     align-items: center;
-  }
-  
-  .favorite-image {
+}
+
+/* Изображение товара в избранном */
+.favorite-image {
     width: 30px;
     height: 30px;
     object-fit: cover;
     margin-right: 10px;
     margin-left: 5px;
-  }
-  
-  .favorite-text {
+}
+
+/* Текстовая информация о товаре в избранном:
+   вертикальный флекс-контейнер */
+.favorite-text {
     display: flex;
     flex-direction: column;
-  }
-  
-  .favorite-title {
+}
+
+/* Название товара, жирный и крупнее */
+.favorite-title {
     font-size: 16px;
     margin: 0;
     font-weight: bold;
-  }
-  
-  .favorite-price {
+}
+
+/* Цена товара, чуть меньше и серым цветом */
+.favorite-price {
     font-size: 14px;
     margin: 2px 0 0;
     color: #666;
-  }
-  
-  .delete-favorite-btn {
+}
+
+/* Кнопка удаления товара из избранного:
+   без фона и рамок, курсор pointer */
+.delete-favorite-btn {
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px;
-  }
-  
-  .trash-icon {
+}
+
+/* Иконка корзины (мусорного ведра) */
+.trash-icon {
     width: 20px;
     height: 20px;
     margin-right: 10px;
-  }
-  
+}
 
+/* Отступ сверху для блока избранного */
 .favorites {
     margin-top: 10px;
 }
 
-.dark-theme .favorite-title {
-    color: #fff;
-}
-
+/* В темной теме цвета текста названия и цены в избранном белые */
+.dark-theme .favorite-title,
 .dark-theme .favorite-price {
     color: #fff;
 }
+
+/* Общие стили для параграфов */
 .dark-theme p {
   color: #fff;
 }
 p {
   margin-left: 10px;
 }
+
+/* Индикатор количества товаров в корзине:
+   маленький красный круг с цифрой,
+   позиционируется абсолютно относительно родителя,
+   всегда поверх остальных элементов */
 .cart-count {
   position: absolute;
   top: -5px;
@@ -208,17 +243,22 @@ p {
   display: block !important;
 }
 
+/* Обертка для иконки аккаунта с относительным позиционированием */
 .account-wrapper {
   position: relative;
   display: inline-block;
 }
 
+/* Иконка аккаунта с фиксированным размером и курсором pointer */
 .account-icon {
   width: 40px;
   height: 40px;
   cursor: pointer;
 }
 
+/* Панель аккаунта, которая появляется при наведении,
+   абсолютное позиционирование справа под иконкой,
+   белый фон, тень и скругления */
 .account-panel {
   display: none;
   position: absolute;
@@ -233,16 +273,19 @@ p {
   white-space: nowrap;
 }
 
+/* Показывать панель аккаунта при наведении на обертку */
 .account-wrapper:hover .account-panel {
   display: block;
 }
 
+/* Ссылки внутри панели аккаунта */
 .account-panel a {
   color: black;
   text-decoration: none;
   font-weight: bold;
 }
 
+/* Эффект при наведении на ссылки панели аккаунта */
 .account-panel a:hover {
   text-decoration: underline;
 }

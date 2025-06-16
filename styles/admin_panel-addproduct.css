@@ -1,214 +1,238 @@
+/* Контейнер для формы ввода */
 .inputs {
-    width: 360px;
-    margin-top: 10px;
-    margin-left: -18px; /* сдвигаем форму левее */
-    background-color: white;
-    padding: 20px;
-    border-radius: 12px;
+    width: 360px;                 /* фиксированная ширина формы */
+    margin-top: 10px;            /* отступ сверху */
+    margin-left: -18px;          /* сдвигает форму немного влево */
+    background-color: white;     /* белый фон */
+    padding: 20px;               /* внутренние отступы */
+    border-radius: 12px;         /* скругленные углы */
 }
 
+/* Стили для меток (label) формы */
 label {
-    display: block;
-    margin-bottom: 6px;
-    color: #333;
-    font-weight: 500;
-    margin-left: 10px;
+    display: block;              /* метка занимает всю ширину строки */
+    margin-bottom: 6px;          /* отступ снизу */
+    color: #333;                 /* цвет текста */
+    font-weight: 500;            /* полужирное начертание */
+    margin-left: 10px;           /* отступ слева для выравнивания */
 }
 
+/* Специальный стиль для текстового поля описания */
 textarea[name="description"] { 
-    height: 120px; 
+    height: 120px;               /* фиксированная высота */
 }
 
+/* Стили для текстовых полей и textarea */
 input[type="text"],
 input[type="number"],
 textarea {
-    width: 100%;
-    height: 30px; /* единая высота */
-    padding: 8px 12px;
-    margin-bottom: 16px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    resize: none; /* запретить изменение размеров */
+    width: 100%;                /* растягиваются на всю ширину родителя */
+    height: 30px;               /* единая высота для полей */
+    padding: 8px 12px;          /* внутренние отступы */
+    margin-bottom: 16px;        /* отступ снизу между элементами */
+    border: 2px solid #ccc;     /* светлая рамка */
+    border-radius: 8px;         /* скругленные углы */
+    font-size: 14px;            /* размер шрифта */
+    resize: none;               /* запрет изменения размера для textarea */
 }
 
+/* Стили для кнопки */
 button {
-    width: 150px;
-    height: 50px;
-    margin-left: 200px;
-    padding: 10px 0;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    width: 150px;               /* фиксированная ширина */
+    height: 50px;               /* фиксированная высота */
+    margin-left: 200px;         /* отступ слева, для позиционирования */
+    padding: 10px 0;            /* внутренние отступы сверху/снизу */
+    background-color: #000000;  /* черный фон */
+    color: white;               /* белый текст */
+    border: none;               /* без рамки */
+    border-radius: 30px;        /* скругленные углы (почти круглая кнопка) */
+    font-size: 16px;            /* размер шрифта */
+    cursor: pointer;            /* курсор при наведении - указатель */
+    transition: background-color 0.3s; /* плавное изменение фона при наведении */
 }
 
+/* Стили кнопки в темной теме */
 .dark-theme button {
-    background-color: #fff;
-    color: #000;
+    background-color: #fff;     /* белый фон */
+    color: #000;                /* черный текст */
 }
 
-
-
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #c7c6c6;
+/* Общие стили для body */
+body {
+    margin: 0;                  /* убираем отступы по умолчанию */
+    font-family: 'Inter', sans-serif; /* шрифт */
+    background: #c7c6c6;        /* светло-серый фон */
 }
 
+/* Основной контейнер страницы */
 .container {
-    width: 393px;
-    height: 1704px;
-    margin: 0 auto;
-    border-radius: 40px;
-    overflow: hidden;
-    background-color: #fff; 
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    position: relative;
+    width: 393px;               /* фиксированная ширина */
+    height: 1704px;             /* фиксированная высота (высокий блок) */
+    margin: 0 auto;             /* центрируем по горизонтали */
+    border-radius: 40px;        /* большие скругления углов */
+    overflow: hidden;           /* скрываем содержимое, выходящее за пределы */
+    background-color: #fff;     /* белый фон */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* тень для объема */
+    position: relative;         /* позиционирование для дочерних абсолютных элементов */
 }
 
+/* Хедер */
 .header {
-    width: 100%;
-    height: 100px;
-    position: relative;
+    width: 100%;                /* растягивается на всю ширину контейнера */
+    height: 100px;              /* фиксированная высота */
+    position: relative;         /* для позиционирования вложенных элементов */
 }
 
-
+/* Логотип в хедере */
 .header-logo {
-    position: absolute;
-    top: 41px;
-    left: -21px;
-    width: 70px;
-    height: 70px;
-    clip-path: circle(50% at 50% 50%);
-    object-fit: contain;
-    margin-left: 35px;
-    margin-top: -25px;
-    background-color: #ffffff; 
-    border-radius: 50%;         
-    padding: 0px; 
+    position: absolute;         /* абсолютное позиционирование */
+    top: 41px;                  /* отступ сверху */
+    left: -21px;                /* смещение влево за пределы хедера */
+    width: 70px;                /* размер по ширине */
+    height: 70px;               /* размер по высоте */
+    clip-path: circle(50% at 50% 50%); /* обрезка в круг */
+    object-fit: contain;        /* масштабируем изображение */
+    margin-left: 35px;          /* дополнительный отступ слева */
+    margin-top: -25px;          /* поднимаем логотип вверх */
+    background-color: #ffffff;  /* белый фон */
+    border-radius: 50%;         /* делаем круглым */
+    padding: 0px;               /* без внутренних отступов */
 }
 
+/* Контейнер для иконок в хедере */
 .header-icons {
-    position: absolute;
-    top: 40px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    height: 40px;
+    position: absolute;         /* абсолютное позиционирование */
+    top: 40px;                  /* отступ сверху */
+    right: 20px;                /* отступ справа */
+    display: flex;              /* горизонтальный флекс-контейнер */
+    align-items: center;        /* выравнивание по центру по вертикали */
+    gap: 15px;                  /* расстояние между иконками */
+    height: 40px;               /* высота блока */
 }
 
+/* Стили для картинок в иконках */
 .header-icons img {
-    width: auto;
-    background: none;
-    padding: 0;
-    box-shadow: none;
-    display: block;
+    width: auto;                /* ширина по содержимому */
+    background: none;           /* без фона */
+    padding: 0;                 /* без внутренних отступов */
+    box-shadow: none;           /* без тени */
+    display: block;             /* блочный элемент */
 }
 
-
+/* Стили для иконки тёмного режима в темной теме */
 .dark-theme .dark-mode-icon {
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    width: 50px;
-    height: 50px;
-    margin-top: 5px; 
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); /* тень */
+    width: 50px;                /* размер ширины */
+    height: 50px;               /* размер высоты */
+    margin-top: 5px;            /* отступ сверху */
 }
 
+/* Отступ сверху для иконки аккаунта */
 .account-icon {
     margin-top: 5px;
-
 }
 
+/* Стили для иконки тёмного режима в светлой теме */
 .dark-mode-icon {
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    width: 37px;
-    height: 37px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); /* тень */
+    width: 37px;                /* размер ширины */
+    height: 37px;               /* размер высоты */
 }
 
+/* Фон контейнера в темной теме */
 .dark-theme .container {
-    background-color: #2a2a2a;
+    background-color: #2a2a2a;  /* темно-серый фон */
 }
 
+/* Цвет текста для блока .text в темной теме */
 .dark-theme .text {
-    color: #fff;
+    color: #fff;                /* белый цвет */
 }
 
+/* Фон формы ввода в темной теме */
 .dark-theme .inputs {
-    background-color: #2a2a2a;
+    background-color: #2a2a2a;  /* темно-серый фон */
 }
 
+/* Цвет меток формы в темной теме */
 .dark-theme label {
-    color: #fff;
+    color: #fff;                /* белый цвет */
 }
 
+/* Заголовок или текстовый блок */
 .text {
-    position: absolute;
-    top: 80px;
-    left: 14px;
-    font-weight: bold;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .menu-text {
-    width: 30px;
-    height: 30px;
-  }
-
-  .cart-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 50%;
-    z-index: 9999;
-    display: block !important;
-  }
-  .account-wrapper {
-  position: relative;
-  display: inline-block;
+    position: absolute;         /* абсолютное позиционирование */
+    top: 80px;                 /* отступ сверху */
+    left: 14px;                /* отступ слева */
+    font-weight: bold;          /* жирный шрифт */
+    font-size: 20px;            /* размер шрифта */
+    display: flex;              /* флекс-контейнер */
+    align-items: center;        /* выравнивание по вертикали */
+    gap: 10px;                 /* отступ между элементами */
 }
 
+/* Иконка меню (например, для категории) */
+.menu-text {
+    width: 30px;                /* фиксированная ширина */
+    height: 30px;               /* фиксированная высота */
+}
+
+/* Счетчик товаров в корзине */
+.cart-count {
+    position: absolute;         /* абсолютное позиционирование */
+    top: -5px;                  /* смещение вверх */
+    right: -5px;                /* смещение вправо */
+    background-color: red;      /* красный фон */
+    color: white;               /* белый текст */
+    font-size: 12px;            /* размер шрифта */
+    font-weight: bold;          /* жирный */
+    padding: 2px 6px;           /* внутренние отступы */
+    border-radius: 50%;         /* круглая форма */
+    z-index: 9999;              /* самый верхний слой */
+    display: block !important;  /* гарантирует отображение */
+}
+
+/* Обертка для иконки аккаунта */
+.account-wrapper {
+    position: relative;         /* позиционирование для вложенного панели */
+    display: inline-block;      /* строчно-блочный элемент */
+}
+
+/* Стили для иконки аккаунта */
 .account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+    width: 40px;                /* ширина */
+    height: 40px;               /* высота */
+    cursor: pointer;            /* курсор "рука" */
 }
 
+/* Панель аккаунта (выпадающее меню) */
 .account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
+    display: none;              /* скрыта по умолчанию */
+    position: absolute;         /* абсолютное позиционирование */
+    top: 40px;                  /* отступ сверху */
+    right: 0;                   /* прикреплена к правому краю */
+    background-color: white;    /* белый фон */
+    border: 1px solid #ccc;     /* светлая рамка */
+    padding: 8px 12px;          /* внутренние отступы */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* легкая тень */
+    z-index: 10;                /* слой выше большинства */
+    border-radius: 8px;         /* скругление углов */
+    white-space: nowrap;        /* не переносить текст */
 }
 
+/* Показ панели аккаунта при наведении на обертку */
 .account-wrapper:hover .account-panel {
-  display: block;
+    display: block;             /* отображаем панель */
 }
 
+/* Ссылки в панели аккаунта */
 .account-panel a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
+    color: black;               /* черный цвет */
+    text-decoration: none;      /* без подчеркивания */
+    font-weight: bold;          /* жирный шрифт */
 }
 
+/* Эффект при наведении на ссылки панели аккаунта */
 .account-panel a:hover {
-  text-decoration: underline;
+    text-decoration: underline; /* подчеркивание */
 }

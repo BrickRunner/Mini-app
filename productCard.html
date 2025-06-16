@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Основные мета-теги -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BrickRunner-Shop</title>
+
+  <!-- Подключение CSS, URL формируется через Flask url_for -->
+  <link rel="stylesheet" href="{{ url_for('styles', filename='productCard.css') }}">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Шапка сайта -->
+    <header class="header">
+      <!-- Логотип с переходом на главную -->
+      <a href="{{ url_for('main') }}">
+        <img src="{{ url_for('images', filename='log.png') }}" alt="Логотип" class="header-logo">
+      </a>
+
+      <!-- Иконки в шапке -->
+      <div class="header-icons">
+
+        <!-- Переключатель темы -->
+        <img src="{{ url_for('images', filename='dark_theme.svg') }}" class="dark-mode-icon" id="theme-toggle" alt="Темная тема" />
+
+        <!-- Корзина -->
+        <div class="cart-icon-wrapper" style="position: relative;">
+          <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('images', filename='bag.svg') }}" class="shopping-bag-icon" alt="Корзина" />
+            <!-- Если есть товары в корзине, показываем счетчик -->
+            {% if cart_item_count > 0 %}
+              <span class="cart-count">{{ cart_item_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+
+        <!-- Иконка аккаунта -->
+        <div class="account-wrapper">
+          <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('images', filename='account.svg') }}" class="account-icon" alt="Профиль" />
+          </a>
+          <div class="account-panel">
+            {% if current_user.is_authenticated %}
+              <!-- Ссылка для выхода -->
+              <a href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+              <!-- Ссылка для входа -->
+              <a href="{{ url_for('auth') }}">Войти</a>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Основной блок карточки товара -->
+    <main class="product-card">
+
+      <!-- Картинка товара -->
+      <img src="{{ product.image_url }}" alt="Товар" class="product-image" />
+
+      <div class="product-info">
+
+        <!-- Название товара -->
+        <h1 class="product-title">{{ product.title }}</h1>
+        <hr class="section-divider">
+
+        <!-- Выбор размера -->
+        <div class="size-selection">
+          {% for variant in size_variants %}
+            {% if variant.id == product.id %}
+              <!-- Текущий выбранный размер выделен и без ссылки -->
+              <div class="size-option selected">{{ variant.size }}</div>
+            {% else %}
+              <!-- Другие размеры — ссылки на другие страницы товара -->
+              <a href="{{ url_for('product_detail', product_id=variant.id) }}" class="size-option">
+                {{ variant.size }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <hr class="section-divider">
+
+        <!-- Особенности товара -->
+        <div class="features">
+          <h2>Особенности:</h2>
+          <div class="feature-box">{{ product.special }}</div>
+        </div>
+        <hr class="section-divider">
+
+        <!-- Область применения -->
+        <div class="application">
+          <h2>Область применения:</h2>
+          <div class="feature-box">{{ product.for_what }}</div>
+        </div>
+        <hr class="section-divider">
+
+        <!-- Описание товара -->
+        <div class="description">
+          <h2 class="description-title">Описание:</h2>
+          <p class="description-text">{{ product.description }}</p>
+        </div>
+        <hr class="section-divider">
+
+        <!-- Цена и кнопка добавления в корзину -->
+        <div class="price">
+          <span>Цена: {{ product.price_2 }} ₽</span>
+          <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+            <button type="submit" class="add-to-cart">Добавить в корзину</button>
+          </form>
+        </div>
+
+        <!-- Кнопка избранного -->
+        <div class="favorite-icon">
+          <form class="favorite-form" data-product-id="{{ product.id }}" action="{{ url_for('toggle_favorite_ajax') }}">
+            <button type="button" class="favorite-btn">
+              <img
+                src="{{ '/images/heart-filled.png' if product.id in favorite_ids else '/images/heart.png' }}"
+                alt="Избранное"
+                class="heart-icon"
+                data-favorite="{{ 'true' if product.id in favorite_ids else 'false' }}"
+              >
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Объект с путями к статическим изображениям для JS -->
+  <script>
+    const staticPaths = {
+      darkTheme: "{{ url_for('images', filename='dark_theme.svg') }}",
+      lightTheme: "{{ url_for('images', filename='light_theme.svg') }}",
+      darkBag: "{{ url_for('images', filename='bag_1.svg') }}",
+      lightBag: "{{ url_for('images', filename='bag.svg') }}",
+      darkAccount: "{{ url_for('images', filename='account_1.svg') }}",
+      lightAccount: "{{ url_for('images', filename='account.svg') }}",
+      darkIcon: "{{ url_for('images', filename='heart_1.svg') }}",
+      lightIcon: "{{ url_for('images', filename='heart.png') }}"
+    };
+  </script>
+
+  <!-- Подключение JS с функционалом карточки -->
+  <script src="{{ url_for('scripts', filename='productCard.js') }}"></script>
+
+</body>
+</html>

@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <!-- Кодировка страницы -->
   <meta charset="UTF-8">
   <title>Оферта</title>
+  <!-- Подключение внешнего CSS -->
   <link rel="stylesheet" href="styles/offer.css">
 </head>
 <body>
 <div class="container">
+  <!-- Шапка сайта с логотипом и иконками -->
   <header class="header">
     <a href="{{ url_for('main') }}">
       <img src="images/log.png" alt="Логотип" class="header-logo">
     </a>
     <div class="header-icons">
+      <!-- Иконка переключения темы (светлая/темная) -->
       <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
       
+      <!-- Корзина -->
       <div class="cart-icon-wrapper">
-        <a href="{{ url_for('view_cart') }}">
-          <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+        <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+          <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
           {% if cart_item_count > 0 %}
+            <!-- Количество товаров в корзине -->
             <span class="cart-count">{{ cart_item_count }}</span>
           {% endif %}
         </a>
       </div>
 
+      <!-- Иконка аккаунта -->
       <div class="account-wrapper">
-        <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+        <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+          <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+        </a>
         <div class="account-panel">
           {% if current_user.is_authenticated %}
+            <!-- Ссылка для выхода из аккаунта -->
             <a href="{{ url_for('logout') }}">Выйти</a>
           {% else %}
+            <!-- Ссылка для входа/регистрации -->
             <a href="{{ url_for('auth') }}">Войти</a>
           {% endif %}
         </div>
@@ -36,6 +47,7 @@
     </div>
   </header>
 
+  <!-- Основной блок с текстом оферты -->
   <div class="offer-text">
     <h2>Публичная оферта</h2>
 
@@ -53,6 +65,7 @@
   
   </div>
 </div>
+<!-- Подключение JS для оферты (например, для темной темы или других интерактивных функций) -->
 <script src="scripts/offer.js"></script>
 </body>
 </html>

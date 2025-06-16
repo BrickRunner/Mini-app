@@ -1,50 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Установка кодировки и адаптивной вёрстки -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Заголовок страницы -->
     <title>BrickRunner-Shop</title>
+    
+    <!-- Подключение внешнего CSS-файла для страницы аккаунта -->
     <link rel="stylesheet" href="styles/account.css">
 </head>
 <body>
     <div class="container">
+        <!-- Шапка сайта -->
         <header class="header">
+          
+          <!-- Логотип, при клике ведёт на главную страницу -->
           <a href="{{ url_for('main') }}">
             <img src="images/log.png" alt="Логотип" class="header-logo">
           </a>
-            <div class="header-icons">
+          
+          <!-- Блок с иконками в шапке: тёмная тема, корзина и аккаунт -->
+          <div class="header-icons">
+
+            <!-- Иконка переключения тёмной темы -->
             <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+            <!-- Иконка корзины -->
             <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
+              <!-- Переход к корзине или к авторизации, если пользователь не вошёл -->
+              <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+                <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+                
+                <!-- Значок количества товаров в корзине -->
                 {% if cart_item_count > 0 %}
                   <span class="cart-count">{{ cart_item_count }}</span>
                 {% endif %}
               </a>
             </div>  
+
+            <!-- Иконка аккаунта и выпадающая панель -->
             <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
+              <!-- Ссылка на аккаунт или авторизацию -->
+              <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
                 <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
               </a>
+              
+              <!-- Выпадающая панель аккаунта -->
               <div class="account-panel">
                 {% if current_user.is_authenticated %}
+                  <!-- Кнопка выхода -->
                   <a href="{{ url_for('logout') }}">Выйти</a>
                 {% else %}
+                  <!-- Кнопка входа -->
                   <a href="{{ url_for('auth') }}">Войти</a>
                 {% endif %}
               </div>
             </div>
-          </div>
+
+          </div> <!-- Конец блока иконок -->
         </header>
+
+        <!-- Кнопки перехода в разделы "Мои заказы" и "Избранное" -->
         <div class="buttons">
+          <!-- Кнопка "Мои заказы" -->
           <a href="{{ url_for('my_orders') }}">
             <button id="my_orders"></button>
           </a>
-          <a href="{{ url_for('favorites') }}">
+          
+          <!-- Кнопка "Избранное" -->
+          <a href="{{ url_for('view_favorites') }}">
             <button id="my_favorites"></button>
           </a>
         </div>
     </div>
-<script src="scripts/account.js"></script>
+
+    <!-- Подключение JavaScript-файла для логики страницы аккаунта -->
+    <script src="scripts/account.js"></script>
 </body>
 </html>

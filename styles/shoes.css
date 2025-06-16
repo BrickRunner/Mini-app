@@ -1,291 +1,324 @@
+/* Общие стили для страницы */
 body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #c7c6c6;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #c7c6c6; /* Серый фон вне контейнера */
 }
 
+/* Главный контейнер сайта */
 .container {
-  width: 393px;
-  height: 852px;
-  margin: 0 auto;
-  border-radius: 40px;
-  overflow: hidden;
-  background-color: #fff; 
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  position: relative;
+    width: 393px; /* фиксированная ширина под мобильное устройство */
+    margin: 0 auto; /* центрирование */
+    border-radius: 40px; /* закругленные углы */
+    overflow: hidden;
+    background-color: #fff; /* белый фон по умолчанию */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* тень */
+    position: relative;
 }
 
+/* Хедер (верхняя панель) */
 .header {
-  width: 100%;
-  height: 100px;
-  position: relative;
+    width: 100%;
+    height: 100px;
+    position: relative;
 }
 
-
+/* Логотип в хедере */
 .header-logo {
-  position: absolute;
-  top: 41px;
-  left: -21px;
-  width: 70px;
-  height: 70px;
-  clip-path: circle(50% at 50% 50%);
-  object-fit: contain;
-  margin-left: 35px;
-  margin-top: -25px;
-  background-color: #ffffff; 
-  border-radius: 50%;         
-  padding: 0px; 
+    position: absolute;
+    top: 41px;
+    left: -21px;
+    width: 70px;
+    height: 70px;
+    clip-path: circle(50% at 50% 50%); /* обрезка по кругу */
+    object-fit: contain;
+    margin-left: 35px;
+    margin-top: -25px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 0px;
 }
 
+/* Контейнер для иконок в хедере (корзина, аккаунт и т.п.) */
 .header-icons {
-  position: absolute;
-  top: 40px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  height: 40px;
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 40px;
 }
 
+/* Стили для иконок в хедере */
 .header-icons img {
-  width: auto;
-  background: none;
-  padding: 0;
-  box-shadow: none;
-  display: block;
+    width: auto;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    display: block;
 }
 
-
+/* Стили для иконки темы в темной теме */
 .dark-theme .dark-mode-icon {
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  width: 50px;
-  height: 50px;
-  margin-top: 5px; 
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
 }
 
-.dark-theme .menu-item-clothes span {
-  color: #f0f0f0;
-}
-
-.dark-theme .menu-item-shoes span {
-  color: #f0f0f0;
-}
-
-.dark-theme .menu-item-accessories span {
-  color: #f0f0f0;
-}
-
+/* Цвет текста меню в темной теме */
+.dark-theme .menu-item-clothes span,
+.dark-theme .menu-item-shoes span,
+.dark-theme .menu-item-accessories span,
 .dark-theme .menu-item-allProducts span {
-  color: #f0f0f0;
+    color: #f0f0f0;
 }
 
+/* Размер иконки темы */
 .dark-mode-icon {
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  width: 37px;
-  height: 37px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    width: 37px;
+    height: 37px;
 }
 
+/* Тёмная тема для контейнера */
 .dark-theme .container {
-  background-color: #2a2a2a;
+    background-color: #2a2a2a;
 }
 
+/* Белый текст в тёмной теме */
 .dark-theme .text p {
-color: #fff;
+    color: #fff;
 }
 
-
+/* Блок с названием раздела */
 .text {
-  position: absolute;
-  top: 120px;
-  left: 14px;
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    position: absolute;
+    top: 120px;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+/* Иконка в заголовке */
 .menu-text {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
+/* Текст названия раздела */
 .text p {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 24px;
-  color: #000000;
-  margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0;
 }
 
-
+/* Сетка товаров */
 .products {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 карточки в ряд */
-  gap: 8px; /* меньшее расстояние между карточками */
-  padding: 8px;
-  margin-top: 50px;
-  box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* по 2 карточки в ряд */
+    gap: 8px;
+    padding: 8px;
+    margin-top: 50px;
+    box-sizing: border-box;
 }
 
-.product-card {
-  background-color: #E6E5E5;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 171px;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Старая цена (перечеркнутая) */
+.old-price {
+    text-decoration: line-through;
+    color: grey;
+    margin-right: 120px;
 }
 
-.product-image img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
+/* Новая цена */
+.new-price {
+    color: red;
+    font-weight: bold;
+    margin-right: 10px;
 }
 
-.product-name {
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-  padding-right: 30px;
-  margin: 8px 0 4px;
-  color: #000;
+/* Обычная цена */
+.regular-price {
+    color: black;
+    font-weight: bold;
+    margin-left: 50px;
 }
 
-.product-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: auto;
-}
-
-.product-icons {
-  display: flex;
-  justify-content: flex-end; /* перемещает вправо */
-  align-items: center;
-  gap: 10px;
-  margin-right: -140px;
-  margin-top: 10px;
-}
-
-.heart-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.heart-icon {
-  width: 24px;
-  height: 24px;
-}
-
-
-.add-to-cart-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-
-.bag-icon {
-  width: 30px; /* или нужный тебе размер */
-  height: 30px;
-  margin-left: 30px;
-  margin-top: -20px; /* поднимает кнопку выше */
-}
-
-
-.price_2 {
-  margin-left: -140px;
-  margin-top: -9px;
-  font-size: 15px;
-  color: rgb(229, 12, 12);
-}
-
-.price_1 {
-  margin-top: -7px;
-  font-size: 13px;
-  text-decoration: line-through;
-}
-
-.add-to-cart-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
+/* Контейнер корзины с количеством */
 .cart-container {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
+/* Счётчик товаров в корзине */
 .cart-count {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 50%;
-  z-index: 9999;
-  display: block !important;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    z-index: 9999;
+    display: block !important;
 }
 
+/* Обертка иконки аккаунта */
 .account-wrapper {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
+/* Иконка аккаунта */
 .account-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
+/* Панель аккаунта (выпадающее меню) */
 .account-panel {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  border-radius: 8px;
-  white-space: nowrap;
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    border-radius: 8px;
+    white-space: nowrap;
 }
 
+/* Показывать панель при наведении */
 .account-wrapper:hover .account-panel {
-  display: block;
+    display: block;
 }
 
+/* Ссылки в панели аккаунта */
 .account-panel a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
+/* Подчёркивание при наведении */
 .account-panel a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
+}
+
+/* Ссылка на карточку товара */
+a.product-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Карточка товара */
+.product-card {
+    background-color: #E6E5E5;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 171px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Изображение товара */
+.product-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Название товара */
+.product-name {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    margin: 8px 0 4px;
+    color: #000;
+    margin-top: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Нижняя панель карточки: кнопки и иконки */
+.product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+/* Группа иконок (сердце, корзина) */
+.product-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+/* Кнопка "лайк/избранное" */
+.heart-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Иконка сердечка */
+.heart-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Кнопка добавления в корзину */
+.add-to-cart-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Иконка корзины */
+.bag-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Кнопка "избранное" в правом верхнем углу */
+.favorite-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
 }

@@ -1,80 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Метаданные документа -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrickRunner-Shop</title>
+
+    <!-- Подключение стилей для панели администратора -->
     <link rel="stylesheet" href="styles/admin_panel-addproduct.css">
 </head>
 <body>
     <div class="container">
+        <!-- Верхняя панель с логотипом, переключением темы, корзиной и аккаунтом -->
         <header class="header">
-          <a href="{{ url_for('main') }}">
-            <img src="images/log.png" alt="Логотип" class="header-logo">
-          </a>
-          <div class="header-icons">
-            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-                {% if cart_item_count > 0 %}
-                  <span class="cart-count">{{ cart_item_count }}</span>
-                {% endif %}
-              </a>
-            </div>  
-            <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
-                <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
-              </a>
-              <div class="account-panel">
-                {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('logout') }}">Выйти</a>
-                {% else %}
-                  <a href="{{ url_for('auth') }}">Войти</a>
-                {% endif %}
-              </div>
+            <!-- Логотип и переход на главную -->
+            <a href="{{ url_for('main') }}">
+                <img src="images/log.png" alt="Логотип" class="header-logo">
+            </a>
+
+            <!-- Блок иконок -->
+            <div class="header-icons">
+
+                <!-- Иконка тёмной темы -->
+                <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+                <!-- Иконка корзины -->
+                <div class="cart-icon-wrapper" style="position: relative;">
+                    <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+                        <!-- Показываем счётчик, если в корзине есть товары -->
+                        {% if cart_item_count > 0 %}
+                            <span class="cart-count">{{ cart_item_count }}</span>
+                        {% endif %}
+                    </a>
+                </div>  
+
+                <!-- Иконка аккаунта -->
+                <div class="account-wrapper">
+                    <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+                        <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+                    </a>
+                    <!-- Выпадающее меню входа/выхода -->
+                    <div class="account-panel">
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('logout') }}">Выйти</a>
+                        {% else %}
+                            <a href="{{ url_for('auth') }}">Войти</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-          </div>
         </header>
+
+        <!-- Заголовок раздела добавления товара -->
         <div class="text">
             <p>Добавить товар:</p>
-          </div>
+        </div>
+
+        <!-- Форма добавления нового товара в базу данных -->
         <div class="inputs">
             <form method="POST" action="{{ url_for('admin_panel_addProduct') }}">
+                <!-- Поле категории (возможно, стоит переименовать name="tupe" → "type") -->
                 <label class="input-label">Введите категорию товара:</label>
                 <input class="input-text" type="text" name="tupe" required>
-        
+
+                <!-- Название товара -->
                 <label class="input-label">Введите название товара:</label>
                 <textarea class="input-textarea" name="title" required></textarea>
-        
+
+                <!-- Количество на складе -->
                 <label class="input-label">Введите количество товара:</label>
                 <input class="input-text" type="number" step="0.01" name="stock" required>
-        
+
+                <!-- Цена без скидки -->
                 <label class="input-label">Введите стоимость товара (без скидки):</label>
                 <input class="input-text" type="number" name="price_1">
-        
+
+                <!-- Цена со скидкой -->
                 <label class="input-label">Введите стоимость товара (со скидкой):</label>
                 <input class="input-text" type="number" name="price_2" required>
-        
+
+                <!-- Ссылка на изображение товара -->
                 <label class="input-label">Введите ссылку на изображение:</label>
                 <input class="input-text" type="text" name="image_url">
-        
+
+                <!-- Размер товара -->
                 <label class="input-label">Введите размер товара:</label>
                 <input class="input-text" type="text" name="size" required>
-        
+
+                <!-- Особенности товара -->
                 <label class="input-label">Введите особенности товара:</label>
                 <input class="input-text" type="text" name="special" required>
-        
+
+                <!-- Область применения -->
                 <label class="input-label">Введите область применения товара:</label>
                 <input class="input-text" type="text" name="for_what" required>
-        
+
+                <!-- Полное описание -->
                 <label class="input-label">Введите описание товара:</label>
                 <textarea name="description" required></textarea><br><br>
 
+                <!-- Кнопка отправки формы -->
                 <button id="add-button" type="submit">Добавить товар</button>
             </form>
         </div>           
     </div>
-<script src="scripts/apmin_panel-addProduct.js"></script>
+
+    <!-- Подключение скрипта для панели администратора -->
+    <script src="scripts/apmin_panel-addProduct.js"></script> <!-- Опечатка в имени файла: apmin → admin -->
 </body>
 </html>

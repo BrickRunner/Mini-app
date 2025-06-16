@@ -1,56 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Устанавливаем кодировку символов и обеспечиваем адаптивность под устройства -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Название вкладки -->
   <title>BrickRunner-Shop</title>
+  
+  <!-- Подключение стилей для административной панели -->
   <link rel="stylesheet" href="styles/admin_panel.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-          <a href="{{ url_for('main') }}">
-            <img src="images/log.png" alt="Логотип" class="header-logo">
+  <!-- Основной контейнер страницы -->
+  <div class="container">
+
+    <!-- Верхняя навигационная панель -->
+    <header class="header">
+      <!-- Логотип сайта с переходом на главную страницу -->
+      <a href="{{ url_for('main') }}">
+        <img src="images/log.png" alt="Логотип" class="header-logo">
+      </a>
+
+      <!-- Иконки справа в шапке: тёмная тема, корзина, профиль -->
+      <div class="header-icons">
+
+        <!-- Иконка переключения тёмной темы -->
+        <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
+
+        <!-- Иконка корзины -->
+        <div class="cart-icon-wrapper" style="position: relative;">
+          <!-- Ссылка ведёт на корзину или на страницу входа, если пользователь не авторизован -->
+          <a href="{{ url_for('view_cart') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('static', filename='images/bag.svg') }}" class="shopping-bag-icon" alt="Корзина">
+            <!-- Отображение количества товаров в корзине -->
+            {% if cart_item_count > 0 %}
+              <span class="cart-count">{{ cart_item_count }}</span>
+            {% endif %}
           </a>
-          <div class="header-icons">
-            <img src="images/dark_theme.svg" class="dark-mode-icon" id="theme-toggle" alt="Темная тема">
-            <div class="cart-icon-wrapper" style="position: relative;">
-              <a href="{{ url_for('view_cart') }}">
-                <img src="/images/bag.svg" class="shopping-bag-icon" alt="Корзина">
-                {% if cart_item_count > 0 %}
-                  <span class="cart-count">{{ cart_item_count }}</span>
-                {% endif %}
-              </a>
-            </div>  
-            <div class="account-wrapper">
-              <a href="{{ url_for('account') }}">
-                <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
-              </a>
-              <div class="account-panel">
-                {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('logout') }}">Выйти</a>
-                {% else %}
-                  <a href="{{ url_for('auth') }}">Войти</a>
-                {% endif %}
-              </div>
-            </div>
+        </div>  
+
+        <!-- Иконка профиля и выпадающее меню -->
+        <div class="account-wrapper">
+          <!-- Ссылка ведёт в личный кабинет или на вход -->
+          <a href="{{ url_for('account') if current_user.is_authenticated else url_for('auth') }}">
+            <img src="{{ url_for('static', filename='images/account.svg') }}" class="account-icon" alt="Профиль">
+          </a>
+
+          <!-- Панель с кнопками "Войти" или "Выйти" в зависимости от статуса -->
+          <div class="account-panel">
+            {% if current_user.is_authenticated %}
+              <a href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+              <a href="{{ url_for('auth') }}">Войти</a>
+            {% endif %}
           </div>
-        </header>  
-        <div class="buttons">
-          <a href="{{ url_for('admin_panel_addProduct') }}">
-            <button id="add_product">Добавить товар</button>
-          </a>  
-          <a href="{{ url_for('admin_panel_deleteProduct') }}">
-            <button id="delete_product" type="button">Удалить товар</button>
-          </a>
-          <a href="{{ url_for('admin_panel_stock') }}">
-            <button id="view_stock">Посмотреть остатки</button>
-          </a>
-          <a href="{{ url_for('admin_orders') }}">
-            <button id="status">Изменить статус заказа</button>
-          </a>
         </div>
-      </div>      
-<script src="scripts/admin_panel.js"></script>
+      </div>
+    </header>  
+
+    <!-- Основные кнопки для перехода в различные разделы админ-панели -->
+    <div class="buttons">
+      <!-- Кнопка добавления товара -->
+      <a href="{{ url_for('admin_panel_addProduct') }}">
+        <button id="add_product">Добавить товар</button>
+      </a>  
+
+      <!-- Кнопка удаления товара -->
+      <a href="{{ url_for('admin_panel_deleteProduct') }}">
+        <button id="delete_product" type="button">Удалить товар</button>
+      </a>
+
+      <!-- Кнопка просмотра остатков на складе -->
+      <a href="{{ url_for('admin_panel_stock') }}">
+        <button id="view_stock">Посмотреть остатки</button>
+      </a>
+
+      <!-- Кнопка управления заказами (смена статусов) -->
+      <a href="{{ url_for('admin_orders') }}">
+        <button id="status">Изменить статус заказа</button>
+      </a>
+    </div>
+  </div>      
+
+  <!-- Подключение JavaScript-файла для логики панели (например, переключение темы) -->
+  <script src="scripts/admin_panel.js"></script>
 </body>
 </html>

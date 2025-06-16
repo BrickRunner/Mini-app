@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import and_
+import requests
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import uuid
 
+# Инициализация Flask-приложения
 app = Flask(__name__, template_folder='.')
 CORS(app, supports_credentials=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
@@ -17,7 +20,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 
-# ========== МОДЕЛИ ==========
+# ========== МОДЕЛИ БД ==========
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -76,7 +79,7 @@ class OrderItem(db.Model):
 
     product = db.relationship('Product')
 
-# ========== LOGIN ==========
+# ========== ВХОД И РЕГИСТРАЦИЯ ==========
 @app.before_request
 def check_user_authentication():
     if current_user.is_authenticated:
@@ -111,40 +114,39 @@ def inject_common_data():
     }
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/auth', methods=['GET', 'POST'])
 def auth():
     if request.method == 'POST':
-        phone = request.form['phone'].strip()
+        phone = request.form.get('phone')
+        if not phone:
+            flash('Номер не передан')
+            return redirect(url_for('auth'))
 
-        # Проверка формата номера
+        phone = phone.strip()
+
         if not phone.startswith('+') or not phone[1:].isdigit():
             flash('Введите корректный номер в формате +71234567890')
             return redirect(url_for('auth'))
 
-        # Секретный номер администратора
-        ADMIN_SECRET_CODE = '+15122011007'
+        ADMIN_SECRET_CODE = '+71512201107'
         is_admin = phone == ADMIN_SECRET_CODE
 
-        # Поиск пользователя
         user = User.query.filter_by(username=phone).first()
 
         if user is None:
-            # Регистрация
             user = User(username=phone, is_admin=is_admin)
             db.session.add(user)
             db.session.commit()
             flash('Вы зарегистрированы')
         else:
-            # Обновим флаг админа, если код совпал
             if is_admin and not user.is_admin:
                 user.is_admin = True
                 db.session.commit()
 
-        # Авторизация
+        db.session.refresh(user)
         login_user(user)
         flash('Вы вошли как ' + user.username)
 
-        # Перенаправление в админку, если админ
         if user.is_admin:
             return redirect(url_for('admin_panel'))
 
@@ -153,11 +155,16 @@ def auth():
     return render_template('auth.html')
 
 # ========== СТРАНИЦЫ ==========
-@app.route('/main')
+@app.route('/')
 def main():
     products = Product.query.all()
     user_token = current_user.token if current_user.is_authenticated else None
-    return render_template('main.html', products=products, user_token=user_token)
+    if current_user.is_authenticated:
+        favorite_ids = {f.product_id for f in Favorite.query.filter_by(user_id=current_user.id).all()}
+    else:
+        favorite_ids = set()
+
+    return render_template('main.html', products=products, favorite_ids=favorite_ids)
 
 @app.route("/offer")
 def offer():
@@ -177,27 +184,63 @@ def account():
 
 @app.route('/clothes')
 def clothes():
-    products = Product.query.filter_by(tupe='clothes').all()
-    return render_template('clothes.html', products=products)
+    # Получаем все товары
+    all_products = Product.query.all()
+
+    # Группируем по имени (оставляя один товар для каждой группы)
+    grouped_products = {}
+    for product in all_products:
+        if product.title not in grouped_products:
+            grouped_products[product.title] = product  # Берем первый из группы
+
+    return render_template("clothes.html", products=grouped_products.values())
 
 
 @app.route('/shoes')
 def shoes():
-    products = Product.query.filter_by(tupe='shoes').all()
-    return render_template('shoes.html', products=products)
+    all_products = Product.query.all()
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    favorite_ids = [fav.product_id for fav in favorites]
+    grouped_products = {}
+    for product in all_products:
+        if product.title not in grouped_products:
+            grouped_products[product.title] = product 
+    return render_template('shoes.html', favorite_ids=favorite_ids, products=grouped_products.values())
 
 
 @app.route('/acessories')
 def acessories():
-    products = Product.query.filter_by(tupe='acessories').all()
-    return render_template('acessories.html', products=products)
+    all_products = Product.query.all()
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    favorite_ids = [fav.product_id for fav in favorites]
+    grouped_products = {}
+    for product in all_products:
+        if product.title not in grouped_products:
+            grouped_products[product.title] = product 
+    return render_template('acessories.html', favorite_ids=favorite_ids, products=grouped_products.values())
 
 
 @app.route('/all_products')
 def all_products():
-    products = Product.query.all()
-    return render_template('all_products.html', products=products)
+    cart_items = Cart.query.filter_by(user_id=current_user.id).all()
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    favorite_ids = [f.product_id for f in favorites]
+    all_products = Product.query.all()
+    grouped_products = {}
+    for product in all_products:
+        if product.title not in grouped_products:
+            grouped_products[product.title] = product 
+    
+    return render_template("all_products.html", favorite_ids=favorite_ids, products=grouped_products.values())
 
+@app.route('/product/<int:product_id>')
+  # если хотите, чтобы страница была доступна только авторизованным
+def product_detail(product_id):
+    product = Product.query.get(product_id)
+    
+    same_name_products = Product.query.filter_by(title=product.title).all()
+
+    return render_template("productCard.html", product=product, size_variants=same_name_products)
 
 @app.route('/admin_panel_addProduct', methods=['GET', 'POST'])
 def admin_panel_addProduct():
@@ -244,7 +287,7 @@ def update_order_status(order_id):
     order = Order.query.get_or_404(order_id)
     order.status = new_status
     db.session.commit()
-    return redirect(url_for('admin_orders'))
+    return redirect(url_for('admin_panel'))
 
 @app.route('/my_orders')
 @login_required
@@ -255,17 +298,44 @@ def my_orders():
 
 @app.route('/favorites')
 @login_required
-def favorites():
-    favs = Favorite.query.filter_by(user_id=current_user.id).all()
-    return render_template('favorites.html', favorites=favs)
+def view_favorites():
+    favorite_entries = Favorite.query.filter_by(user_id=current_user.id).all()
+    favorite_ids = [entry.product_id for entry in favorite_entries]
+
+    products = Product.query.filter(Product.id.in_(favorite_ids)).all()
+    cart_item_count = Cart.query.filter_by(user_id=current_user.id).count()
+
+    return render_template('favorites.html',
+                           products=products,
+                           cart_item_count=cart_item_count)
+
+@app.route('/favorites/delete/<int:product_id>', methods=['POST'])
+@login_required
+def delete_from_favorites(product_id):
+    favorite = Favorite.query.filter_by(user_id=current_user.id, product_id=product_id).first()
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+    return redirect(url_for('view_favorites'))
+
 
 
 @app.route('/cart')
 @login_required
 def view_cart():
-    items = Cart.query.filter_by(user_id=current_user.id).all()
-    total = sum(item.product.price_2 * item.quantity for item in items)
-    return render_template('cart.html', cart_items=items, total=total)
+    cart_items = Cart.query.filter_by(user_id=current_user.id).all()
+
+    # ВАЖНО: получаем список ID избранных товаров
+    favorite_ids = [f.product_id for f in Favorite.query.filter_by(user_id=current_user.id).all()]
+
+    total = sum(item.product.price_2 * item.quantity for item in cart_items)
+    
+    return render_template(
+        'cart.html',
+        cart_items=cart_items,
+        total=total,
+        favorite_ids=favorite_ids  
+    )
 
 
 @app.route('/add_to_cart/<int:product_id>', methods=['POST'])
@@ -300,7 +370,6 @@ def update_quantity(cart_id):
     action = request.form.get('action')
     cart_item = Cart.query.get_or_404(cart_id)
 
-    # Проверяем, принадлежит ли товар текущему пользователю
     if cart_item.user_id != current_user.id:
         abort(403)
 
@@ -322,14 +391,19 @@ def update_quantity(cart_id):
     return redirect(url_for('view_cart'))
 
 
-@app.route('/toggle_favorite', methods=['POST'])
+@app.route('/toggle_favorite_ajax', methods=['POST'])
 @login_required
-def toggle_favorite():
+def toggle_favorite_ajax():
     data = request.get_json()
     product_id = data.get('product_id')
-    fav = Favorite.query.filter_by(user_id=current_user.id, product_id=product_id).first()
-    if fav:
-        db.session.delete(fav)
+
+    if not product_id:
+        return jsonify({'status': 'error', 'message': 'Нет ID товара'}), 400
+
+    favorite = Favorite.query.filter_by(user_id=current_user.id, product_id=product_id).first()
+
+    if favorite:
+        db.session.delete(favorite)
         db.session.commit()
         return jsonify({'status': 'removed'})
     else:
@@ -337,7 +411,20 @@ def toggle_favorite():
         db.session.add(new_fav)
         db.session.commit()
         return jsonify({'status': 'added'})
+    
+@app.route('/delete_product/<int:product_id>', methods=['POST', 'GET'])
+def delete_product(product_id):
+    product = Product.query.get_or_404(product_id)  
 
+    try:
+        db.session.delete(product)
+        db.session.commit()
+        flash('Товар успешно удалён', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Ошибка при удалении товара', 'danger')
+
+    return redirect(url_for('admin_panel')) 
 
 @app.route('/checkout', methods=['GET', 'POST'])
 @login_required
@@ -376,7 +463,6 @@ def checkout():
                     flash(f"⚠️ Недостаточно товара: {product.title}")
                     return redirect(url_for('checkout'))
 
-                # Вычитаем из stock
                 product.stock -= item.quantity
 
                 order_item = OrderItem(product_id=item.product_id, quantity=item.quantity)
@@ -410,6 +496,7 @@ def styles(filename):
 
 @app.route('/scripts/<path:filename>')
 def scripts(filename):
+    print(f"Запрошен скрипт: {filename}")
     return send_from_directory('scripts', filename)
 
 
